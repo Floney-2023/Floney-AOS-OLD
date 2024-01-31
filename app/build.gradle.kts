@@ -6,8 +6,6 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.google.services)
-    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
@@ -76,14 +74,6 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.lottie)
     implementation(libs.dots.indicator)
-
-    // Firebase
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.messaging)
-    implementation(libs.firebase.crashlytics)
-    implementation(libs.firebase.analytics)
-    implementation(libs.firebase.remoteConfig)
-    implementation(libs.firebase.database)
 
     // Other AndroidX libraries
     implementation(libs.androidx.lifecycle.runtime.ktx)
