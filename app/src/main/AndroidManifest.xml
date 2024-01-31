@@ -16,7 +16,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.onboard.OnBoardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>

@@ -1,7 +1,8 @@
-package com.aos.floney
+package com.aos.floney.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.aos.floney.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
