@@ -1,38 +1,242 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.HomeActivity">
 
-    <View
-        android:id="@+id/area"
-        android:layout_width="320dp"
-        android:layout_height="424dp"
+    <!--플로니 로고-->
+    <ImageView
+        android:id="@+id/logo_floney"
+        android:layout_width="82dp"
+        android:layout_height="0dp"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="20dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="166dp"
-        android:background="@drawable/logo_floney" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="66dp"
+        android:layout_marginBottom="65dp"
+        android:background="@drawable/logo_floney"
+        app:layout_constraintBottom_toTopOf="@+id/customCalendarHeader"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 헤더 아이템 include -->
+    <!--가계부 이름-->
+    <LinearLayout
+        android:id="@+id/tooltip"
+        android:layout_width="108dp"
+        android:layout_height="23dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="64dp"
+        android:layout_marginRight="58dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="102dp"
+            android:layout_height="23dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="6dp"
+            android:background="@drawable/chip"
+            android:paddingStart="8dp"
+            android:paddingTop="6dp">
+
+            <TextView
+                android:id="@+id/wallet_name"
+                android:layout_width="86dp"
+                android:layout_height="11dp"
+                android:gravity="center_horizontal|top"
+                android:lineSpacingExtra="-2sp"
+                android:text="박차장의시크릿노트"
+                android:textAppearance="@style/wallet_name" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/polygon_1"
+            android:layout_width="8dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="7dp"
+            android:src="@drawable/polygon_1" />
+    </LinearLayout>
+
+    <!--가계부 이미지-->
+    <ImageView
+        android:id="@+id/wallet_image"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="58dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/icon_profile_"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--월(month) 보기 & 이동-->
+    <LinearLayout
+        android:id="@+id/some_id"
+        android:layout_width="123dp"
+        android:layout_height="24dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="122dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <!--월(month) 왼쪽 이동-->
+        <ImageView
+            android:id="@+id/icon_arrow_left"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/icon_arrow_left" />
+        <!--현재 년도(year)/월(month)-->
+        <TextView
+            android:id="@+id/calendar_now_year_month"
+            android:layout_width="71dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center|center_horizontal"
+            android:lineSpacingExtra="-4sp"
+            android:text="2024.02"
+            android:textAppearance="@style/calendar_now_year_month" />
+        <!--월(month) 오른쪽 이동-->
+        <ImageView
+            android:id="@+id/icon_arrow_right"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/icon_arrow_right" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/area"
+        android:layout_width="116dp"
+        android:layout_height="32dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="118dp"
+        android:background="@drawable/area"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.widget.Button
+            android:layout_width="54dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="4dp"
+            android:background="@drawable/click_area"
+            android:text="캘린더"
+            android:textAppearance="@style/calendar_type_text">
+        </android.widget.Button>
+
+        <android.widget.Button
+            android:layout_width="54dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="4dp"
+            android:background="#00FFFF00"
+            android:text="일별"
+            android:textAppearance="@style/calendar_type_text">
+        </android.widget.Button>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="362dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="170dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+    </LinearLayout>
+
+    <!-- 요일 헤더 include -->
     <include
         android:id="@+id/customCalendarHeader"
         layout="@layout/item_custom_calendar_header"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/area"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="150dp" /> <
+        android:layout_marginTop="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- RecyclerView -->
+
+
+    <!-- CalendarView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendar"
         android:layout_width="320dp"
         android:layout_height="362dp"
         android:layout_below="@+id/customCalendarHeader"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="16dp" />
-</RelativeLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customCalendarHeader" />
+
+    <!--총지출, 총수입 view-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendar">
+
+        <LinearLayout
+            android:id="@+id/expenseLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/incomeLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="총지출" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="999,999,999원" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/incomeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/expenseLayout"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="총수입" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="999,999,999원" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
