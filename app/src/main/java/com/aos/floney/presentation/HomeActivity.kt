@@ -15,14 +15,14 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>(R.layout.activity_home
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.bottomNavigationView) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         NavigationUI.setupWithNavController(binding.bottomNavigationView,navController)
 
     }
     private inline fun <reified T : Fragment> navigateTo() {
         supportFragmentManager.commit {
-            replace<T>(R.id.fcv_main, T::class.simpleName)
+            replace<T>(R.id.nav_host_fragment, T::class.simpleName)
         }
     }
 }

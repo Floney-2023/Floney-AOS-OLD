@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item android:id="@+id/home"
+    <item android:id="@+id/homeFragment"
         android:icon="@drawable/icon_home_on"
         android:title="@string/bottom_navigation_home" />
 
-    <item android:id="@+id/analysis"
+    <item android:id="@+id/analysisFragment"
         android:icon="@drawable/icon_leaderboard_off"
         android:title="@string/bottom_navigation_analysis" />
 
     <item android:id="@+id/add"
         android:title="" />
 
-    <item android:id="@+id/calculate"
+    <item android:id="@+id/calculateFragment"
         android:icon="@drawable/icon_calculate_off"
         android:title="@string/bottom_navigation_calculate" />
 
-    <item android:id="@+id/mypage"
+    <item android:id="@+id/mypageFragment"
         android:icon="@drawable/icon_person_off"
         android:title="@string/bottom_navigation_mypage" />
 
