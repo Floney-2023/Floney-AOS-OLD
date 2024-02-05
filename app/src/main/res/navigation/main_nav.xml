@@ -10,14 +10,14 @@
         android:label="HomeFragment" />
     <fragment
         android:id="@+id/analysisFragment"
-        android:name="com.aos.floney.presentation.home.AnalysisFragment"
+        android:name="com.aos.floney.presentation.analysis.AnalysisFragment"
         android:label="AnalysisFragment" />
     <fragment
         android:id="@+id/calculateFragment"
-        android:name="com.aos.floney.presentation.home.CalculateFragment"
+        android:name="com.aos.floney.presentation.calculate.CalculateFragment"
         android:label="CalculateFragment" />
     <fragment
         android:id="@+id/mypageFragment"
-        android:name="com.aos.floney.presentation.home.MypageFragment"
+        android:name="com.aos.floney.presentation.mypage.MypageFragment"
         android:label="MypageFragment" />
 </navigation>

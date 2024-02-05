@@ -1,6 +1,5 @@
-package com.aos.floney.presentation.home
+package com.aos.floney.presentation.calculate
 
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 
 class CalculateViewModel : ViewModel() {

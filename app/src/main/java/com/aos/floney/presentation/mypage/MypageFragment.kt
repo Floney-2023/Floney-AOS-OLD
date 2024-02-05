@@ -1,8 +1,7 @@
-package com.aos.floney.presentation.home
+package com.aos.floney.presentation.mypage
 
 import androidx.fragment.app.viewModels
 import com.aos.floney.R
-import com.aos.floney.databinding.FragmentHomeBinding
 import com.aos.floney.databinding.FragmentMypageBinding
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
 
