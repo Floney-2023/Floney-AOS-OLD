@@ -1,5 +1,7 @@
 package com.aos.floney.presentation.home
 
+import android.graphics.Color
+import android.graphics.ColorSpace.Rgb
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,22 +19,29 @@ import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
 class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home){
     private val viewModel: HomeViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         // 캘린더, 일별 버튼 check 시 fragment 이동
         settingCalendarType()
+        //return super.onCreateView(inflater, container, savedInstanceState)
+
+
 
     }
     fun settingCalendarType(){
+        // 디폴트 (캘린더 뷰 시작)
+        navigateTo<CalendarFragment>()
+
+        // 캘린더 뷰
         binding.calendarCheckButton.setOnClickListener{
+            binding.calendarCheckButton.setBackgroundResource(R.drawable.calendar_type_area)
+            binding.dailyCheckButton.setBackgroundColor(Color.TRANSPARENT)
             navigateTo<CalendarFragment>()
         }
-        binding.calendarCheckButton.setOnClickListener{
+        // 일별 뷰
+        binding.dailyCheckButton.setOnClickListener{
+            binding.dailyCheckButton.setBackgroundResource(R.drawable.calendar_type_area)
+            binding.calendarCheckButton.setBackgroundColor(Color.TRANSPARENT)
             navigateTo<DailyFragment>()
         }
     }

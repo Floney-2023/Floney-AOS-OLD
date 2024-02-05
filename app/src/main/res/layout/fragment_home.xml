@@ -42,8 +42,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="-2sp"
-                    android:text="박차장의시크릿노트"
-                    android:textAppearance="@style/wallet_name" />
+                    android:text="부자가되자"
+                    android:textAppearance="@style/wallet_name"
+                    android:layout_gravity="end"/>
             </LinearLayout>
 
 
@@ -151,13 +152,9 @@
 
             <FrameLayout
                 android:id="@+id/calendarTypeFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
                 android:layout_marginTop="170dp"
-                android:layout_marginEnd="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
