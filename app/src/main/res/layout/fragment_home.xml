@@ -6,11 +6,14 @@
     <data>
 
     </data>
+
     <FrameLayout
+        android:id="@+id/homeFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.HomeFragment"
-        android:id="@+id/homeFragment">
+        android:background="#FAFAFA"
+        tools:context=".presentation.HomeFragment">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -41,10 +44,10 @@
                     android:id="@+id/wallet_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="end"
                     android:lineSpacingExtra="-2sp"
                     android:text="부자가되자"
-                    android:textAppearance="@style/wallet_name"
-                    android:layout_gravity="end"/>
+                    android:textAppearance="@style/wallet_name" />
             </LinearLayout>
 
 
