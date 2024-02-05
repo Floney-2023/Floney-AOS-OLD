@@ -28,6 +28,7 @@
             android:background="#FFFFFF"
             app:itemIconTint="@drawable/bottom_navigation_setting"
             app:itemTextColor="@color/bottom_gray"
+            app:itemBackground="@color/white"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/nav_menu" />
