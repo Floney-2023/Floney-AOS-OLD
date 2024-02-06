@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- 각 날짜의 날짜, 수입 금액, 지출 금액을 나타내는 텍스트뷰-->
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:gravity="center_horizontal|bottom"
+            android:text="1"
+            android:textAppearance="@style/date_text_view" />
+
+        <TextView
+            android:id="@+id/withdrawalTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:gravity="center_horizontal|bottom"
+            android:text="-3000"
+            android:textAppearance="@style/withdraw_text_view" />
+
+        <TextView
+            android:id="@+id/depositTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:gravity="center_horizontal|bottom"
+            android:text="+3000"
+            android:textAppearance="@style/deposit_text_view" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
