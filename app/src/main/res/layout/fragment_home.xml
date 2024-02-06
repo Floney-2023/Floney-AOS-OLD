@@ -75,43 +75,44 @@
 
             <!--월(month) 보기 & 이동-->
 
-            <!--월(month) 왼쪽 이동-->
-            <ImageView
-                android:id="@+id/icon_arrow_left"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="89dp"
-                android:background="@drawable/icon_arrow_left"
+                android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-            <!--현재 년도(year)/월(month)-->
-            <TextView
-                android:id="@+id/calendar_now_year_month"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="38dp"
-                android:layout_marginTop="87dp"
-                android:fontFamily="@font/floney_pretendard_bold"
-                android:lineSpacingExtra="-4sp"
-                android:text="2024.02"
-                android:textAppearance="@style/calendar_now_year_month"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-            <!--월(month) 오른쪽 이동-->
-            <ImageView
-                android:id="@+id/icon_arrow_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="121dp"
-                android:layout_marginTop="89dp"
-                android:background="@drawable/icon_arrow_right"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+                <!--월(month) 왼쪽 이동-->
+                <ImageView
+                    android:id="@+id/icon_arrow_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/icon_arrow_left" />
+                <!--현재 년도(year)/월(month)-->
+                <TextView
+                    android:id="@+id/calendar_now_year_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/floney_pretendard_bold"
+                    android:lineSpacingExtra="-4sp"
+                    android:text="2024.02"
+                    android:textAppearance="@style/calendar_now_year_month" />
+                <!--월(month) 오른쪽 이동-->
+                <ImageView
+                    android:id="@+id/icon_arrow_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/icon_arrow_right" />
+            </LinearLayout>
+
+
 
 
             <androidx.constraintlayout.widget.ConstraintLayout

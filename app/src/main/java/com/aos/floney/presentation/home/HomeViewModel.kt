@@ -45,7 +45,7 @@ class HomeViewModel : ViewModel() {
             val date = dateFormat.format(currentDate)
             val depositAmount = "+${Random().nextInt(10000)}"
             val withdrawalAmount = "-${Random().nextInt(5000)}"
-            itemList.add(CalendarItem(date, depositAmount, withdrawalAmount,false))
+            itemList.add(CalendarItem(date, depositAmount, withdrawalAmount))
 
             val nextDate = Calendar.getInstance()
             nextDate.time = currentDate

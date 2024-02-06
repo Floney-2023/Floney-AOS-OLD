@@ -37,7 +37,7 @@ class CalendarAdapter(private val viewModel: CalendarViewModel) :
         holder.withdrawalTextView.text = item.withdrawalAmount
 
         // 현재 월에 속하는 날짜만 보이도록 처리
-        if (item.isCurrentMonth) {
+        if (item.date!="") {
             holder.itemView.visibility = View.VISIBLE
             holder.itemView.setOnClickListener {
                 showToast("Clicked on ${item.date}")
@@ -53,7 +53,7 @@ class CalendarAdapter(private val viewModel: CalendarViewModel) :
     }
 
     private fun getItem(position: Int): CalendarItem {
-        return viewModel.calendarItems.value?.get(position) ?: CalendarItem("", "", "",false)
+        return viewModel.calendarItems.value?.get(position) ?: CalendarItem("", "", "")
     }
 
     private fun showToast(message: String) {

@@ -48,9 +48,13 @@ class CalendarViewModel : ViewModel() {
 
         while (!currentDate.after(lastDayOfMonth.time)) {
             Log.d("CalendarFragment", "Calendar items updated: $currentDate")
-            val date = dateFormat.format(currentDate)
+            var date = dateFormat.format(currentDate)
             val isCurrentMonth = (currentDate >= first && currentDate <= last)
-            itemList.add(CalendarItem(date, "", "", isCurrentMonth))
+
+            if (!isCurrentMonth)
+                date=""
+            // 날짜에 따른 deposit, withdrawalAmount 받아오기
+            itemList.add(CalendarItem(date, "", ""))
 
             //val depositAmount = "+${Random().nextInt(10000)}"
             //val withdrawalAmount = "${Random().nextInt(5000)}"
