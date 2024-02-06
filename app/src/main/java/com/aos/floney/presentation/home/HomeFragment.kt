@@ -1,11 +1,8 @@
 package com.aos.floney.presentation.home
 
 import android.graphics.Color
-import android.graphics.ColorSpace.Rgb
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -13,15 +10,17 @@ import androidx.fragment.app.viewModels
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentHomeBinding
 import com.aos.floney.presentation.home.calendar.CalendarFragment
+import com.aos.floney.presentation.home.calendar.CalendarViewModel
 import com.aos.floney.presentation.home.daily.DailyFragment
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home){
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: CalendarViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         // 달, 일자 변경 시 이벤트 setting
         settingCalendarText()
@@ -31,11 +30,16 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
 
     }
     fun settingCalendarText(){
-        binding.iconArrowLeft.setOnClickListener{
+        val dateFormat = SimpleDateFormat("yyyy.MM", Locale.getDefault())
+        binding.calendarNowYearMonth.text = dateFormat.format(viewModel.calendar.time)
 
+        binding.iconArrowLeft.setOnClickListener{
+            viewModel.moveToPreviousMonth()
+            binding.calendarNowYearMonth.text = dateFormat.format(viewModel.calendar.time)
         }
         binding.iconArrowRight.setOnClickListener{
-
+            viewModel.moveToNextMonth()
+            binding.calendarNowYearMonth.text = dateFormat.format(viewModel.calendar.time)
         }
     }
     fun settingCalendarType(){

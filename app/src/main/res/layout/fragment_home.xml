@@ -36,6 +36,7 @@
                 android:layout_marginTop="64dp"
                 android:layout_marginEnd="64dp"
                 android:background="@drawable/chip"
+                android:gravity="center"
                 android:padding="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -46,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:lineSpacingExtra="-2sp"
-                    android:text="부자가되자"
+                    android:text="박도비의시크릿노트"
                     android:textAppearance="@style/wallet_name" />
             </LinearLayout>
 
@@ -93,6 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="38dp"
                 android:layout_marginTop="120dp"
+                android:fontFamily="@font/floney_pretendard_bold"
                 android:lineSpacingExtra="-4sp"
                 android:text="2024.02"
                 android:textAppearance="@style/calendar_now_year_month"
@@ -105,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="111dp"
+                android:layout_marginStart="121dp"
                 android:layout_marginTop="122dp"
                 android:background="@drawable/icon_arrow_right"
                 app:layout_constraintStart_toStartOf="parent"
