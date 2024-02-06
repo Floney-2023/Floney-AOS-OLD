@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Floney</string>
+    <string name="bottom_navigation_home">홈</string>
+    <string name="bottom_navigation_analysis">분석</string>
+    <string name="bottom_navigation_calculate">정산</string>
+    <string name="bottom_navigation_mypage">마이</string>
+
 </resources>

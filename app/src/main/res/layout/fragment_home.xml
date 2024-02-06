@@ -1,20 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
+        android:id="@+id/homeFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="HomeFragment"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_height="match_parent"
+        android:background="#FAFAFA"
+        tools:context=".presentation.HomeFragment">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <!--플로니 로고-->
+            <ImageView
+                android:id="@+id/logo_floney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="66dp"
+                android:background="@drawable/logo_floney"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--가계부 이름-->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="64dp"
+                android:background="@drawable/chip"
+                android:padding="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/wallet_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:lineSpacingExtra="-2sp"
+                    android:text="부자가되자"
+                    android:textAppearance="@style/wallet_name" />
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/polygon_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="71dp"
+                android:layout_marginEnd="58dp"
+                android:src="@drawable/polygon_1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--가계부 이미지-->
+            <ImageView
+                android:id="@+id/wallet_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="58dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/icon_profile_"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--월(month) 보기 & 이동-->
+
+            <!--월(month) 왼쪽 이동-->
+            <ImageView
+                android:id="@+id/icon_arrow_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="122dp"
+                android:background="@drawable/icon_arrow_left"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <!--현재 년도(year)/월(month)-->
+            <TextView
+                android:id="@+id/calendar_now_year_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="38dp"
+                android:layout_marginTop="120dp"
+                android:lineSpacingExtra="-4sp"
+                android:text="2024.02"
+                android:textAppearance="@style/calendar_now_year_month"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <!--월(month) 오른쪽 이동-->
+            <ImageView
+                android:id="@+id/icon_arrow_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="111dp"
+                android:layout_marginTop="122dp"
+                android:background="@drawable/icon_arrow_right"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/area"
+                android:layout_width="116dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="118dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/area"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <android.widget.Button
+                android:id="@+id/calendar_check_button"
+                android:layout_width="54dp"
+                android:layout_height="24dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="122dp"
+                android:layout_marginEnd="78dp"
+                android:background="@drawable/calendar_type_area"
+                android:text="캘린더"
+                android:textAppearance="@style/calendar_type_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </android.widget.Button>
+
+            <android.widget.Button
+                android:id="@+id/daily_check_button"
+                android:layout_width="54dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="122dp"
+                android:layout_marginEnd="24dp"
+                android:background="#00FFFF00"
+                android:text="일별"
+                android:textAppearance="@style/calendar_type_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></android.widget.Button>
+
+            <FrameLayout
+                android:id="@+id/calendarTypeFragment"
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:layout_marginTop="170dp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </layout>

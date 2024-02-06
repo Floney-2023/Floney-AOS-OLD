@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.aos.floney.presentation.home.HomeFragment"
+        android:label="HomeFragment" />
+    <fragment
+        android:id="@+id/analysisFragment"
+        android:name="com.aos.floney.presentation.analysis.AnalysisFragment"
+        android:label="AnalysisFragment" />
+    <fragment
+        android:id="@+id/calculateFragment"
+        android:name="com.aos.floney.presentation.calculate.CalculateFragment"
+        android:label="CalculateFragment" />
+    <fragment
+        android:id="@+id/mypageFragment"
+        android:name="com.aos.floney.presentation.mypage.MypageFragment"
+        android:label="MypageFragment" />
+</navigation>
