@@ -21,12 +21,22 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        // 달, 일자 변경 시 이벤트 setting
+        settingCalendarText()
         // 캘린더, 일별 버튼 check 시 fragment 이동
         settingCalendarType()
         //return super.onCreateView(inflater, container, savedInstanceState)
 
+    }
+    fun settingCalendarText(){
+        binding.iconArrowLeft.setOnClickListener{
 
+        }
+        binding.iconArrowRight.setOnClickListener{
 
+        }
     }
     fun settingCalendarType(){
         // 디폴트 (캘린더 뷰 시작)
