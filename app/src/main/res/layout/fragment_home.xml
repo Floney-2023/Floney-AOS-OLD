@@ -159,7 +159,7 @@
             <FrameLayout
                 android:id="@+id/calendarTypeFragment"
                 android:layout_width="match_parent"
-                android:layout_height="600dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="137dp"
                 app:layout_constraintTop_toTopOf="parent" />
 
