@@ -18,51 +18,61 @@ import java.util.Locale
 
 class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home){
     private val viewModel: CalendarViewModel by viewModels()
+    private var dateFormat = SimpleDateFormat("yyyy.MM", Locale.getDefault())
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 달, 일자 변경 시 이벤트 setting
         settingCalendarText()
-        // 캘린더, 일별 버튼 check 시 fragment 이동
         settingCalendarType()
-        //return super.onCreateView(inflater, container, savedInstanceState)
-
     }
-    fun settingCalendarText(){
-        val dateFormat = SimpleDateFormat("yyyy.MM", Locale.getDefault())
-        binding.calendarNowYearMonth.text = dateFormat.format(viewModel.calendar.time)
 
-        binding.iconArrowLeft.setOnClickListener{
+    private fun settingCalendarText() {
+        updateDisplayedDate()
+
+        binding.iconArrowLeft.setOnClickListener {
             viewModel.moveToPreviousMonth()
-            binding.calendarNowYearMonth.text = dateFormat.format(viewModel.calendar.time)
+            updateDisplayedDate()
         }
-        binding.iconArrowRight.setOnClickListener{
+
+        binding.iconArrowRight.setOnClickListener {
             viewModel.moveToNextMonth()
-            binding.calendarNowYearMonth.text = dateFormat.format(viewModel.calendar.time)
+            updateDisplayedDate()
         }
     }
-    fun settingCalendarType(){
-        // 디폴트 (캘린더 뷰 시작)
+
+    private fun updateDisplayedDate() {
+        binding.calendarNowYearMonth.text = dateFormat.format(viewModel.calendar.time)
+    }
+
+    private fun settingCalendarType() {
         navigateTo<CalendarFragment>()
 
-        // 캘린더 뷰
-        binding.calendarCheckButton.setOnClickListener{
-            binding.calendarCheckButton.setBackgroundResource(R.drawable.calendar_type_area)
-            binding.dailyCheckButton.setBackgroundColor(Color.TRANSPARENT)
-            navigateTo<CalendarFragment>()
+        binding.calendarCheckButton.setOnClickListener {
+            switchCalendarType("yyyy.MM", R.drawable.calendar_type_area,Color.TRANSPARENT)
         }
-        // 일별 뷰
-        binding.dailyCheckButton.setOnClickListener{
-            binding.dailyCheckButton.setBackgroundResource(R.drawable.calendar_type_area)
-            binding.calendarCheckButton.setBackgroundColor(Color.TRANSPARENT)
-            navigateTo<DailyFragment>()
+
+        binding.dailyCheckButton.setOnClickListener {
+            switchCalendarType("M.D", Color.TRANSPARENT, R.drawable.calendar_type_area)
         }
     }
+
+    private fun switchCalendarType(dateFormatPattern: String, calendarBackgroundResource: Int, dailyBackgroundResource: Int) {
+        dateFormat = SimpleDateFormat(dateFormatPattern, Locale.getDefault())
+        updateDisplayedDate()
+
+        binding.calendarCheckButton.setBackgroundResource(calendarBackgroundResource)
+        binding.dailyCheckButton.setBackgroundResource(dailyBackgroundResource)
+
+        when (dateFormatPattern) {
+            "yyyy.MM" -> navigateTo<CalendarFragment>()
+            "M.D" -> navigateTo<DailyFragment>()
+        }
+    }
+
     private inline fun <reified T : Fragment> navigateTo() {
         childFragmentManager.commit {
             replace<T>(R.id.calendarTypeFragment, T::class.simpleName)
         }
     }
-
 }
