@@ -5,64 +5,10 @@
     <data>
 
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <!--지출, 수입 view-->
-
-        <LinearLayout
-            android:id="@+id/cardView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/expense_income_area"
-            android:padding="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
-                android:id="@+id/expenseLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="수입"
-                    android:textAppearance="@style/expense_income_text" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="999,999,999원"
-                    android:textAppearance="@style/expense_income_value" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/incomeLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="지출"
-                    android:textAppearance="@style/expense_income_text" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="999,999,999원"
-                    android:textAppearance="@style/expense_income_value" />
-            </LinearLayout>
-        </LinearLayout>
+        android:layout_height="wrap_content">
 
         <!--내역 view-->
         <LinearLayout
@@ -71,21 +17,18 @@
             android:layout_height="366dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/calendar_area"
+            android:background="@drawable/bg"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="52dp">
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/details_text"
+                    android:id="@+id/daily_dialog_year"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -94,10 +37,27 @@
                     android:layout_marginTop="20dp"
                     android:gravity="bottom"
                     android:lineSpacingExtra="-3sp"
-                    android:text="내역"
-                    android:textAppearance="@style/details_text"
+                    android:text="2022년"
+                    android:textAppearance="@style/daily_dialog_year"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/daily_dialog_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="12dp"
+                    android:gravity="bottom"
+                    android:lineSpacingExtra="-3sp"
+                    android:text="11월 20일"
+                    android:textAppearance="@style/details_text"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/daily_dialog_year" />
 
                 <TextView
                     android:id="@+id/btn_detail_add"
@@ -105,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="21dp"
+                    android:layout_marginTop="33dp"
                     android:layout_marginEnd="20dp"
                     android:gravity="center_horizontal|bottom"
                     android:lineSpacingExtra="-2sp"
@@ -146,8 +106,6 @@
                 android:id="@+id/daily_calendar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_marginTop="16dp"
                 android:visibility="visible" />
         </LinearLayout>
 
