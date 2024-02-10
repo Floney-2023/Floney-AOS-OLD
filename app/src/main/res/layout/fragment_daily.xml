@@ -68,7 +68,7 @@
         <LinearLayout
             android:id="@+id/calendar_area"
             android:layout_width="match_parent"
-            android:layout_height="366dp"
+            android:layout_height="380dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="20dp"
@@ -95,6 +95,7 @@
                     android:gravity="bottom"
                     android:lineSpacingExtra="-3sp"
                     android:text="내역"
+                    android:fontFamily="@font/floney_pretendard_bold"
                     android:textAppearance="@style/details_text"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -109,6 +110,7 @@
                     android:layout_marginEnd="20dp"
                     android:gravity="center_horizontal|bottom"
                     android:lineSpacingExtra="-2sp"
+                    android:fontFamily="@font/floney_pretendard_semibold"
                     android:text="내역 추가"
                     android:textAppearance="@style/btn_detail_add"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -123,7 +125,7 @@
                 android:layout_alignParentLeft="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
                 <!-- DailyView -->
                 <ImageView
                     android:layout_width="124px"
@@ -131,7 +133,6 @@
                     android:src="@drawable/daily_view_empty" />
 
                 <TextView
-                    android:id="@+id/some_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -148,7 +149,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="16dp"
-                android:visibility="visible" />
+                android:visibility="gone" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

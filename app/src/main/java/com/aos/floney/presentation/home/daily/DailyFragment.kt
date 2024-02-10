@@ -30,6 +30,14 @@ class DailyFragment  : BindingFragment<FragmentDailyBinding>(R.layout.fragment_d
 
         viewModel.dailyItems.observe(viewLifecycleOwner, { items ->
             Log.d("DailyFragment", "Observer triggered: $items")
+            if (items.isEmpty()) {
+                binding.dailyEmptyCalendar.visibility = View.VISIBLE
+                binding.dailyCalendar.visibility = View.GONE
+            }
+            else{
+                binding.dailyEmptyCalendar.visibility = View.GONE
+                binding.dailyCalendar.visibility = View.VISIBLE
+            }
             adapter.notifyDataSetChanged()
         })
 

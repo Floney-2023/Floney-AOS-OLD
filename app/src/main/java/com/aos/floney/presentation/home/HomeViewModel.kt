@@ -107,7 +107,7 @@ class HomeViewModel : ViewModel() {
 
         val dailyItemList = mutableListOf<DailyViewItem>()
 
-        for (i in 1..3){
+        for (i in 1..7){
             val randomDailyItem = DailyViewItem(
                 id = 1,
                 money = Random().nextInt(10000),
