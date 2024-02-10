@@ -5,12 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.aos.floney.R
 import com.aos.floney.domain.entity.DailyViewItem
+import com.aos.floney.presentation.home.HomeViewModel
+import com.aos.floney.presentation.home.calendar.CalendarViewModel
 
-class DailyAdapter(private val viewModel: DailyViewModel) :
+class DailyAdapter(private val viewModel: HomeViewModel) :
     RecyclerView.Adapter<DailyAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

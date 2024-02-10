@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home){
-    private val viewModel: CalendarViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
     private var dateFormat = SimpleDateFormat("yyyy.MM", Locale.getDefault())
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,12 +31,18 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
         updateDisplayedDate()
 
         binding.iconArrowLeft.setOnClickListener {
-            viewModel.moveToPreviousMonth()
+            when (dateFormat.toPattern()) {
+                "yyyy.MM" -> viewModel.moveToPreviousMonth()
+                "M.d" -> viewModel.moveToPreviousDay()
+            }
             updateDisplayedDate()
         }
 
         binding.iconArrowRight.setOnClickListener {
-            viewModel.moveToNextMonth()
+            when (dateFormat.toPattern()) {
+                "yyyy.MM" -> viewModel.moveToNextMonth()
+                    "M.d" -> viewModel.moveToNextDay()
+            }
             updateDisplayedDate()
         }
     }
@@ -53,7 +59,7 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
         }
 
         binding.dailyCheckButton.setOnClickListener {
-            switchCalendarType("M.D", Color.TRANSPARENT, R.drawable.calendar_type_area)
+            switchCalendarType("M.d", Color.TRANSPARENT, R.drawable.calendar_type_area)
         }
     }
 
@@ -66,7 +72,7 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
 
         when (dateFormatPattern) {
             "yyyy.MM" -> navigateTo<CalendarFragment>()
-            "M.D" -> navigateTo<DailyFragment>()
+            "M.d" -> navigateTo<DailyFragment>()
         }
     }
 

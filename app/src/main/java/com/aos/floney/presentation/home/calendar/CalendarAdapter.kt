@@ -7,8 +7,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.aos.floney.R
 import com.aos.floney.domain.entity.CalendarItem
+import com.aos.floney.presentation.home.HomeViewModel
 
-class CalendarAdapter(private val viewModel: CalendarViewModel) :
+class CalendarAdapter(private val viewModel: HomeViewModel) :
     RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
