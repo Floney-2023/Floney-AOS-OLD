@@ -47,19 +47,34 @@
         <item name="android:textColor">#8C8C8C</item>
     </style>
     <style name="date_text_view">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">#262626</item>
     </style>
     <style name="deposit_text_view">
-        <item name="android:textSize">9sp</item>
+        <item name="android:textSize">10sp</item>
         <item name="android:textColor">#0060E6</item>
     </style>
     <style name="withdraw_text_view">
-        <item name="android:textSize">9sp</item>
+        <item name="android:textSize">10sp</item>
         <item name="android:textColor">#F14F4F</item>
     </style>
     <style name="post_button">
         <item name="android:src">@drawable/icon_add_circle</item>
     </style>
+    <style name="daily_category_text_view">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#8C8C8C</item>
+    </style>
+    <style name="daily_content_text_view">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#262626</item>
+    </style>
+    <style name="daily_money_text_view">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#262626</item>
+        <item name="android:fontFamily">@font/floney_pretendard_bold</item>
+    </style>
+
+
 
 </resources>

@@ -6,13 +6,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.aos.floney.domain.entity.CalendarItem
+import com.aos.floney.domain.entity.DailyViewItem
 import java.text.SimpleDateFormat
 import java.util.*
 
 class CalendarViewModel : ViewModel() {
+
+    // 캘린더 아이템들
     private val _calendarItems = MutableLiveData<List<CalendarItem>>()
     val calendarItems: LiveData<List<CalendarItem>> get() = _calendarItems
 
+    // 날짜별 아이템들
+    private val _dailyItems = MutableLiveData<List<DailyViewItem>>()
+    val dailyItems: LiveData<List<DailyViewItem>> get() = _dailyItems
+
+    // 현재 날짜
     val calendar = Calendar.getInstance()
 
     init {
@@ -27,6 +35,16 @@ class CalendarViewModel : ViewModel() {
     fun moveToNextMonth() {
         calendar.add(Calendar.MONTH, 1)
         updateCalendarItems()
+    }
+
+    fun moveToPreviousDay() {
+        calendar.add(Calendar.DATE, -1)
+        updateDailyItems(calendar.time)
+    }
+
+    fun moveToNextDay() {
+        calendar.add(Calendar.DATE, 1)
+        updateDailyItems(calendar.time)
     }
 
     private fun updateCalendarItems() {
@@ -82,4 +100,29 @@ class CalendarViewModel : ViewModel() {
             calendar.add(Calendar.DATE, 1)
         }
     }
+
+    private fun updateDailyItems(date: Date) {
+
+        val dailyItemList = mutableListOf<DailyViewItem>()
+
+        for (i in 1..3){
+            val randomDailyItem = DailyViewItem(
+                id = 1,
+                money = Random().nextInt(10000),
+                img = null,
+                category = "식비",
+                assetType = "체크카드",
+                content = "멜론",
+                exceptStatus = false,
+                userNickName = "도비"
+            )
+
+            dailyItemList.add(randomDailyItem)
+        }
+
+
+
+        _dailyItems.value = dailyItemList
+    }
+
 }
