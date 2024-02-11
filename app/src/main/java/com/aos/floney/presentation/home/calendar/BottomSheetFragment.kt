@@ -15,7 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingActivity
 
 class BottomSheetFragment : BottomSheetDialogFragment() {
-    private val viewModel: HomeViewModel by viewModels(ownerProducer = { requireParentFragment() })
+    private val viewModel: HomeViewModel by viewModels(ownerProducer = { requireActivity() })
     private lateinit var binding: FragmentDailyDialogBinding
     private lateinit var adapter: DailyAdapter
     override fun onCreateView(

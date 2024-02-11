@@ -23,7 +23,7 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        
+
         settingCalendarText()
         settingCalendarType()
     }
