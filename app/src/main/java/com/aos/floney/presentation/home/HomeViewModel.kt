@@ -80,7 +80,7 @@ class HomeViewModel : ViewModel() {
         val last = lastDayOfMonth?.time
         adjustToEndOfWeek(lastDayOfMonth) // 주의 끝을 맞추기 위한 조정
 
-        val dateFormat = SimpleDateFormat("d", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("yyyy.M.d", Locale.getDefault())
         var currentDate = firstDayOfMonth?.time
 
         while (!currentDate?.after(lastDayOfMonth?.time)!!) {

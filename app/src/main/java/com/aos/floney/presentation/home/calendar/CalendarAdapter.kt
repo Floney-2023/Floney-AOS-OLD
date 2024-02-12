@@ -1,10 +1,14 @@
 package com.aos.floney.presentation.home.calendar
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -13,7 +17,12 @@ import com.aos.floney.R
 import com.aos.floney.domain.entity.CalendarItem
 import com.aos.floney.presentation.home.HomeViewModel
 import com.google.android.material.bottomappbar.BottomAppBarTopEdgeTreatment
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class CalendarAdapter(private val viewModel: HomeViewModel) :
     RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
@@ -40,18 +49,34 @@ class CalendarAdapter(private val viewModel: HomeViewModel) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        val currentDate = LocalDate.now()
+        val formattedDate = SimpleDateFormat("yyyy.M.d", Locale.getDefault()).format(Date.from(currentDate.atStartOfDay(
+            ZoneId.systemDefault()).toInstant()))
+
+
+
         val item = getItem(position)
-        holder.dateTextView.text = item.date
+
+        val parts = item.date.split(".")
+        val dayOfMonth = parts.lastOrNull() ?: ""
+        
+        holder.dateTextView.text = dayOfMonth
         holder.depositTextView.text = item.depositAmount
         holder.withdrawalTextView.text = item.withdrawalAmount
 
-        // 현재 월에 속하는 날짜만 보이도록 처리
-        if (item.date!="") {
-            holder.itemView.visibility = View.VISIBLE
+        // 오늘 날짜 배경 처리
+        if (item.date == formattedDate) {
+            holder.dateTextView.setBackgroundResource(R.drawable.ellipse)
+            // ContextCompat.getColor를 사용하여 색상 값 가져오기
+            holder.dateTextView.setTextColor(ContextCompat.getColor(holder.dateTextView.context, R.color.white))
+        }
 
-        } else {
-            // 현재 월에 속하지 않는 날짜는 감춤
+        // 현재 월에 속하는 날짜만 보이도록 처리
+        if (item.date=="") {
             holder.itemView.visibility = View.INVISIBLE
+        } else {
+            holder.itemView.visibility = View.VISIBLE
         }
     }
 
