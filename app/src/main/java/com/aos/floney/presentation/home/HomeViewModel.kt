@@ -4,8 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.aos.floney.domain.entity.CalendarItem
 import com.aos.floney.domain.entity.DailyViewItem
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -14,59 +18,72 @@ import java.util.Random
 
 class HomeViewModel : ViewModel() {
 
-    // 캘린더 아이템들
     private val _calendarItems = MutableLiveData<List<CalendarItem>>()
     val calendarItems: LiveData<List<CalendarItem>> get() = _calendarItems
 
-    // 날짜별 아이템들
-    private val _dailyItems = MutableLiveData<List<DailyViewItem>>()
-    val dailyItems: LiveData<List<DailyViewItem>> get() = _dailyItems
+    private val _dailyItems = MutableStateFlow<List<DailyViewItem>>(mutableListOf<DailyViewItem>())
+    val dailyItems: StateFlow<List<DailyViewItem>> get() = _dailyItems
 
-    // 현재 날짜
-    val calendar = Calendar.getInstance()
+    // calendar를 MutableStateFlow로 변경
+    private val _calendar = MutableStateFlow<Calendar>(Calendar.getInstance())
+    val calendar: StateFlow<Calendar> get() = _calendar
 
     init {
+        _calendar.value = Calendar.getInstance()
         updateCalendarItems()
     }
 
+    // ... (이후 코드는 동일)
+
     fun moveToPreviousMonth() {
-        calendar.add(Calendar.MONTH, -1)
+        _calendar.value?.add(Calendar.MONTH, -1)
         updateCalendarItems()
     }
 
     fun moveToNextMonth() {
-        calendar.add(Calendar.MONTH, 1)
+        _calendar.value?.add(Calendar.MONTH, 1)
         updateCalendarItems()
     }
 
     fun moveToPreviousDay() {
-        calendar.add(Calendar.DATE, -1)
-        updateDailyItems(calendar.time)
+        _calendar.value?.add(Calendar.DATE, -1)
+        updateDailyItems(_calendar.value?.time)
     }
 
     fun moveToNextDay() {
-        calendar.add(Calendar.DATE, 1)
-        updateDailyItems(calendar.time)
+        _calendar.value?.add(Calendar.DATE, 1)
+        updateDailyItems(_calendar.value?.time)
+    }
+
+    fun clickSelectDate(selectDay: Int) {
+
+        viewModelScope.launch{
+            _calendar.value?.set(Calendar.DATE, selectDay)
+            _calendar.emit(_calendar.value)
+            Log.d("selectDay", "Calendar items updated: ${_calendar.value?.time}")
+            updateDailyItems(_calendar.value?.time)
+        }
+
     }
 
     private fun updateCalendarItems() {
         val itemList = mutableListOf<CalendarItem>()
-        calendar.get(Calendar.MONTH) + 1
+        _calendar.value?.get(Calendar.MONTH) // 월에 대한 작업이 불필요한 경우 제거
 
-        val firstDayOfMonth = calendar.clone() as Calendar
-        firstDayOfMonth.set(Calendar.DAY_OF_MONTH, 1)
-        val first = firstDayOfMonth.time
+        val firstDayOfMonth = _calendar.value?.clone() as Calendar
+        firstDayOfMonth?.set(Calendar.DAY_OF_MONTH, 1)
+        val first = firstDayOfMonth?.time
         adjustToStartOfWeek(firstDayOfMonth) // 주의 시작을 맞추기 위한 조정
 
-        val lastDayOfMonth = calendar.clone() as Calendar
-        lastDayOfMonth.set(Calendar.DAY_OF_MONTH, lastDayOfMonth.getActualMaximum(Calendar.DAY_OF_MONTH))
-        val last = lastDayOfMonth.time
+        val lastDayOfMonth = _calendar.value?.clone() as Calendar
+        lastDayOfMonth?.set(Calendar.DAY_OF_MONTH, lastDayOfMonth.getActualMaximum(Calendar.DAY_OF_MONTH))
+        val last = lastDayOfMonth?.time
         adjustToEndOfWeek(lastDayOfMonth) // 주의 끝을 맞추기 위한 조정
 
         val dateFormat = SimpleDateFormat("d", Locale.getDefault())
-        var currentDate = firstDayOfMonth.time
+        var currentDate = firstDayOfMonth?.time
 
-        while (!currentDate.after(lastDayOfMonth.time)) {
+        while (!currentDate?.after(lastDayOfMonth?.time)!!) {
             Log.d("CalendarFragment", "Calendar items updated: $currentDate")
             var date = dateFormat.format(currentDate)
             val isCurrentMonth = (currentDate >= first && currentDate <= last)
@@ -86,7 +103,6 @@ class HomeViewModel : ViewModel() {
         }
 
         _calendarItems.value = itemList
-
     }
 
     // 첫째 날이 포함된 주의 첫째 날로 조정
@@ -103,11 +119,12 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    private fun updateDailyItems(date: Date) {
+    // 날짜에 맞는 item 들고와야함, 임의로 설정
+    private fun updateDailyItems(date: Date?) {
 
         val dailyItemList = mutableListOf<DailyViewItem>()
 
-        for (i in 1..3){
+        for (i in 1..7){
             val randomDailyItem = DailyViewItem(
                 id = 1,
                 money = Random().nextInt(10000),
@@ -123,9 +140,11 @@ class HomeViewModel : ViewModel() {
         }
 
 
+        Log.d("selectDay", "Calendar items updated: $dailyItemList")
 
         _dailyItems.value = dailyItemList
     }
+    // 내역 추가 버튼
     fun postButtonClick(){
 
     }

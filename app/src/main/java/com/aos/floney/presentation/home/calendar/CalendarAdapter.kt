@@ -4,10 +4,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.aos.floney.R
 import com.aos.floney.domain.entity.CalendarItem
 import com.aos.floney.presentation.home.HomeViewModel
+import com.google.android.material.bottomappbar.BottomAppBarTopEdgeTreatment
+import java.util.Calendar
 
 class CalendarAdapter(private val viewModel: HomeViewModel) :
     RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
@@ -20,7 +26,9 @@ class CalendarAdapter(private val viewModel: HomeViewModel) :
         init {
             itemView.setOnClickListener {
                 // 클릭 이벤트 처리
-                showToast("Clicked on ${dateTextView}")
+                viewModel.clickSelectDate(dateTextView.text.toString().toInt())
+                // 모달창 올라오는 이벤트
+                dailyBottomSheet(itemView, dateTextView.text.toString().toInt())
             }
         }
     }
@@ -40,9 +48,7 @@ class CalendarAdapter(private val viewModel: HomeViewModel) :
         // 현재 월에 속하는 날짜만 보이도록 처리
         if (item.date!="") {
             holder.itemView.visibility = View.VISIBLE
-            holder.itemView.setOnClickListener {
-                showToast("Clicked on ${item.date}")
-            }
+
         } else {
             // 현재 월에 속하지 않는 날짜는 감춤
             holder.itemView.visibility = View.INVISIBLE
@@ -59,5 +65,12 @@ class CalendarAdapter(private val viewModel: HomeViewModel) :
 
     private fun showToast(message: String) {
 
+    }
+    private fun dailyBottomSheet(itemView: View, date : Int) {
+        val bottomSheetPostFragment = BottomSheetFragment()
+        bottomSheetPostFragment.show(
+            (itemView.context as AppCompatActivity).supportFragmentManager,
+            bottomSheetPostFragment.tag
+        )
     }
 }
