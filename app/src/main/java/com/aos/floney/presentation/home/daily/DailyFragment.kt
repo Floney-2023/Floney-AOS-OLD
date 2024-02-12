@@ -4,15 +4,19 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentDailyBinding
 import com.aos.floney.presentation.home.HomeViewModel
 import com.aos.floney.presentation.home.calendar.CalendarViewModel
+import kotlinx.coroutines.launch
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
 
 class DailyFragment  : BindingFragment<FragmentDailyBinding>(R.layout.fragment_daily){
-    private val viewModel: HomeViewModel by viewModels(ownerProducer = { requireParentFragment() })
+    private val viewModel: HomeViewModel by viewModels(ownerProducer = { requireActivity() })
     private lateinit var adapter: DailyAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -28,18 +32,29 @@ class DailyFragment  : BindingFragment<FragmentDailyBinding>(R.layout.fragment_d
 
         Log.d("DailyFragment", "Observer triggered: ")
 
-        viewModel.dailyItems.observe(viewLifecycleOwner, { items ->
-            Log.d("DailyFragment", "Observer triggered: $items")
-            if (items.isEmpty()) {
-                binding.dailyEmptyCalendar.visibility = View.VISIBLE
-                binding.dailyCalendar.visibility = View.GONE
+        lifecycleScope.launch{
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED){
+                launch {
+                    viewModel.dailyItems.collect{
+                        try{
+                            if (it.isEmpty()) {
+                                binding.dailyEmptyCalendar.visibility = View.VISIBLE
+                                binding.dailyCalendar.visibility = View.GONE
+                            }
+                            else{
+                                binding.dailyEmptyCalendar.visibility = View.GONE
+                                binding.dailyCalendar.visibility = View.VISIBLE
+                            }
+                            adapter.notifyDataSetChanged()
+                        }
+                        catch (e:Throwable){
+                            println("Exception from the flow: $e")
+                        }
+
+                    }
+                }
             }
-            else{
-                binding.dailyEmptyCalendar.visibility = View.GONE
-                binding.dailyCalendar.visibility = View.VISIBLE
-            }
-            adapter.notifyDataSetChanged()
-        })
+        }
 
 
     }

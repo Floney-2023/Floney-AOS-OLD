@@ -2,22 +2,27 @@ package com.aos.floney.presentation.home
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentHomeBinding
 import com.aos.floney.presentation.home.calendar.CalendarFragment
 import com.aos.floney.presentation.home.calendar.CalendarViewModel
 import com.aos.floney.presentation.home.daily.DailyFragment
+import kotlinx.coroutines.launch
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home){
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels(ownerProducer = {  requireActivity() })
     private var dateFormat = SimpleDateFormat("yyyy.MM", Locale.getDefault())
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,7 +54,19 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
     }
 
     private fun updateDisplayedDate() {
-        binding.calendarNowYearMonth.text = dateFormat.format(viewModel.calendar.time)
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    try {
+                        viewModel.calendar.collect {
+                            binding.calendarNowYearMonth.text = dateFormat.format(it.time)
+                        }
+                    } catch (e: Throwable) {
+                        println("Exception from the flow: $e")
+                    }
+                }
+            }
+        }
     }
 
     private fun settingCalendarType() {

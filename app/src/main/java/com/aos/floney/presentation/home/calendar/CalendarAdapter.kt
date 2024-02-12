@@ -13,6 +13,7 @@ import com.aos.floney.R
 import com.aos.floney.domain.entity.CalendarItem
 import com.aos.floney.presentation.home.HomeViewModel
 import com.google.android.material.bottomappbar.BottomAppBarTopEdgeTreatment
+import java.util.Calendar
 
 class CalendarAdapter(private val viewModel: HomeViewModel) :
     RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
@@ -25,17 +26,9 @@ class CalendarAdapter(private val viewModel: HomeViewModel) :
         init {
             itemView.setOnClickListener {
                 // 클릭 이벤트 처리
-                val bottomSheetPostFragment = BottomSheetFragment()
-                bottomSheetPostFragment.setStyle(
-                    DialogFragment.STYLE_NORMAL,
-                    R.style.AppBottomSheetDialogTheme
-                )
-
-                bottomSheetPostFragment.show(
-                    (itemView.context as AppCompatActivity).supportFragmentManager,
-                    bottomSheetPostFragment.tag
-                )
-                dailyBottomSheet(itemView, dateTextView.toString())
+                viewModel.clickSelectDate(dateTextView.text.toString().toInt())
+                // 모달창 올라오는 이벤트
+                dailyBottomSheet(itemView, dateTextView.text.toString().toInt())
             }
         }
     }
@@ -73,7 +66,11 @@ class CalendarAdapter(private val viewModel: HomeViewModel) :
     private fun showToast(message: String) {
 
     }
-    private fun dailyBottomSheet(itemView: View, date : String) {
-
+    private fun dailyBottomSheet(itemView: View, date : Int) {
+        val bottomSheetPostFragment = BottomSheetFragment()
+        bottomSheetPostFragment.show(
+            (itemView.context as AppCompatActivity).supportFragmentManager,
+            bottomSheetPostFragment.tag
+        )
     }
 }

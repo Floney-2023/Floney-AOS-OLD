@@ -11,7 +11,7 @@ import com.aos.floney.presentation.home.HomeViewModel
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
 
 class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.fragment_calendar){
-    private val viewModel: HomeViewModel by viewModels(ownerProducer = { requireParentFragment() })
+    private val viewModel: HomeViewModel by viewModels(ownerProducer = { requireActivity() })
     private lateinit var adapter: CalendarAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
