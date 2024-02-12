@@ -60,7 +60,8 @@ class CalendarAdapter(private val viewModel: HomeViewModel) :
 
         val parts = item.date.split(".")
         val dayOfMonth = parts.lastOrNull() ?: ""
-        
+
+
         holder.dateTextView.text = dayOfMonth
         holder.depositTextView.text = item.depositAmount
         holder.withdrawalTextView.text = item.withdrawalAmount

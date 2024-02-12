@@ -4,5 +4,6 @@
     <string name="bottom_navigation_analysis">분석</string>
     <string name="bottom_navigation_calculate">정산</string>
     <string name="bottom_navigation_mypage">마이</string>
+    <string name="date_pick_button">완료</string>
 
 </resources>

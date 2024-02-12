@@ -1,5 +1,6 @@
 package com.aos.floney.presentation.home
 
+import android.app.DatePickerDialog.OnDateSetListener
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -14,12 +15,13 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentHomeBinding
 import com.aos.floney.presentation.home.calendar.CalendarFragment
-import com.aos.floney.presentation.home.calendar.CalendarViewModel
+import com.aos.floney.presentation.home.calendar.YearMonthPickerFragment
 import com.aos.floney.presentation.home.daily.DailyFragment
 import kotlinx.coroutines.launch
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
 import java.text.SimpleDateFormat
 import java.util.Locale
+
 
 class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home){
     private val viewModel: HomeViewModel by viewModels(ownerProducer = {  requireActivity() })
@@ -31,6 +33,7 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
 
         settingCalendarText()
         settingCalendarType()
+        settingCalendarDialog()
     }
 
     private fun settingCalendarText() {
@@ -55,11 +58,12 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
 
     private fun updateDisplayedDate() {
         lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 launch {
                     try {
                         viewModel.calendar.collect {
                             binding.calendarNowYearMonth.text = dateFormat.format(it.time)
+                            Log.d("selectMonthYear", "Observer updateDisplay: ${it.time}")
                         }
                     } catch (e: Throwable) {
                         println("Exception from the flow: $e")
@@ -68,7 +72,14 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
             }
         }
     }
+    private fun settingCalendarDialog() {
+        binding.calendarNowYearMonth.setOnClickListener {
+            val yearMonthPickerFragment = YearMonthPickerFragment()
+            yearMonthPickerFragment.show(parentFragmentManager, "YearMonthPicker")
 
+
+        }
+    }
     private fun settingCalendarType() {
         navigateTo<CalendarFragment>()
 

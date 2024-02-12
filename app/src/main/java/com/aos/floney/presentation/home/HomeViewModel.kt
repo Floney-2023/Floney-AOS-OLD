@@ -65,6 +65,17 @@ class HomeViewModel : ViewModel() {
         }
 
     }
+    fun clickSelectYearMonth(selectYear : Int, selectMonth: Int) {
+
+        viewModelScope.launch{
+            _calendar.value?.set(Calendar.YEAR, selectYear)
+            _calendar.value?.set(Calendar.MONTH, selectMonth)
+            _calendar.emit(_calendar.value)
+            Log.d("selectMonthYear", "Calendar items updated: ${_calendar.value?.time}")
+            updateCalendarItems()
+        }
+
+    }
 
     private fun updateCalendarItems() {
         val itemList = mutableListOf<CalendarItem>()

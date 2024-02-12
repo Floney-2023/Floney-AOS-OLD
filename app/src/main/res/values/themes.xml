@@ -98,7 +98,10 @@
 
     <style name="AppModalStyle"
         parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/bg</item>
+        <item name="android:background">@drawable/bg_daily_dialog</item>
         <item name="android:fontFamily">@font/pretendard_semibold</item>
+    </style>
+    <style name="NumberPickerStyle">
+        <item name="android:textSize">20sp</item>
     </style>
 </resources>
