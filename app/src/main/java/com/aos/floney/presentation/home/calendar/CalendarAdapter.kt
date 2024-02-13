@@ -12,11 +12,15 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.aos.floney.R
 import com.aos.floney.domain.entity.CalendarItem
+import com.aos.floney.presentation.HomeActivity
+import com.aos.floney.presentation.home.HomeFragment
 import com.aos.floney.presentation.home.HomeViewModel
 import com.google.android.material.bottomappbar.BottomAppBarTopEdgeTreatment
+import kotlinx.coroutines.currentCoroutineContext
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
@@ -85,7 +89,7 @@ class CalendarAdapter(private val viewModel: HomeViewModel) :
         return viewModel.calendarItems.value?.size ?: 0
     }
 
-    private fun getItem(position: Int): CalendarItem {
+    fun getItem(position: Int): CalendarItem {
         return viewModel.calendarItems.value?.get(position) ?: CalendarItem("", "", "")
     }
 

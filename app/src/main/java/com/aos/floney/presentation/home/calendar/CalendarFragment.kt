@@ -3,7 +3,9 @@ package com.aos.floney.presentation.home.calendar
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentCalendarBinding
@@ -25,6 +27,7 @@ class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.frag
 
         binding.calendar.layoutManager = GridLayoutManager(context, 7)
         binding.calendar.adapter = adapter
+
 
         viewModel.calendarItems.observe(viewLifecycleOwner, { items ->
             Log.d("CalendarFragment", "Observer triggered: $items")

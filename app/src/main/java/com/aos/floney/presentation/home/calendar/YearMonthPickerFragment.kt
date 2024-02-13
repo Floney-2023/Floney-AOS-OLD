@@ -2,6 +2,7 @@ package com.aos.floney.presentation.home.calendar
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.NumberPicker
@@ -36,9 +37,8 @@ class YearMonthPickerFragment : DialogFragment() {
         val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
         monthPicker.minValue = 1
         monthPicker.maxValue = 12
-        monthPicker.value = 5 + 1// 현재 달 월로 초기값 설정
+        monthPicker.value = currentMonth + 1// 현재 달 월로 초기값 설정
         monthPicker.wrapSelectorWheel = false
-
 
         btnClicker.setOnClickListener{
             val selectedYear = yearPicker.value

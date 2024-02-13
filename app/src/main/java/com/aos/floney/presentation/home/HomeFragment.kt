@@ -14,9 +14,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentHomeBinding
+import com.aos.floney.presentation.home.calendar.BottomSheetFragment
 import com.aos.floney.presentation.home.calendar.CalendarFragment
 import com.aos.floney.presentation.home.calendar.YearMonthPickerFragment
 import com.aos.floney.presentation.home.daily.DailyFragment
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
 import java.text.SimpleDateFormat
@@ -29,7 +31,6 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         settingCalendarText()
         settingCalendarType()
@@ -58,7 +59,7 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
 
     private fun updateDisplayedDate() {
         lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 launch {
                     try {
                         viewModel.calendar.collect {
@@ -76,8 +77,6 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
         binding.calendarNowYearMonth.setOnClickListener {
             val yearMonthPickerFragment = YearMonthPickerFragment()
             yearMonthPickerFragment.show(parentFragmentManager, "YearMonthPicker")
-
-
         }
     }
     private fun settingCalendarType() {

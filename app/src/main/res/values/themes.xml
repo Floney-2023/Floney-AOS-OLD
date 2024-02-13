@@ -103,5 +103,6 @@
     </style>
     <style name="NumberPickerStyle">
         <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 </resources>

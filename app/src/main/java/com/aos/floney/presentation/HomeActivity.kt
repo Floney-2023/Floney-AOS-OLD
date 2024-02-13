@@ -1,16 +1,18 @@
 package com.aos.floney.presentation
 
 import android.os.Bundle
+import android.view.View
+import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.aos.floney.R
 import com.aos.floney.databinding.ActivityHomeBinding
-import com.aos.floney.presentation.home.HomeFragment
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingActivity
+
 
 class HomeActivity : BindingActivity<ActivityHomeBinding>(R.layout.activity_home) {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,8 +36,6 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>(R.layout.activity_home
             background = null
             menu.getItem(2).isEnabled = false
         }
-        //NavigationUI.setupWithNavController(binding.bottomNavigationView,navController)
-
 
     }
 }
