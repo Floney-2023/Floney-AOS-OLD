@@ -39,7 +39,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="999,999,999원"
+                    android:text="0원"
                     android:textAppearance="@style/expense_income_value" />
             </LinearLayout>
 
@@ -59,7 +59,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="999,999,999원"
+                    android:text="0원"
                     android:textAppearance="@style/expense_income_value" />
             </LinearLayout>
         </LinearLayout>

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -76,6 +77,15 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
             binding.dailyEmptyCalendar.visibility = View.VISIBLE
             binding.dailyCalendar.visibility = View.GONE
         }
+
+
+        // bottomsheet 높이 설정
+        //NavigationUI.setupWithNavController(binding.bottomNavigationView,navController)
+        //val bottomSheetContainer: FrameLayout = binding.dailyDialogView
+
+        //val bottomSheetBehavior = BottomSheetBehavior.from<View>(bottomSheetContainer)
+        //bottomSheetBehavior.peekHeight = 76
+        //bottomSheetBehavior.isGestureInsetBottomIgnored = true
     }
 
     private fun observeCalendarAndItems() {

@@ -20,4 +20,8 @@
         android:id="@+id/mypageFragment"
         android:name="com.aos.floney.presentation.mypage.MypageFragment"
         android:label="MypageFragment" />
+    <dialog
+    android:id="@+id/bottomSheetFragment"
+    android:name="com.aos.floney.presentation.home.calendar.BottomSheetFragment"
+    android:label="BottomSheetFragment" />
 </navigation>

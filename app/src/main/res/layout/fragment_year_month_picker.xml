@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_date_picker"
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:orientation="horizontal"
+        >
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_year_month_pick"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/date_pick_button"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:fontFamily="@font/floney_pretendard_bold"
+            android:textAllCaps="false"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <NumberPicker
+            android:id="@+id/picker_year"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"
+            android:theme="@style/NumberPickerStyle"
+            android:selectionDividerHeight="0dp"
+            >
+        </NumberPicker>
+
+        <NumberPicker
+            android:id="@+id/picker_month"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"
+            android:selectionDividerHeight="0dp"
+            android:theme="@style/NumberPickerStyle"
+            >
+        </NumberPicker>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

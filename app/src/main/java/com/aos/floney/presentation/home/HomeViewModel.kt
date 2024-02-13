@@ -65,6 +65,17 @@ class HomeViewModel : ViewModel() {
         }
 
     }
+    fun clickSelectYearMonth(selectYear : Int, selectMonth: Int) {
+
+        viewModelScope.launch{
+            _calendar.value?.set(Calendar.YEAR, selectYear)
+            _calendar.value?.set(Calendar.MONTH, selectMonth)
+            _calendar.emit(_calendar.value)
+            Log.d("selectMonthYear", "Calendar items updated: ${_calendar.value?.time}")
+            updateCalendarItems()
+        }
+
+    }
 
     private fun updateCalendarItems() {
         val itemList = mutableListOf<CalendarItem>()
@@ -80,7 +91,7 @@ class HomeViewModel : ViewModel() {
         val last = lastDayOfMonth?.time
         adjustToEndOfWeek(lastDayOfMonth) // 주의 끝을 맞추기 위한 조정
 
-        val dateFormat = SimpleDateFormat("d", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("yyyy.M.d", Locale.getDefault())
         var currentDate = firstDayOfMonth?.time
 
         while (!currentDate?.after(lastDayOfMonth?.time)!!) {
