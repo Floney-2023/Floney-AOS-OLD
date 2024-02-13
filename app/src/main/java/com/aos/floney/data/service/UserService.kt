@@ -10,4 +10,6 @@ interface UserService {
     suspend fun getUserData(
         @Body requestGetUser: GetUserRequestDto
     ): GetUserResponseDto
+
+
 }

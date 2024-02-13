@@ -1,30 +1,18 @@
 package com.aos.floney.presentation.home.calendar
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.aos.floney.R
 import com.aos.floney.domain.entity.CalendarItem
-import com.aos.floney.presentation.HomeActivity
-import com.aos.floney.presentation.home.HomeFragment
 import com.aos.floney.presentation.home.HomeViewModel
-import com.google.android.material.bottomappbar.BottomAppBarTopEdgeTreatment
-import kotlinx.coroutines.currentCoroutineContext
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
-import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -67,7 +55,7 @@ class CalendarAdapter(private val viewModel: HomeViewModel) :
 
 
         holder.dateTextView.text = dayOfMonth
-        holder.depositTextView.text = item.depositAmount
+        holder.depositTextView.text = item.money
         holder.withdrawalTextView.text = item.withdrawalAmount
 
         // 오늘 날짜 배경 처리
