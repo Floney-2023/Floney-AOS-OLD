@@ -12,9 +12,10 @@ import com.aos.floney.R
 import com.aos.floney.databinding.FragmentDailyBinding
 import com.aos.floney.presentation.home.HomeViewModel
 import com.aos.floney.presentation.home.calendar.CalendarViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
-
+@AndroidEntryPoint
 class DailyFragment  : BindingFragment<FragmentDailyBinding>(R.layout.fragment_daily){
     private val viewModel: HomeViewModel by viewModels(ownerProducer = { requireActivity() })
     private lateinit var adapter: DailyAdapter

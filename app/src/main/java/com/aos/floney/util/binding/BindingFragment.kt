@@ -35,12 +35,4 @@ abstract class BindingFragment<T : ViewDataBinding>(
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
     }
-
-    abstract fun init()
-
-    protected fun shortShowToast(msg: String) =
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-
-    protected fun longShowToast(msg: String) =
-        Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
 }

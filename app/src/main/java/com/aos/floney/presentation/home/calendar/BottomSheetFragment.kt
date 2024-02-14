@@ -21,10 +21,11 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
-import kr.ac.konkuk.gdsc.plantory.util.binding.BindingActivity
+import com.aos.floney.util.binding.BindingActivity
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Locale
-
+@AndroidEntryPoint
 class BottomSheetFragment : BottomSheetDialogFragment() {
     private val viewModel: HomeViewModel by viewModels(ownerProducer = {  requireActivity() })
     private lateinit var binding: FragmentDailyDialogBinding

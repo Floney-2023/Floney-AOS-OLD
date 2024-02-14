@@ -2,14 +2,11 @@ package com.aos.floney.data.dto.response
 
 import com.aos.floney.domain.entity.CalendarItem
 import com.aos.floney.domain.entity.CalendarItemType
-import com.aos.floney.domain.entity.CarryOverInfo
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.io.Serial
 
-//임시
 @Serializable
-data class GetbooksMonthrResponseDto (
+data class GetbooksMonthResponseDto (
     @SerialName("expenses")
     val expenses : List<booksMonthDto>?,
     @SerialName("carryOverInfo")

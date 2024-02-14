@@ -6,89 +6,93 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aos.floney.R
+import com.aos.floney.databinding.ItemCustomCalendarBinding
 import com.aos.floney.domain.entity.CalendarItem
+import com.aos.floney.domain.entity.CalendarItemType
 import com.aos.floney.presentation.home.HomeViewModel
+import com.aos.floney.util.view.ItemDiffCallback
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
 import java.util.Locale
 
-class CalendarAdapter(private val viewModel: HomeViewModel) :
-    RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
+class CalendarAdapter(
+    private val currMonth: Int,
+    private val plantHistories: List<CalendarItem>,
+    private val viewModel: HomeViewModel
+) : ListAdapter<CalendarItem, CalendarAdapter.ViewHolder>(
+    ItemDiffCallback<CalendarItem>(
+        onItemsTheSame = { old, new -> old == new },
+        onContentsTheSame = { old, new -> old == new }
+    )
+){
+    class ViewHolder(
+        private val binding : ItemCustomCalendarBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
+        private val dayText: TextView = binding.dateTextView
+        private val incomeText: TextView = binding.withdrawalTextView
+        private val outcomeText: TextView = binding.depositTextView
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun onBind(item: CalendarItem) {
 
-        val dateTextView: TextView = itemView.findViewById(R.id.dateTextView)
-        val depositTextView: TextView = itemView.findViewById(R.id.depositTextView)
-        val withdrawalTextView: TextView = itemView.findViewById(R.id.withdrawalTextView)
-        init {
-            itemView.setOnClickListener {
-                // 클릭 이벤트 처리
-                viewModel.clickSelectDate(dateTextView.text.toString().toInt())
-                // 모달창 올라오는 이벤트
-                dailyBottomSheet(itemView, dateTextView.text.toString().toInt())
+            val currentDate = LocalDate.now()
+            val formattedDate = SimpleDateFormat("yyyy.M.d", Locale.getDefault()).format(Date.from(currentDate.atStartOfDay(
+                ZoneId.systemDefault()).toInstant()))
+
+
+            val parts = item.date.split("-")
+            val dayOfMonth = parts.lastOrNull() ?: ""
+
+            dayText.text = dayOfMonth
+            incomeText.text = getFormattedMoneyText(item.money, item.assetType == CalendarItemType.INCOME)
+            outcomeText.text =  getFormattedMoneyText(item.money, item.assetType == CalendarItemType.OUTCOME)
+
+            // 오늘 날짜 배경 처리
+            if (item.date == formattedDate) {
+                dayText.setBackgroundResource(R.drawable.ellipse)
+                // ContextCompat.getColor를 사용하여 색상 값 가져오기
+                dayText.setTextColor(ContextCompat.getColor(dayText.context, R.color.white))
             }
+
+            // 현재 월에 속하는 날짜만 보이도록 처리
+            if (item.date=="") {
+                binding.root.visibility = View.INVISIBLE
+            } else {
+                binding.root.visibility = View.VISIBLE
+            }
+
+            // Set up click listener
+            binding.root.setOnClickListener {
+                dailyBottomSheet(binding, item.date)
+            }
+        }
+        fun dailyBottomSheet(binding: ItemCustomCalendarBinding, date : String) {
+            val bottomSheetPostFragment = BottomSheetFragment()
+            bottomSheetPostFragment.show(
+                (binding.root.context as AppCompatActivity).supportFragmentManager,
+                bottomSheetPostFragment.tag
+            )
+        }
+        fun getFormattedMoneyText(money: Int, isIncome: Boolean): String {
+            val sign = if (isIncome) "+" else "-"
+            return "$sign$money"
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_custom_calendar, parent, false)
-        return ViewHolder(view)
+        val binding =
+            ItemCustomCalendarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        val currentDate = LocalDate.now()
-        val formattedDate = SimpleDateFormat("yyyy.M.d", Locale.getDefault()).format(Date.from(currentDate.atStartOfDay(
-            ZoneId.systemDefault()).toInstant()))
-
-
-
         val item = getItem(position)
-
-        val parts = item.date.split(".")
-        val dayOfMonth = parts.lastOrNull() ?: ""
-
-
-        holder.dateTextView.text = dayOfMonth
-        holder.depositTextView.text = item.money
-        holder.withdrawalTextView.text = item.withdrawalAmount
-
-        // 오늘 날짜 배경 처리
-        if (item.date == formattedDate) {
-            holder.dateTextView.setBackgroundResource(R.drawable.ellipse)
-            // ContextCompat.getColor를 사용하여 색상 값 가져오기
-            holder.dateTextView.setTextColor(ContextCompat.getColor(holder.dateTextView.context, R.color.white))
-        }
-
-        // 현재 월에 속하는 날짜만 보이도록 처리
-        if (item.date=="") {
-            holder.itemView.visibility = View.INVISIBLE
-        } else {
-            holder.itemView.visibility = View.VISIBLE
-        }
+        holder.onBind(item)
     }
 
-    override fun getItemCount(): Int {
-        return viewModel.calendarItems.value?.size ?: 0
-    }
 
-    fun getItem(position: Int): CalendarItem {
-        return viewModel.calendarItems.value?.get(position) ?: CalendarItem("", "", "")
-    }
-
-    private fun showToast(message: String) {
-
-    }
-    private fun dailyBottomSheet(itemView: View, date : Int) {
-        val bottomSheetPostFragment = BottomSheetFragment()
-        bottomSheetPostFragment.show(
-            (itemView.context as AppCompatActivity).supportFragmentManager,
-            bottomSheetPostFragment.tag
-        )
-    }
 }

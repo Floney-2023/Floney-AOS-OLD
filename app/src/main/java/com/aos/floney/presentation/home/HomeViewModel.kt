@@ -7,16 +7,24 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aos.floney.domain.entity.CalendarItem
 import com.aos.floney.domain.entity.DailyViewItem
+import com.aos.floney.domain.repository.CalendarRepository
+import com.aos.floney.util.view.UiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.Random
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val calendarRepository: CalendarRepository
+) : ViewModel() {
 
     private val _calendarItems = MutableLiveData<List<CalendarItem>>()
     val calendarItems: LiveData<List<CalendarItem>> get() = _calendarItems
@@ -27,6 +35,16 @@ class HomeViewModel : ViewModel() {
     // calendar를 MutableStateFlow로 변경
     private val _calendar = MutableStateFlow<Calendar>(Calendar.getInstance())
     val calendar: StateFlow<Calendar> get() = _calendar
+
+    private val _getCalendarInformationState =
+        MutableStateFlow<UiState<List<CalendarItem>>>(UiState.Loading)
+    val getCalendarInformationState: StateFlow<UiState<List<CalendarItem>>> =
+        _getCalendarInformationState.asStateFlow()
+
+
+    private val _postRegisterCalendarState = MutableStateFlow<UiState<Unit>>(UiState.Loading)
+    val postRegisterCalendarState: StateFlow<UiState<Unit>> = _postRegisterCalendarState.asStateFlow()
+
 
     init {
         _calendar.value = Calendar.getInstance()
@@ -91,7 +109,7 @@ class HomeViewModel : ViewModel() {
         val last = lastDayOfMonth?.time
         adjustToEndOfWeek(lastDayOfMonth) // 주의 끝을 맞추기 위한 조정
 
-        val dateFormat = SimpleDateFormat("yyyy.M.d", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("yyyy-M-d", Locale.getDefault())
         var currentDate = firstDayOfMonth?.time
 
         while (!currentDate?.after(lastDayOfMonth?.time)!!) {
@@ -99,10 +117,23 @@ class HomeViewModel : ViewModel() {
             var date = dateFormat.format(currentDate)
             val isCurrentMonth = (currentDate >= first && currentDate <= last)
 
+            val bookKey = "043526ce"
             if (!isCurrentMonth)
                 date=""
-            // 날짜에 따른 deposit, withdrawalAmount 받아오기
-            itemList.add(CalendarItem(date, "", ""))
+            // 날짜에 따른 deposit, withdrawalAmount 받아오기(bookKey 예시)
+            viewModelScope.launch {
+                calendarRepository.getbooksMonthData(bookKey, "2023-05-01")
+                    .onSuccess { response ->
+                        if (response != null) {
+                            _getCalendarInformationState.value =
+                                UiState.Success(response)
+                        } else {
+                            _getCalendarInformationState.value = UiState.Success(emptyList())
+                        }
+                    }.onFailure { t ->
+                        _getCalendarInformationState.value = UiState.Failure("${t.message}")
+                    }
+            }
 
             //val depositAmount = "+${Random().nextInt(10000)}"
             //val withdrawalAmount = "${Random().nextInt(5000)}"
@@ -112,8 +143,25 @@ class HomeViewModel : ViewModel() {
             nextDate.add(Calendar.DATE, 1)
             currentDate = nextDate.time
         }
+    }
+    fun updateCalendarDayList(currYear: Int, currMonth: Int): MutableList<Date> {
+        calendar.value.set(Calendar.YEAR, currYear)
+        calendar.value.set(Calendar.MONTH, currMonth)
+        calendar.value.set(Calendar.DAY_OF_MONTH, FIRST_DAY)
 
-        _calendarItems.value = itemList
+        val dayList: MutableList<Date> = mutableListOf()
+
+        for (i in 0..Calendar.WEEK_OF_MONTH) {
+            for (k in 0..Calendar.DAY_OF_YEAR) {
+                calendar.value.add(
+                    Calendar.DAY_OF_MONTH,
+                    (FIRST_DAY - calendar.value.get(Calendar.DAY_OF_WEEK)) + k
+                )
+                dayList.add(calendar.value.time.clone() as Date)
+            }
+            calendar.value.add(Calendar.WEEK_OF_MONTH, FIRST_DAY)
+        }
+        return dayList
     }
 
     // 첫째 날이 포함된 주의 첫째 날로 조정
@@ -158,5 +206,9 @@ class HomeViewModel : ViewModel() {
     // 내역 추가 버튼
     fun postButtonClick(){
 
+    }
+
+    companion object {
+        private const val FIRST_DAY = 1
     }
 }

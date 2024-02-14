@@ -11,9 +11,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.aos.floney.R
 import com.aos.floney.databinding.ActivityHomeBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kr.ac.konkuk.gdsc.plantory.util.binding.BindingActivity
+import com.aos.floney.util.binding.BindingActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class HomeActivity : BindingActivity<ActivityHomeBinding>(R.layout.activity_home) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

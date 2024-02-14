@@ -1,5 +1,7 @@
 package com.aos.floney.domain.repository
 
-interface UserRepository {
+import com.aos.floney.data.dto.request.RequestPostRegisterUserDto
 
+interface UserRepository {
+    suspend fun postRegisterUser(requestPostRegisterUserDto: RequestPostRegisterUserDto): Result<Unit>
 }

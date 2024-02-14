@@ -9,7 +9,7 @@ import androidx.fragment.app.replace
 import com.aos.floney.R
 import com.aos.floney.databinding.ActivityMainBinding
 import com.aos.floney.presentation.home.HomeFragment
-import kr.ac.konkuk.gdsc.plantory.util.binding.BindingActivity
+import com.aos.floney.util.binding.BindingActivity
 
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {

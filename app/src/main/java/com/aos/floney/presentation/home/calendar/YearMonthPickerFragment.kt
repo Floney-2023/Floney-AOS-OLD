@@ -11,8 +11,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.aos.floney.R
 import com.aos.floney.presentation.home.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
-
+@AndroidEntryPoint
 class YearMonthPickerFragment : DialogFragment() {
 
     private val viewModel: HomeViewModel by viewModels(ownerProducer = {  requireActivity() })
