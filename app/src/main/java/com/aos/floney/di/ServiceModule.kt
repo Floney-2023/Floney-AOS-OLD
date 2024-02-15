@@ -20,6 +20,6 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun providePlantService(retrofit: Retrofit): CalendarService =
+    fun provideCalendarService(retrofit: Retrofit): CalendarService =
         retrofit.create(CalendarService::class.java)
 }

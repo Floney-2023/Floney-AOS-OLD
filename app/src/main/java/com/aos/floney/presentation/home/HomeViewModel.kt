@@ -112,10 +112,13 @@ class HomeViewModel @Inject constructor(
         val dateFormat = SimpleDateFormat("yyyy-M-d", Locale.getDefault())
         var currentDate = firstDayOfMonth?.time
 
-        val bookKey = "043526ce"
+        Log.d("selectDay", "onstart?:")
+
+        val Authorization = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ3bnNnbWw1MTdAZ21haWwuY29tIiwiaWF0IjoxNzA3OTc3OTA2LCJleHAiOjE3MDc5ODE1MDZ9.DG5sjnMv8TzDGo-YqyCxKhZeZM8YX3JHSCz4mmMLnYfRFdeRE55sFg1k2inR4Po8"
+        val bookKey = "4B1F8081"
         // 날짜에 따른 deposit, withdrawalAmount 받아오기(bookKey 예시)
         viewModelScope.launch {
-            calendarRepository.getbooksMonthData(bookKey, "2023-05-01")
+            calendarRepository.getbooksMonthData(Authorization, bookKey, "2023-05-01")
                 .onSuccess { response ->
                     if (response != null) {
                         _getCalendarInformationState.value =

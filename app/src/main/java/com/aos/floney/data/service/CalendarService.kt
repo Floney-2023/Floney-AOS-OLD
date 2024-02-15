@@ -10,8 +10,8 @@ interface CalendarService {
     @GET("/books/month")
     suspend fun getbooksMonthData(
         @Header("Authorization") authorization : String,
-        @Path("bookKey") bookKey : String,
-        @Path("date") date : String,
+        @Query("bookKey") bookKey : String,
+        @Query("date") date : String,
     ): GetbooksMonthResponseDto
 
 

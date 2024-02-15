@@ -9,11 +9,12 @@ class CalendarRepositoryImpl @Inject constructor(
     private val calendarDataSource: CalendarDataSource
 ) : CalendarRepository{
     override suspend fun getbooksMonthData(
+        authorization : String,
         bookKey: String,
         date: String
     ): Result<List<CalendarItem>?> =
         runCatching {
-            calendarDataSource.getbooksMonthData(bookKey, date).converToBooksMonth()
+            calendarDataSource.getbooksMonthData(authorization, bookKey, date).converToBooksMonth()
         }
 
 }
