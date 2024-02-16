@@ -27,7 +27,7 @@ import java.util.Calendar
 
 @AndroidEntryPoint
 class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.fragment_calendar){
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels(ownerProducer = {  requireActivity() })
     private lateinit var adapter: CalendarAdapter
     private var firstCallCalendar = true
 
@@ -71,26 +71,26 @@ class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.frag
             }
         }.launchIn(viewLifeCycleScope)
     }
-    private fun updateCalendar(plantHistories: List<CalendarItem>) {
+    private fun updateCalendar(calendarItems: List<CalendarItem>) {
         viewLifeCycleScope.launch {
             viewModel.calendar.collect {
 
-                /*val dayList = viewModel.updateCalendarDayList(
+                val dayList = viewModel.updateCalendarDayList(
                     viewModel.calendar.value.get(Calendar.YEAR),
                     viewModel.calendar.value.get(Calendar.MONTH))
-*/
+
                 binding.calendar.layoutManager = GridLayoutManager(context, Calendar.DAY_OF_WEEK)
 
                 adapter = CalendarAdapter(
                     currMonth = viewModel.calendar.value.get(
                         Calendar.MONTH),
-                    plantHistories = plantHistories,
-                    viewModel
+                    calendarItems = calendarItems,
+                    viewModel = viewModel
                 )
 
                 binding.calendar.adapter = adapter
 
-                adapter.submitList(plantHistories)
+                adapter.submitList(dayList)
 
                 firstCallCalendar = false
             }

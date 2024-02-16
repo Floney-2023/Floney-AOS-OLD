@@ -96,7 +96,49 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun updateCalendarItems() {
-        val itemList = mutableListOf<CalendarItem>()
+        val Authorization = ""
+        val bookKey = ""
+
+        val firstDayOfMonth = _calendar.value?.clone() as Calendar
+        firstDayOfMonth?.set(Calendar.DAY_OF_MONTH, 1)
+        val firstDayFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        // 날짜에 따른 deposit, withdrawalAmount 받아오기(bookKey 예시)
+        viewModelScope.launch {
+            calendarRepository.getbooksMonthData(Authorization, bookKey, firstDayFormat.format(firstDayOfMonth.time))
+                .onSuccess { response ->
+                    if (response != null) {
+                        _getCalendarInformationState.value =
+                            UiState.Success(response)
+                        Log.d("selectDay", "onsuccess: $response")
+                    } else {
+                        _getCalendarInformationState.value = UiState.Success(emptyList())
+                    }
+                }.onFailure { t ->
+                    Log.d("selectDay", "onfailure: ${t}")
+                    _getCalendarInformationState.value = UiState.Failure("${t.message}")
+                }
+        }
+    }
+    fun updateCalendarDayList(currYear: Int, currMonth: Int): MutableList<Date> {
+        /*calendar.value.set(Calendar.YEAR, currYear)
+        calendar.value.set(Calendar.MONTH, currMonth)
+        calendar.value.set(Calendar.DAY_OF_MONTH, FIRST_DAY)
+
+        val dayList: MutableList<Date> = mutableListOf()
+
+        for (i in 0..Calendar.WEEK_OF_MONTH) {
+            for (k in 0..Calendar.DAY_OF_YEAR) {
+                calendar.value.add(
+                    Calendar.DAY_OF_MONTH,
+                    (FIRST_DAY - calendar.value.get(Calendar.DAY_OF_WEEK)) + k
+                )
+                dayList.add(calendar.value.time.clone() as Date)
+            }
+            calendar.value.add(Calendar.WEEK_OF_MONTH, FIRST_DAY)
+        }
+        Log.d("CalendarFragment", "Calendar items updated: $dayList")*/
+        val dayList = mutableListOf<Date>()
         _calendar.value?.get(Calendar.MONTH) // 월에 대한 작업이 불필요한 경우 제거
 
         val firstDayOfMonth = _calendar.value?.clone() as Calendar
@@ -112,60 +154,17 @@ class HomeViewModel @Inject constructor(
         val dateFormat = SimpleDateFormat("yyyy-M-d", Locale.getDefault())
         var currentDate = firstDayOfMonth?.time
 
-        Log.d("selectDay", "onstart?:")
-
-        val Authorization = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ3bnNnbWw1MTdAZ21haWwuY29tIiwiaWF0IjoxNzA3OTc3OTA2LCJleHAiOjE3MDc5ODE1MDZ9.DG5sjnMv8TzDGo-YqyCxKhZeZM8YX3JHSCz4mmMLnYfRFdeRE55sFg1k2inR4Po8"
-        val bookKey = "4B1F8081"
-        // 날짜에 따른 deposit, withdrawalAmount 받아오기(bookKey 예시)
-        viewModelScope.launch {
-            calendarRepository.getbooksMonthData(Authorization, bookKey, "2023-05-01")
-                .onSuccess { response ->
-                    if (response != null) {
-                        _getCalendarInformationState.value =
-                            UiState.Success(response)
-                        Log.d("selectDay", "onsuccess: $response")
-                    } else {
-                        _getCalendarInformationState.value = UiState.Success(emptyList())
-                    }
-                }.onFailure { t ->
-                    Log.d("selectDay", "onfailure: ${t}")
-                    _getCalendarInformationState.value = UiState.Failure("${t.message}")
-                }
-        }
-
+        Log.d("selectDay", "updateCalendarDayList?:")
         while (!currentDate?.after(lastDayOfMonth?.time)!!) {
             Log.d("CalendarFragment", "Calendar items updated: $currentDate")
             var date = dateFormat.format(currentDate)
             val isCurrentMonth = (currentDate >= first && currentDate <= last)
 
-            if (!isCurrentMonth)
-                date=""
-
-            //val depositAmount = "+${Random().nextInt(10000)}"
-            //val withdrawalAmount = "${Random().nextInt(5000)}"
-
+            dayList.add(currentDate)
             val nextDate = Calendar.getInstance()
             nextDate.time = currentDate
             nextDate.add(Calendar.DATE, 1)
             currentDate = nextDate.time
-        }
-    }
-    fun updateCalendarDayList(currYear: Int, currMonth: Int): MutableList<Date> {
-        calendar.value.set(Calendar.YEAR, currYear)
-        calendar.value.set(Calendar.MONTH, currMonth)
-        calendar.value.set(Calendar.DAY_OF_MONTH, FIRST_DAY)
-
-        val dayList: MutableList<Date> = mutableListOf()
-
-        for (i in 0..Calendar.WEEK_OF_MONTH) {
-            for (k in 0..Calendar.DAY_OF_YEAR) {
-                calendar.value.add(
-                    Calendar.DAY_OF_MONTH,
-                    (FIRST_DAY - calendar.value.get(Calendar.DAY_OF_WEEK)) + k
-                )
-                dayList.add(calendar.value.time.clone() as Date)
-            }
-            calendar.value.add(Calendar.WEEK_OF_MONTH, FIRST_DAY)
         }
         return dayList
     }

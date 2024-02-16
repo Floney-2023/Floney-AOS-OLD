@@ -12,16 +12,16 @@ data class GetbooksMonthResponseDto (
     @SerialName("carryOverInfo")
     val carryOverInfo : CarryOverInfo,
     @SerialName("totalIncome")
-    val totalIncome : Int,
-    @SerialName("totalOutCome")
-    val totalOutCome : Int,
+    val totalIncome : Double,
+    @SerialName("totalOutcome")
+    val totalOutCome : Double,
 ){
     @Serializable
     data class booksMonthDto(
         @SerialName("date")
         val date : String,
         @SerialName("money")
-        val money : Int,
+        val money : Double,
         @SerialName("assetType")
         val assetType : String
         )
@@ -30,7 +30,7 @@ data class GetbooksMonthResponseDto (
         @SerialName("carryOverStatus")
         val carryOverStatus : Boolean,
         @SerialName("carryOverMoney")
-        val carryOverMoney : Int,
+        val carryOverMoney : Double,
     )
     fun converToBooksMonth(): List<CalendarItem>? = expenses?.map { data ->
         CalendarItem(

@@ -17,15 +17,16 @@ import com.aos.floney.util.view.ItemDiffCallback
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
 class CalendarAdapter(
     private val currMonth: Int,
-    private val plantHistories: List<CalendarItem>,
+    private val calendarItems: List<CalendarItem>,
     private val viewModel: HomeViewModel
-) : ListAdapter<CalendarItem, CalendarAdapter.ViewHolder>(
-    ItemDiffCallback<CalendarItem>(
+) : ListAdapter<Date, CalendarAdapter.ViewHolder>(
+    ItemDiffCallback<Date>(
         onItemsTheSame = { old, new -> old == new },
         onContentsTheSame = { old, new -> old == new }
     )
@@ -33,33 +34,43 @@ class CalendarAdapter(
     class ViewHolder(
         private val binding : ItemCustomCalendarBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
+        var currMonth: Int = 0
         private val dayText: TextView = binding.dateTextView
         private val incomeText: TextView = binding.withdrawalTextView
         private val outcomeText: TextView = binding.depositTextView
 
-        fun onBind(item: CalendarItem) {
+        fun onBind(date: Date, calendarItems: List<CalendarItem>) {
+
+            val dateFormat = SimpleDateFormat("d", Locale.getDefault())
+            val fullDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
             val currentDate = LocalDate.now()
-            val formattedDate = SimpleDateFormat("yyyy.M.d", Locale.getDefault()).format(Date.from(currentDate.atStartOfDay(
+            val formattedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date.from(currentDate.atStartOfDay(
                 ZoneId.systemDefault()).toInstant()))
 
+            val day = dateFormat.format(date)
+            val index = day.toInt()-1
 
-            val parts = item.date.split("-")
-            val dayOfMonth = parts.lastOrNull() ?: ""
+            dayText.text = day
+            incomeText.text = getFormattedMoneyText(calendarItems[index].money, calendarItems[index].assetType == CalendarItemType.INCOME)
+            outcomeText.text =  getFormattedMoneyText(calendarItems[index].money, calendarItems[index].assetType == CalendarItemType.INCOME)
 
-            dayText.text = dayOfMonth
-            incomeText.text = getFormattedMoneyText(item.money, item.assetType == CalendarItemType.INCOME)
-            outcomeText.text =  getFormattedMoneyText(item.money, item.assetType == CalendarItemType.OUTCOME)
+
 
             // 오늘 날짜 배경 처리
-            if (item.date == formattedDate) {
+            if (fullDateFormat.format(date) == formattedDate) {
                 dayText.setBackgroundResource(R.drawable.ellipse)
                 // ContextCompat.getColor를 사용하여 색상 값 가져오기
                 dayText.setTextColor(ContextCompat.getColor(dayText.context, R.color.white))
             }
 
+            if (incomeText.text.toString().toDouble()==0.0)
+                incomeText.visibility = View.INVISIBLE
+            if (outcomeText.text.toString().toDouble()==0.0)
+                outcomeText.visibility = View.INVISIBLE
+
             // 현재 월에 속하는 날짜만 보이도록 처리
-            if (item.date=="") {
+            if (date.month != currMonth) {
                 binding.root.visibility = View.INVISIBLE
             } else {
                 binding.root.visibility = View.VISIBLE
@@ -67,17 +78,17 @@ class CalendarAdapter(
 
             // Set up click listener
             binding.root.setOnClickListener {
-                dailyBottomSheet(binding, item.date)
+                dailyBottomSheet(binding, date)
             }
         }
-        fun dailyBottomSheet(binding: ItemCustomCalendarBinding, date : String) {
+        fun dailyBottomSheet(binding: ItemCustomCalendarBinding, dailyDate : Date) {
             val bottomSheetPostFragment = BottomSheetFragment()
             bottomSheetPostFragment.show(
                 (binding.root.context as AppCompatActivity).supportFragmentManager,
                 bottomSheetPostFragment.tag
             )
         }
-        fun getFormattedMoneyText(money: Int, isIncome: Boolean): String {
+        fun getFormattedMoneyText(money: Double, isIncome: Boolean): String {
             val sign = if (isIncome) "+" else "-"
             return "$sign$money"
         }
@@ -90,8 +101,9 @@ class CalendarAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.onBind(item)
+        holder.currMonth = currMonth
+        val date = getItem(position)
+        holder.onBind(date, calendarItems)
     }
 
 
