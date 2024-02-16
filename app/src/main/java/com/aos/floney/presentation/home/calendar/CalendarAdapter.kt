@@ -48,12 +48,7 @@ class CalendarAdapter(
             val formattedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date.from(currentDate.atStartOfDay(
                 ZoneId.systemDefault()).toInstant()))
 
-            val day = dateFormat.format(date)
-            val index = day.toInt()-1
 
-            dayText.text = day
-            incomeText.text = getFormattedMoneyText(calendarItems[index].money, calendarItems[index].assetType == CalendarItemType.INCOME)
-            outcomeText.text =  getFormattedMoneyText(calendarItems[index].money, calendarItems[index].assetType == CalendarItemType.INCOME)
 
 
 
@@ -64,15 +59,25 @@ class CalendarAdapter(
                 dayText.setTextColor(ContextCompat.getColor(dayText.context, R.color.white))
             }
 
-            if (incomeText.text.toString().toDouble()==0.0)
-                incomeText.visibility = View.INVISIBLE
-            if (outcomeText.text.toString().toDouble()==0.0)
-                outcomeText.visibility = View.INVISIBLE
 
             // 현재 월에 속하는 날짜만 보이도록 처리
             if (date.month != currMonth) {
                 binding.root.visibility = View.INVISIBLE
             } else {
+                val day = dateFormat.format(date)
+                val index = (day.toInt()-1)*2
+
+                val recordItems = calendarItems.groupBy { it.date.takeLast(2) }
+
+                dayText.text = day
+                incomeText.text = getFormattedMoneyText(calendarItems[index].money, calendarItems[index].assetType == CalendarItemType.INCOME)
+                outcomeText.text =  getFormattedMoneyText(calendarItems[index+1].money, calendarItems[index+1].assetType == CalendarItemType.INCOME)
+
+                if (incomeText.text.toString().toDouble()==0.0)
+                    incomeText.visibility = View.GONE
+                if (outcomeText.text.toString().toDouble()==0.0)
+                    outcomeText.visibility = View.GONE
+
                 binding.root.visibility = View.VISIBLE
             }
 
