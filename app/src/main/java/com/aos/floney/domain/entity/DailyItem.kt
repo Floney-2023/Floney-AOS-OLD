@@ -1,26 +1,26 @@
 package com.aos.floney.domain.entity
 
 data class DayLinesResponse(
-    val dayLinesResponse: List<DayLinesResults?>,
-    val totalExpense: List<DayTotalExpenses?>,
+    val dayLinesResponse: List<DailyItem?>,
+    val totalExpense: List<TotalExpense?>,
     val carryOverInfo: CarryOverInfo,
     val seeProfileImg: Boolean
 )
 
-data class DayLinesResults(
+data class DailyItem(
     val id: Int,
     val money: Double,
-    val img: String?, // null default
+    val img: String,
     val category: List<String>,
-    val assetType: String,
+    val assetType: CalendarItemType,
     val content: String,
+    val userEmail: String,
     val exceptStatus: Boolean,
     val userNickName: String
 )
-
-data class DayTotalExpenses(
+data class TotalExpense(
     val money: Double,
-    val assetType: String
+    val assetType: CalendarItemType
 )
 
 data class CarryOverInfo(
