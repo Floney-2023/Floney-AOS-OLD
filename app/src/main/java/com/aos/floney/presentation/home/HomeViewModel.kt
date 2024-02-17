@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.aos.floney.domain.entity.CalendarItem
 import com.aos.floney.domain.entity.DailyItem
 import com.aos.floney.domain.entity.DailyViewItem
+import com.aos.floney.domain.entity.TotalExpense
 import com.aos.floney.domain.repository.CalendarRepository
 import com.aos.floney.util.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,8 +47,8 @@ class HomeViewModel @Inject constructor(
         _getCalendarInformationState.asStateFlow()
 
     private val _getDailyInformationState =
-        MutableStateFlow<UiState<List<DailyItem>>>(UiState.Loading)
-    val getDailyInformationState: StateFlow<UiState<List<DailyItem>>> =
+        MutableStateFlow<UiState<Pair<List<DailyItem>?, List<TotalExpense>?>>>(UiState.Loading)
+    val getDailyInformationState: StateFlow<UiState<Pair<List<DailyItem>?, List<TotalExpense>?>>> =
         _getDailyInformationState.asStateFlow()
 
 
@@ -200,13 +201,14 @@ class HomeViewModel @Inject constructor(
         // 날짜에 따른 deposit, withdrawalAmount 받아오기(bookKey 예시)
         viewModelScope.launch {
             calendarRepository.getbooksDaysData(Authorization, bookKey, dateFormat.format(date))
-                .onSuccess { response ->
-                    if (response != null) {
-                        _getDailyInformationState.value =
-                            UiState.Success(response)
-                        Log.d("selectDaily", "onsuccess: $response")
-                    } else {
-                        _getDailyInformationState.value = UiState.Success(emptyList())
+                .onSuccess { (dailyItems, totalExpenses) ->
+                    if (dailyItems != null) {
+                        _getDailyInformationState.value = UiState.Success(Pair(dailyItems,totalExpenses))
+                        Log.d("selectDaily", "onsuccess: $dailyItems")
+                    }
+
+                    if (totalExpenses != null) {
+
                     }
                 }.onFailure { t ->
                     Log.d("selectDaily", "onfailure: ${t}")

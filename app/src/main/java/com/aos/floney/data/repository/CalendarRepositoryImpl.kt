@@ -3,6 +3,7 @@ package com.aos.floney.data.repository
 import com.aos.floney.data.source.CalendarDataSource
 import com.aos.floney.domain.entity.CalendarItem
 import com.aos.floney.domain.entity.DailyItem
+import com.aos.floney.domain.entity.TotalExpense
 import com.aos.floney.domain.repository.CalendarRepository
 import javax.inject.Inject
 
@@ -21,9 +22,13 @@ class CalendarRepositoryImpl @Inject constructor(
         authorization : String,
         bookKey: String,
         date: String
-    ): Result<List<DailyItem>?> =
+    ): Result<Pair<List<DailyItem>?, List<TotalExpense>?>> =
         runCatching {
-            calendarDataSource.getbooksDaysData(authorization, bookKey, date).convertToDailyItems()
+            val response = calendarDataSource.getbooksDaysData(authorization, bookKey, date)
+            val dailyItems = response.convertToDailyItems()
+            val totalExpense = response.convertToTotalExpense()
+
+            Pair(dailyItems, totalExpense)
         }
 
 }

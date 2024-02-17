@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentDailyBinding
 import com.aos.floney.domain.entity.CalendarItem
+import com.aos.floney.domain.entity.CalendarItemType
 import com.aos.floney.domain.entity.DailyItem
+import com.aos.floney.domain.entity.TotalExpense
 import com.aos.floney.presentation.home.HomeViewModel
 import com.aos.floney.presentation.home.calendar.CalendarAdapter
 import com.aos.floney.presentation.home.calendar.CalendarViewModel
@@ -77,12 +79,14 @@ class DailyFragment  : BindingFragment<FragmentDailyBinding>(R.layout.fragment_d
         viewModel.getDailyInformationState.flowWithLifecycle(viewLifeCycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data.isEmpty()) {
+                    if (state.data.first?.isEmpty() == true) {
                         binding.dailyEmptyCalendar.visibility = View.VISIBLE
                         binding.dailyCalendar.visibility = View.GONE
                     } else {
                         //deactivateLoadingProgressBar()
-                        updateCalendar(state.data)
+                        updateCalendar(state.data.first!!)
+                        updateTotalView(state.data.second?.get(0)!!)
+
                         binding.dailyEmptyCalendar.visibility = View.GONE
                         binding.dailyCalendar.visibility = View.VISIBLE
                     }
@@ -95,6 +99,13 @@ class DailyFragment  : BindingFragment<FragmentDailyBinding>(R.layout.fragment_d
                 }
             }
         }.launchIn(viewLifeCycleScope)
+    }
+    private fun updateTotalView(total: TotalExpense){
+        if (total.assetType == CalendarItemType.INCOME)
+            binding.totalIncome.text = total.money.toString()
+        else
+            binding.totalOutcome.text = total.money.toString()
+
     }
     private fun updateCalendar(dailyItems: List<DailyItem>) {
         viewLifeCycleScope.launch {
