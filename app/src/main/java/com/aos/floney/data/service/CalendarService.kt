@@ -16,7 +16,7 @@ interface CalendarService {
         @Query("date") date : String,
     ): GetbooksMonthResponseDto
 
-    @POST("/books/days")
+    @GET("/books/days")
     suspend fun getbooksDaysData(
         @Header("Authorization") authorization : String,
         @Query("bookKey") bookKey : String,

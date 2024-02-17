@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aos.floney.domain.entity.CalendarItem
+import com.aos.floney.domain.entity.DailyItem
 import com.aos.floney.domain.entity.DailyViewItem
 import com.aos.floney.domain.repository.CalendarRepository
 import com.aos.floney.util.view.UiState
@@ -26,6 +27,9 @@ class HomeViewModel @Inject constructor(
     private val calendarRepository: CalendarRepository
 ) : ViewModel() {
 
+    val Authorization = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ3bnNnbWw1MTdAZ21haWwuY29tIiwiaWF0IjoxNzA4MTgzMDA5LCJleHAiOjE3MDgxODY2MDl9.7jkR32iDUZCHA9vF5Vrthj5FW3wPoJEWhYLns8Q007IBrmCmsngf2KfOGk4MSBSO"
+    val bookKey = "4B1F8081"
+
     private val _calendarItems = MutableLiveData<List<CalendarItem>>()
     val calendarItems: LiveData<List<CalendarItem>> get() = _calendarItems
 
@@ -40,6 +44,11 @@ class HomeViewModel @Inject constructor(
         MutableStateFlow<UiState<List<CalendarItem>>>(UiState.Loading)
     val getCalendarInformationState: StateFlow<UiState<List<CalendarItem>>> =
         _getCalendarInformationState.asStateFlow()
+
+    private val _getDailyInformationState =
+        MutableStateFlow<UiState<List<DailyItem>>>(UiState.Loading)
+    val getDailyInformationState: StateFlow<UiState<List<DailyItem>>> =
+        _getDailyInformationState.asStateFlow()
 
 
     private val _postRegisterCalendarState = MutableStateFlow<UiState<Unit>>(UiState.Loading)
@@ -96,8 +105,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun updateCalendarItems() {
-        val Authorization = ""
-        val bookKey = ""
+
 
         val firstDayOfMonth = _calendar.value?.clone() as Calendar
         firstDayOfMonth?.set(Calendar.DAY_OF_MONTH, 1)
@@ -187,8 +195,25 @@ class HomeViewModel @Inject constructor(
     private fun updateDailyItems(date: Date?) {
 
         val dailyItemList = mutableListOf<DailyViewItem>()
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
-        for (i in 1..7){
+        // 날짜에 따른 deposit, withdrawalAmount 받아오기(bookKey 예시)
+        viewModelScope.launch {
+            calendarRepository.getbooksDaysData(Authorization, bookKey, dateFormat.format(date))
+                .onSuccess { response ->
+                    if (response != null) {
+                        _getDailyInformationState.value =
+                            UiState.Success(response)
+                        Log.d("selectDaily", "onsuccess: $response")
+                    } else {
+                        _getDailyInformationState.value = UiState.Success(emptyList())
+                    }
+                }.onFailure { t ->
+                    Log.d("selectDaily", "onfailure: ${t}")
+                    _getDailyInformationState.value = UiState.Failure("${t.message}")
+                }
+        }
+        /*for (i in 1..7){
             val randomDailyItem = DailyViewItem(
                 id = 1,
                 money = Random().nextInt(10000),
@@ -206,7 +231,7 @@ class HomeViewModel @Inject constructor(
 
         Log.d("selectDay", "Calendar items updated: $dailyItemList")
 
-        _dailyItems.value = dailyItemList
+        _dailyItems.value = dailyItemList*/
     }
     // 내역 추가 버튼
     fun postButtonClick(){

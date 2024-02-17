@@ -60,7 +60,6 @@ data class GetbooksDaysResponseDto(
         return dayLinesResponse?.map { dayLineItem ->
             val categories = dayLineItem.category
             val assetType = CalendarItemType.valueOf(dayLineItem.assetType)
-            val mainCategory = if (categories.isNotEmpty()) categories[0] else ""
 
             DailyItem(
                 id = dayLineItem.id,
