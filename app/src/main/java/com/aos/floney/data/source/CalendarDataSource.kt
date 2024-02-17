@@ -1,6 +1,7 @@
 package com.aos.floney.data.source
 
 import com.aos.floney.data.service.CalendarService
+import com.aos.floney.domain.entity.DailyItem
 import javax.inject.Inject
 
 class CalendarDataSource @Inject constructor(
@@ -11,6 +12,12 @@ class CalendarDataSource @Inject constructor(
         bookKey :String,
         date : String
     ) = calendarService.getbooksMonthData(authorization, bookKey, date)
+
+    suspend fun getbooksDaysData(
+        authorization : String,
+        bookKey: String,
+        date: String
+    ) = calendarService.getbooksDaysData(authorization, bookKey, date)
 
 
 }
