@@ -28,7 +28,7 @@ class HomeViewModel @Inject constructor(
     private val calendarRepository: CalendarRepository
 ) : ViewModel() {
 
-    val Authorization = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ3bnNnbWw1MTdAZ21haWwuY29tIiwiaWF0IjoxNzA4MTgzMDA5LCJleHAiOjE3MDgxODY2MDl9.7jkR32iDUZCHA9vF5Vrthj5FW3wPoJEWhYLns8Q007IBrmCmsngf2KfOGk4MSBSO"
+    val Authorization = ""
     val bookKey = "4B1F8081"
 
     private val _calendarItems = MutableLiveData<List<CalendarItem>>()
@@ -83,11 +83,12 @@ class HomeViewModel @Inject constructor(
         updateDailyItems(_calendar.value?.time)
     }
 
-    fun clickSelectDate(selectDay: Int) {
+    fun clickSelectDate(selectDay: Date) {
 
         viewModelScope.launch{
-            _calendar.value?.set(Calendar.DATE, selectDay)
-            _calendar.emit(_calendar.value)
+            val calendarInstance = _calendar.value ?: Calendar.getInstance()
+            calendarInstance.time = selectDay
+            _calendar.emit(calendarInstance)
             Log.d("selectDay", "Calendar items updated: ${_calendar.value?.time}")
             updateDailyItems(_calendar.value?.time)
         }
@@ -193,7 +194,7 @@ class HomeViewModel @Inject constructor(
     }
 
     // 날짜에 맞는 item 들고와야함, 임의로 설정
-    private fun updateDailyItems(date: Date?) {
+    fun updateDailyItems(date: Date?) {
 
         val dailyItemList = mutableListOf<DailyViewItem>()
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())

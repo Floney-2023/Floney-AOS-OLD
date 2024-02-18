@@ -1,5 +1,6 @@
 package com.aos.floney.presentation.home.calendar
 
+import android.content.ContextWrapper
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -85,7 +86,17 @@ class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.frag
                     currMonth = viewModel.calendar.value.get(
                         Calendar.MONTH),
                     calendarItems = calendarItems,
-                    viewModel = viewModel
+                    viewModel = viewModel,
+                    onDateClick = {
+                        date ->
+                        viewModel.clickSelectDate(date)
+                        Log.d("selectDay", "Calendar items updated: ${date}")
+                        val bottomSheetPostFragment = BottomSheetFragment()
+                        bottomSheetPostFragment.show(
+                            childFragmentManager,
+                            bottomSheetPostFragment.tag
+                        )
+                    }
                 )
 
                 binding.calendar.adapter = adapter

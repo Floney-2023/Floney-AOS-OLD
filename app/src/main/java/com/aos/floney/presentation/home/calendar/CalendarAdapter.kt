@@ -1,11 +1,13 @@
 package com.aos.floney.presentation.home.calendar
 
+import android.content.ContextWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aos.floney.R
@@ -24,7 +26,8 @@ import java.util.Locale
 class CalendarAdapter(
     private val currMonth: Int,
     private val calendarItems: List<CalendarItem>,
-    private val viewModel: HomeViewModel
+    private val viewModel: HomeViewModel,
+    private val onDateClick: (Date) -> Unit
 ) : ListAdapter<Date, CalendarAdapter.ViewHolder>(
     ItemDiffCallback<Date>(
         onItemsTheSame = { old, new -> old == new },
@@ -33,6 +36,7 @@ class CalendarAdapter(
 ){
     class ViewHolder(
         private val binding : ItemCustomCalendarBinding,
+        private val onDateClick: (Date) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         var currMonth: Int = 0
         private val dayText: TextView = binding.dateTextView
@@ -83,15 +87,16 @@ class CalendarAdapter(
 
             // Set up click listener
             binding.root.setOnClickListener {
-                dailyBottomSheet(binding, date)
+                onDateClick(date)
+            //dailyBottomSheet(binding, date)
             }
         }
         fun dailyBottomSheet(binding: ItemCustomCalendarBinding, dailyDate : Date) {
-            val bottomSheetPostFragment = BottomSheetFragment()
+            /*val bottomSheetPostFragment = BottomSheetFragment()
             bottomSheetPostFragment.show(
-                (binding.root.context as AppCompatActivity).supportFragmentManager,
+                (binding.root.context as ContextWrapper).baseContext,
                 bottomSheetPostFragment.tag
-            )
+            )*/
         }
         fun getFormattedMoneyText(money: Double, isIncome: Boolean): String {
             val sign = if (isIncome) "+" else "-"
@@ -102,7 +107,7 @@ class CalendarAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             ItemCustomCalendarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(binding, onDateClick)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
