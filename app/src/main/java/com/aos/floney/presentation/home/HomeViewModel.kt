@@ -29,17 +29,11 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     val Authorization = ""
-    val bookKey = "4B1F8081"
-
-    private val _calendarItems = MutableLiveData<List<CalendarItem>>()
-    val calendarItems: LiveData<List<CalendarItem>> get() = _calendarItems
-
-    private val _dailyItems = MutableStateFlow<List<DailyViewItem>>(mutableListOf<DailyViewItem>())
-    val dailyItems: StateFlow<List<DailyViewItem>> get() = _dailyItems
+    val bookKey = ""
 
     // calendar를 MutableStateFlow로 변경
     private val _calendar = MutableStateFlow<Calendar>(Calendar.getInstance())
-    val calendar: StateFlow<Calendar> get() = _calendar
+    val calendar: MutableStateFlow<Calendar> get() = _calendar
 
     private val _getCalendarInformationState =
         MutableStateFlow<UiState<List<CalendarItem>>>(UiState.Loading)
@@ -97,9 +91,10 @@ class HomeViewModel @Inject constructor(
     fun clickSelectYearMonth(selectYear : Int, selectMonth: Int) {
 
         viewModelScope.launch{
-            _calendar.value?.set(Calendar.YEAR, selectYear)
-            _calendar.value?.set(Calendar.MONTH, selectMonth)
-            _calendar.emit(_calendar.value)
+            val calendarInstance = _calendar.value
+            calendarInstance?.set(Calendar.YEAR, selectYear)
+            calendarInstance?.set(Calendar.MONTH, selectMonth)
+            _calendar.emit(calendarInstance)
             Log.d("selectMonthYear", "Calendar items updated: ${_calendar.value?.time}")
             updateCalendarItems()
         }

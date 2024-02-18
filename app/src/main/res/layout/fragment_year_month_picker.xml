@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -17,7 +18,7 @@
             android:layout_height="wrap_content"
             android:text="@string/date_pick_button"
             android:layout_weight="1"
-            android:textSize="18sp"
+            android:textSize="13sp"
             android:fontFamily="@font/floney_pretendard_bold"
             android:textAllCaps="false"
             />
@@ -34,6 +35,7 @@
             android:layout_height="150dp"
             android:layout_margin="10dp"
             android:theme="@style/NumberPickerStyle"
+            android:alpha = "1.0"
             android:selectionDividerHeight="0dp"
             >
         </NumberPicker>
@@ -44,6 +46,7 @@
             android:layout_height="150dp"
             android:layout_margin="10dp"
             android:selectionDividerHeight="0dp"
+            android:alpha = "1.0"
             android:theme="@style/NumberPickerStyle"
             >
         </NumberPicker>

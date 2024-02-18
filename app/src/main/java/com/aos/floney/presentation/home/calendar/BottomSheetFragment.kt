@@ -43,6 +43,9 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onStart() {
         super.onStart()
+        dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)?.let { bottomSheet ->
+            BottomSheetBehavior.from(bottomSheet).isGestureInsetBottomIgnored = false
+        }
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
