@@ -1,6 +1,5 @@
 package com.aos.floney.data.dto.response
 
-import com.aos.floney.domain.entity.CalendarItem
 import com.aos.floney.domain.entity.CalendarItemType
 import com.aos.floney.domain.entity.DailyItem
 import com.aos.floney.domain.entity.TotalExpense

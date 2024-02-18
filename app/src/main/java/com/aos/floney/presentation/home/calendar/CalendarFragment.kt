@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentCalendarBinding
-import com.aos.floney.domain.entity.CalendarItem
+import com.aos.floney.domain.entity.GetbooksMonthData
 import com.aos.floney.presentation.home.HomeViewModel
 import com.aos.floney.util.fragment.snackBar
 import com.aos.floney.util.fragment.viewLifeCycle
@@ -57,10 +57,11 @@ class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.frag
         viewModel.getCalendarInformationState.flowWithLifecycle(viewLifeCycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data.isEmpty() && !firstCallCalendar) {
+                    if (state.data.calendarItems!!.isEmpty()&& !firstCallCalendar) {
                     } else {
                         //deactivateLoadingProgressBar()
-                        updateCalendar(state.data)
+                        updateCardView(state.data.totalIncome, state.data.totalOutcome)
+                        updateCalendar(state.data.calendarItems)
                     }
                 }
 
@@ -72,7 +73,11 @@ class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.frag
             }
         }.launchIn(viewLifeCycleScope)
     }
-    private fun updateCalendar(calendarItems: List<CalendarItem>) {
+    private fun updateCardView(totalIncome : Double, totalOutcome: Double){
+        binding.totalOutcome.text = totalOutcome.toInt().toString()+"원"
+        binding.totalIncome.text = totalIncome.toInt().toString()+"원"
+    }
+    private fun updateCalendar(calendarItems: List<GetbooksMonthData.CalendarItem>) {
         viewLifeCycleScope.launch {
             viewModel.calendar.collect {
 

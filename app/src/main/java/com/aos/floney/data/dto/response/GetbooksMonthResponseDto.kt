@@ -1,7 +1,7 @@
 package com.aos.floney.data.dto.response
 
-import com.aos.floney.domain.entity.CalendarItem
 import com.aos.floney.domain.entity.CalendarItemType
+import com.aos.floney.domain.entity.GetbooksMonthData
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -32,12 +32,16 @@ data class GetbooksMonthResponseDto (
         @SerialName("carryOverMoney")
         val carryOverMoney : Double,
     )
-    fun converToBooksMonth(): List<CalendarItem>? = expenses?.map { data ->
-        CalendarItem(
+    fun converToBooksMonth(): List<GetbooksMonthData.CalendarItem>? = expenses?.map { data ->
+        GetbooksMonthData.CalendarItem(
             date = data.date,
             money = data.money,
             assetType = CalendarItemType.valueOf(data.assetType)
         )
-
     }
+    fun convertToCarryOverInfo(): GetbooksMonthData.CarryOverInfo =
+        GetbooksMonthData.CarryOverInfo(
+            carryOverStatus = carryOverInfo.carryOverStatus,
+            carryOverMoney = carryOverInfo.carryOverMoney
+        )
 }

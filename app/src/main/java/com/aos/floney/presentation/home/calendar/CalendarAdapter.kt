@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aos.floney.R
 import com.aos.floney.databinding.ItemCustomCalendarBinding
-import com.aos.floney.domain.entity.CalendarItem
 import com.aos.floney.domain.entity.CalendarItemType
+import com.aos.floney.domain.entity.GetbooksMonthData
 import com.aos.floney.presentation.home.HomeViewModel
 import com.aos.floney.util.view.ItemDiffCallback
 import java.text.SimpleDateFormat
@@ -25,7 +25,7 @@ import java.util.Locale
 
 class CalendarAdapter(
     private val currMonth: Int,
-    private val calendarItems: List<CalendarItem>,
+    private val calendarItems: List<GetbooksMonthData.CalendarItem>,
     private val viewModel: HomeViewModel,
     private val onDateClick: (Date) -> Unit
 ) : ListAdapter<Date, CalendarAdapter.ViewHolder>(
@@ -43,7 +43,7 @@ class CalendarAdapter(
         private val incomeText: TextView = binding.withdrawalTextView
         private val outcomeText: TextView = binding.depositTextView
 
-        fun onBind(date: Date, calendarItems: List<CalendarItem>) {
+        fun onBind(date: Date, calendarItems: List<GetbooksMonthData.CalendarItem>) {
 
             val dateFormat = SimpleDateFormat("d", Locale.getDefault())
             val fullDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -88,19 +88,11 @@ class CalendarAdapter(
             // Set up click listener
             binding.root.setOnClickListener {
                 onDateClick(date)
-            //dailyBottomSheet(binding, date)
             }
-        }
-        fun dailyBottomSheet(binding: ItemCustomCalendarBinding, dailyDate : Date) {
-            /*val bottomSheetPostFragment = BottomSheetFragment()
-            bottomSheetPostFragment.show(
-                (binding.root.context as ContextWrapper).baseContext,
-                bottomSheetPostFragment.tag
-            )*/
         }
         fun getFormattedMoneyText(money: Double, isIncome: Boolean): String {
             val sign = if (isIncome) "+" else "-"
-            return "$sign$money"
+            return "$sign${money.toInt()}"
         }
     }
 

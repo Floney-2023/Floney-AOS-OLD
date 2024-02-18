@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aos.floney.R
 import com.aos.floney.databinding.ItemCustomCalendarBinding
 import com.aos.floney.databinding.ItemCustomDailyBinding
-import com.aos.floney.domain.entity.CalendarItem
 import com.aos.floney.domain.entity.CalendarItemType
 import com.aos.floney.domain.entity.DailyItem
 import com.aos.floney.domain.entity.DailyViewItem
@@ -50,7 +49,7 @@ class DailyAdapter(
         }
         fun getFormattedMoneyText(money: Double, isIncome: Boolean): String {
             val sign = if (isIncome) "+" else "-"
-            return "$sign$money"
+            return "$sign${money.toInt()}"
         }
     }
 

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentDailyBinding
-import com.aos.floney.domain.entity.CalendarItem
 import com.aos.floney.domain.entity.CalendarItemType
 import com.aos.floney.domain.entity.DailyItem
 import com.aos.floney.domain.entity.TotalExpense

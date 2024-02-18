@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.aos.floney.domain.entity.CalendarItem
 import com.aos.floney.domain.entity.DailyViewItem
 import java.text.SimpleDateFormat
 import java.util.*

@@ -1,13 +1,15 @@
 package com.aos.floney.presentation.home
 
 import android.util.Log
+import androidx.datastore.preferences.protobuf.Empty
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aos.floney.domain.entity.CalendarItem
+import com.aos.floney.data.dto.response.GetbooksMonthResponseDto
 import com.aos.floney.domain.entity.DailyItem
 import com.aos.floney.domain.entity.DailyViewItem
+import com.aos.floney.domain.entity.GetbooksMonthData
 import com.aos.floney.domain.entity.TotalExpense
 import com.aos.floney.domain.repository.CalendarRepository
 import com.aos.floney.util.view.UiState
@@ -36,8 +38,8 @@ class HomeViewModel @Inject constructor(
     val calendar: MutableStateFlow<Calendar> get() = _calendar
 
     private val _getCalendarInformationState =
-        MutableStateFlow<UiState<List<CalendarItem>>>(UiState.Loading)
-    val getCalendarInformationState: StateFlow<UiState<List<CalendarItem>>> =
+        MutableStateFlow<UiState<GetbooksMonthData>>(UiState.Loading)
+    val getCalendarInformationState: StateFlow<UiState<GetbooksMonthData>> =
         _getCalendarInformationState.asStateFlow()
 
     private val _getDailyInformationState =
@@ -117,7 +119,7 @@ class HomeViewModel @Inject constructor(
                             UiState.Success(response)
                         Log.d("selectDay", "onsuccess: $response")
                     } else {
-                        _getCalendarInformationState.value = UiState.Success(emptyList())
+                        _getCalendarInformationState.value = UiState.Success(response)
                     }
                 }.onFailure { t ->
                     Log.d("selectDay", "onfailure: ${t}")
@@ -126,23 +128,7 @@ class HomeViewModel @Inject constructor(
         }
     }
     fun updateCalendarDayList(currYear: Int, currMonth: Int): MutableList<Date> {
-        /*calendar.value.set(Calendar.YEAR, currYear)
-        calendar.value.set(Calendar.MONTH, currMonth)
-        calendar.value.set(Calendar.DAY_OF_MONTH, FIRST_DAY)
 
-        val dayList: MutableList<Date> = mutableListOf()
-
-        for (i in 0..Calendar.WEEK_OF_MONTH) {
-            for (k in 0..Calendar.DAY_OF_YEAR) {
-                calendar.value.add(
-                    Calendar.DAY_OF_MONTH,
-                    (FIRST_DAY - calendar.value.get(Calendar.DAY_OF_WEEK)) + k
-                )
-                dayList.add(calendar.value.time.clone() as Date)
-            }
-            calendar.value.add(Calendar.WEEK_OF_MONTH, FIRST_DAY)
-        }
-        Log.d("CalendarFragment", "Calendar items updated: $dayList")*/
         val dayList = mutableListOf<Date>()
         _calendar.value?.get(Calendar.MONTH) // 월에 대한 작업이 불필요한 경우 제거
 
@@ -190,8 +176,6 @@ class HomeViewModel @Inject constructor(
 
     // 날짜에 맞는 item 들고와야함, 임의로 설정
     fun updateDailyItems(date: Date?) {
-
-        val dailyItemList = mutableListOf<DailyViewItem>()
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
         // 날짜에 따른 deposit, withdrawalAmount 받아오기(bookKey 예시)
@@ -211,25 +195,7 @@ class HomeViewModel @Inject constructor(
                     _getDailyInformationState.value = UiState.Failure("${t.message}")
                 }
         }
-        /*for (i in 1..7){
-            val randomDailyItem = DailyViewItem(
-                id = 1,
-                money = Random().nextInt(10000),
-                img = null,
-                category = "식비",
-                assetType = "체크카드",
-                content = "멜론",
-                exceptStatus = false,
-                userNickName = "도비"
-            )
 
-            dailyItemList.add(randomDailyItem)
-        }
-
-
-        Log.d("selectDay", "Calendar items updated: $dailyItemList")
-
-        _dailyItems.value = dailyItemList*/
     }
     // 내역 추가 버튼
     fun postButtonClick(){
