@@ -16,7 +16,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentDailyDialogBinding
-import com.aos.floney.domain.entity.DailyItem
+import com.aos.floney.domain.entity.GetbooksDaysData
 import com.aos.floney.presentation.home.HomeViewModel
 import com.aos.floney.presentation.home.daily.DailyAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -124,12 +124,12 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         viewModel.getDailyInformationState.flowWithLifecycle(viewLifeCycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data.first?.isEmpty() == true) {
+                    if (state.data.dayLinesResponse?.isEmpty() == true) {
                         binding.dailyEmptyCalendar.visibility = View.VISIBLE
                         binding.dailyCalendar.visibility = View.GONE
                     } else {
                         //deactivateLoadingProgressBar()
-                        updateCalendar(state.data.first!!)
+                        updateCalendar(state.data.dayLinesResponse!!)
 
                         binding.dailyEmptyCalendar.visibility = View.GONE
                         binding.dailyCalendar.visibility = View.VISIBLE
@@ -144,7 +144,7 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
             }
         }.launchIn(viewLifeCycleScope)
     }
-    private fun updateCalendar(dailyItems: List<DailyItem>) {
+    private fun updateCalendar(dailyItems: List<GetbooksDaysData.DailyItem>) {
         viewLifeCycleScope.launch {
             viewModel.calendar.collect {
 

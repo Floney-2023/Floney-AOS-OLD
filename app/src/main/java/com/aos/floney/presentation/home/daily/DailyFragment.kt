@@ -1,23 +1,15 @@
 package com.aos.floney.presentation.home.daily
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentDailyBinding
-import com.aos.floney.domain.entity.CalendarItemType
-import com.aos.floney.domain.entity.DailyItem
-import com.aos.floney.domain.entity.TotalExpense
+import com.aos.floney.domain.entity.DailyItemType
+import com.aos.floney.domain.entity.GetbooksDaysData
 import com.aos.floney.presentation.home.HomeViewModel
-import com.aos.floney.presentation.home.calendar.CalendarAdapter
-import com.aos.floney.presentation.home.calendar.CalendarViewModel
 import com.aos.floney.util.fragment.viewLifeCycle
 import com.aos.floney.util.fragment.viewLifeCycleScope
 import com.aos.floney.util.view.UiState
@@ -27,7 +19,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
 import timber.log.Timber
-import java.util.Calendar
 
 @AndroidEntryPoint
 class DailyFragment  : BindingFragment<FragmentDailyBinding>(R.layout.fragment_daily){
@@ -39,52 +30,19 @@ class DailyFragment  : BindingFragment<FragmentDailyBinding>(R.layout.fragment_d
         super.onViewCreated(view, savedInstanceState)
         firstCallCalendar = true
 
-        initsetting()
         getCalendarInformationStateObserver()
-    }
-    fun initsetting(){
-        //viewModel = ViewModelProvider(this).get(CalendarViewModel::class.java)
-        /*adapter = DailyAdapter(viewModel)
-        binding.dailyCalendar.layoutManager = LinearLayoutManager(context)
-        binding.dailyCalendar.adapter = adapter
-
-        Log.d("DailyFragment", "Observer triggered: ")
-
-        lifecycleScope.launch{
-            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED){
-                launch {
-                    viewModel.dailyItems.collect{
-                        try{
-                            if (it.isEmpty()) {
-                                binding.dailyEmptyCalendar.visibility = View.VISIBLE
-                                binding.dailyCalendar.visibility = View.GONE
-                            }
-                            else{
-                                binding.dailyEmptyCalendar.visibility = View.GONE
-                                binding.dailyCalendar.visibility = View.VISIBLE
-                            }
-                            adapter.notifyDataSetChanged()
-                        }
-                        catch (e:Throwable){
-                            println("Exception from the flow: $e")
-                        }
-
-                    }
-                }
-            }
-        }*/
     }
     private fun getCalendarInformationStateObserver() {
         viewModel.getDailyInformationState.flowWithLifecycle(viewLifeCycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data.first?.isEmpty() == true) {
+                    if (state.data.dayLinesResponse?.isEmpty() == true) {
                         binding.dailyEmptyCalendar.visibility = View.VISIBLE
                         binding.dailyCalendar.visibility = View.GONE
                     } else {
                         //deactivateLoadingProgressBar()
-                        updateCalendar(state.data.first!!)
-                        updateTotalView(state.data.second?.get(0)!!)
+                        updateCalendar(state.data.dayLinesResponse!!)
+                        updateTotalView(state.data.totalExpense)
 
                         binding.dailyEmptyCalendar.visibility = View.GONE
                         binding.dailyCalendar.visibility = View.VISIBLE
@@ -99,14 +57,14 @@ class DailyFragment  : BindingFragment<FragmentDailyBinding>(R.layout.fragment_d
             }
         }.launchIn(viewLifeCycleScope)
     }
-    private fun updateTotalView(total: TotalExpense){
-        if (total.assetType == CalendarItemType.INCOME)
+    private fun updateTotalView(total: GetbooksDaysData.TotalExpense){
+        if (total.assetType == DailyItemType.INCOME)
             binding.totalIncome.text = total.money.toString()
         else
             binding.totalOutcome.text = total.money.toString()
 
     }
-    private fun updateCalendar(dailyItems: List<DailyItem>) {
+    private fun updateCalendar(dailyItems: List<GetbooksDaysData.DailyItem>) {
         viewLifeCycleScope.launch {
             viewModel.calendar.collect {
 

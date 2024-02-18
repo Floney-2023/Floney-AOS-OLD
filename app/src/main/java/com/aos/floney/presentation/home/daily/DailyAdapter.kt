@@ -1,28 +1,21 @@
 package com.aos.floney.presentation.home.daily
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.aos.floney.R
-import com.aos.floney.databinding.ItemCustomCalendarBinding
 import com.aos.floney.databinding.ItemCustomDailyBinding
-import com.aos.floney.domain.entity.CalendarItemType
-import com.aos.floney.domain.entity.DailyItem
-import com.aos.floney.domain.entity.DailyViewItem
+import com.aos.floney.domain.entity.DailyItemType
+import com.aos.floney.domain.entity.GetbooksDaysData
 import com.aos.floney.presentation.home.HomeViewModel
-import com.aos.floney.presentation.home.calendar.CalendarAdapter
-import com.aos.floney.presentation.home.calendar.CalendarViewModel
 import com.aos.floney.util.view.ItemDiffCallback
-import java.util.Date
 
 class DailyAdapter(
     private val viewModel: HomeViewModel) :
-    ListAdapter<DailyItem, DailyAdapter.ViewHolder>(
-        ItemDiffCallback<DailyItem>(
+    ListAdapter<GetbooksDaysData.DailyItem, DailyAdapter.ViewHolder>(
+        ItemDiffCallback<GetbooksDaysData.DailyItem>(
             onItemsTheSame = { old, new -> old == new },
             onContentsTheSame = { old, new -> old == new }
         )
@@ -34,14 +27,14 @@ class DailyAdapter(
         val dailyContent: TextView = binding.dailyContent
         val dailyCategory: TextView = binding.dailyCategory
         val dailyMoney: TextView = binding.dailyMoney
-        fun onBind(dailyItem: DailyItem) {
+        fun onBind(dailyItem: GetbooksDaysData.DailyItem) {
 
             /*if (dailyItem.img != "user_default")
                 dailyProfile.setImageResource(dailyItem.img)
             */
             dailyContent.text = dailyItem.content
             dailyCategory.text = String.format(dailyItem.category[0]+" ‧ "+dailyItem.category[1])
-            dailyMoney.text=getFormattedMoneyText(dailyItem.money, dailyItem.assetType == CalendarItemType.INCOME)
+            dailyMoney.text=getFormattedMoneyText(dailyItem.money, dailyItem.assetType == DailyItemType.INCOME)
 
             binding.root.setOnClickListener {
 

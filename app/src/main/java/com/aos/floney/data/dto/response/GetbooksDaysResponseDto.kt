@@ -1,8 +1,8 @@
 package com.aos.floney.data.dto.response
 
 import com.aos.floney.domain.entity.CalendarItemType
-import com.aos.floney.domain.entity.DailyItem
-import com.aos.floney.domain.entity.TotalExpense
+import com.aos.floney.domain.entity.DailyItemType
+import com.aos.floney.domain.entity.GetbooksDaysData
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,7 +11,7 @@ data class GetbooksDaysResponseDto(
     @SerialName("dayLinesResponse")
     val dayLinesResponse: List<DayLineItemDto>?,
     @SerialName("totalExpense")
-    val totalExpense: List<TotalExpenseDto>?,
+    val totalExpense: TotalExpenseDto,
     @SerialName("seeProfileImg")
     val seeProfileImg: Boolean,
     @SerialName("carryOverInfo")
@@ -55,12 +55,12 @@ data class GetbooksDaysResponseDto(
         val carryOverMoney: Double
     )
 
-    fun convertToDailyItems(): List<DailyItem>? {
+    fun convertToDailyItems(): List<GetbooksDaysData.DailyItem>? {
         return dayLinesResponse?.map { dayLineItem ->
             val categories = dayLineItem.category
-            val assetType = CalendarItemType.valueOf(dayLineItem.assetType)
+            val assetType = DailyItemType.valueOf(dayLineItem.assetType)
 
-            DailyItem(
+            GetbooksDaysData.DailyItem(
                 id = dayLineItem.id,
                 money = dayLineItem.money,
                 assetType = assetType,
@@ -73,12 +73,14 @@ data class GetbooksDaysResponseDto(
             )
         }
     }
-    fun convertToTotalExpense(): List<TotalExpense>? {
-        return totalExpense?.map { totalExpense ->
-            TotalExpense(
-                money = totalExpense.money,
-                assetType = CalendarItemType.valueOf(totalExpense.assetType),
-            )
-        }
-    }
+    fun convertToTotalExpense(): GetbooksDaysData.TotalExpense =
+        GetbooksDaysData.TotalExpense(
+            money = totalExpense.money,
+            assetType = DailyItemType.valueOf(totalExpense.assetType),
+        )
+    fun convertToCarryInfo(): GetbooksDaysData.CarryOverInfo =
+        GetbooksDaysData.CarryOverInfo (
+            carryOverStatus = carryOverInfo.carryOverStatus,
+            carryOverMoney = carryOverInfo.carryOverMoney,
+        )
 }

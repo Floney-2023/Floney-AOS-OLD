@@ -1,16 +1,10 @@
 package com.aos.floney.presentation.home
 
 import android.util.Log
-import androidx.datastore.preferences.protobuf.Empty
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aos.floney.data.dto.response.GetbooksMonthResponseDto
-import com.aos.floney.domain.entity.DailyItem
-import com.aos.floney.domain.entity.DailyViewItem
+import com.aos.floney.domain.entity.GetbooksDaysData
 import com.aos.floney.domain.entity.GetbooksMonthData
-import com.aos.floney.domain.entity.TotalExpense
 import com.aos.floney.domain.repository.CalendarRepository
 import com.aos.floney.util.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,8 +37,8 @@ class HomeViewModel @Inject constructor(
         _getCalendarInformationState.asStateFlow()
 
     private val _getDailyInformationState =
-        MutableStateFlow<UiState<Pair<List<DailyItem>?, List<TotalExpense>?>>>(UiState.Loading)
-    val getDailyInformationState: StateFlow<UiState<Pair<List<DailyItem>?, List<TotalExpense>?>>> =
+        MutableStateFlow<UiState<GetbooksDaysData>>(UiState.Loading)
+    val getDailyInformationState: StateFlow<UiState<GetbooksDaysData>> =
         _getDailyInformationState.asStateFlow()
 
 
@@ -181,14 +175,9 @@ class HomeViewModel @Inject constructor(
         // 날짜에 따른 deposit, withdrawalAmount 받아오기(bookKey 예시)
         viewModelScope.launch {
             calendarRepository.getbooksDaysData(Authorization, bookKey, dateFormat.format(date))
-                .onSuccess { (dailyItems, totalExpenses) ->
-                    if (dailyItems != null) {
-                        _getDailyInformationState.value = UiState.Success(Pair(dailyItems,totalExpenses))
-                        Log.d("selectDaily", "onsuccess: $dailyItems")
-                    }
-
-                    if (totalExpenses != null) {
-
+                .onSuccess { response ->
+                    if (response != null) {
+                        _getDailyInformationState.value = UiState.Success(response)
                     }
                 }.onFailure { t ->
                     Log.d("selectDaily", "onfailure: ${t}")

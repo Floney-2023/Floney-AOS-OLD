@@ -1,7 +1,6 @@
 package com.aos.floney.data.source
 
 import com.aos.floney.data.service.CalendarService
-import com.aos.floney.domain.entity.DailyItem
 import javax.inject.Inject
 
 class CalendarDataSource @Inject constructor(
