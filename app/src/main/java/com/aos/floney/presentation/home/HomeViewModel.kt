@@ -24,8 +24,7 @@ class HomeViewModel @Inject constructor(
     private val calendarRepository: CalendarRepository
 ) : ViewModel() {
 
-    val Authorization = ""
-    val bookKey = ""
+
 
     // calendar를 MutableStateFlow로 변경
     private val _calendar = MutableStateFlow<Calendar>(Calendar.getInstance())

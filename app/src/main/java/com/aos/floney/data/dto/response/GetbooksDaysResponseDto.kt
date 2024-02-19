@@ -11,7 +11,7 @@ data class GetbooksDaysResponseDto(
     @SerialName("dayLinesResponse")
     val dayLinesResponse: List<DayLineItemDto>?,
     @SerialName("totalExpense")
-    val totalExpense: TotalExpenseDto,
+    val totalExpense: List<TotalExpenseDto>,
     @SerialName("seeProfileImg")
     val seeProfileImg: Boolean,
     @SerialName("carryOverInfo")
@@ -73,11 +73,14 @@ data class GetbooksDaysResponseDto(
             )
         }
     }
-    fun convertToTotalExpense(): GetbooksDaysData.TotalExpense =
-        GetbooksDaysData.TotalExpense(
-            money = totalExpense.money,
-            assetType = DailyItemType.valueOf(totalExpense.assetType),
-        )
+    fun convertToTotalExpense(): List<GetbooksDaysData.TotalExpense>? {
+        return totalExpense?.map { it ->
+            GetbooksDaysData.TotalExpense(
+                money = it.money,
+                assetType = DailyItemType.valueOf(it.assetType),
+            )
+        }
+    }
     fun convertToCarryInfo(): GetbooksDaysData.CarryOverInfo =
         GetbooksDaysData.CarryOverInfo (
             carryOverStatus = carryOverInfo.carryOverStatus,

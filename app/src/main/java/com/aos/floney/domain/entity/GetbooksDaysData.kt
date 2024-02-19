@@ -2,7 +2,7 @@ package com.aos.floney.domain.entity
 
 data class GetbooksDaysData(
     val dayLinesResponse: List<DailyItem>?,
-    val totalExpense: TotalExpense,
+    val totalExpense: List<TotalExpense>?,
     val carryOverInfo: CarryOverInfo,
     val seeProfileImg: Boolean
 ){

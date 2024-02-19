@@ -42,7 +42,7 @@ class DailyFragment  : BindingFragment<FragmentDailyBinding>(R.layout.fragment_d
                     } else {
                         //deactivateLoadingProgressBar()
                         updateCalendar(state.data.dayLinesResponse!!)
-                        updateTotalView(state.data.totalExpense)
+                        updateTotalView(state.data.totalExpense!!)
 
                         binding.dailyEmptyCalendar.visibility = View.GONE
                         binding.dailyCalendar.visibility = View.VISIBLE
@@ -57,11 +57,14 @@ class DailyFragment  : BindingFragment<FragmentDailyBinding>(R.layout.fragment_d
             }
         }.launchIn(viewLifeCycleScope)
     }
-    private fun updateTotalView(total: GetbooksDaysData.TotalExpense){
-        if (total.assetType == DailyItemType.INCOME)
-            binding.totalIncome.text = total.money.toString()
-        else
-            binding.totalOutcome.text = total.money.toString()
+    private fun updateTotalView(total: List<GetbooksDaysData.TotalExpense>){
+        for (item in total) {
+            if (item.assetType == DailyItemType.INCOME) {
+                binding.totalIncome.text = item.money.toString()
+            } else {
+                binding.totalOutcome.text = item.money.toString()
+            }
+        }
 
     }
     private fun updateCalendar(dailyItems: List<GetbooksDaysData.DailyItem>) {
