@@ -41,8 +41,8 @@ class DailyFragment  : BindingFragment<FragmentDailyBinding>(R.layout.fragment_d
                         binding.dailyCalendar.visibility = View.GONE
                     } else {
                         //deactivateLoadingProgressBar()
-                        updateCalendar(state.data.dayLinesResponse!!)
-                        updateTotalView(state.data.totalExpense!!)
+                        updateCalendar(state.data.dayLinesResponse!!,state.data.carryOverInfo)
+                        updateTotalView(state.data.totalExpense!!, state.data.carryOverInfo)
 
                         binding.dailyEmptyCalendar.visibility = View.GONE
                         binding.dailyCalendar.visibility = View.VISIBLE
@@ -57,17 +57,34 @@ class DailyFragment  : BindingFragment<FragmentDailyBinding>(R.layout.fragment_d
             }
         }.launchIn(viewLifeCycleScope)
     }
-    private fun updateTotalView(total: List<GetbooksDaysData.TotalExpense>){
+    private fun updateTotalView(
+        total: List<GetbooksDaysData.TotalExpense>,
+        carryOverInfo: GetbooksDaysData.CarryOverInfo
+    ){
+        var totalCarryIncome = 0.0
+        var totalCarryOutcome = 0.0
+        if (carryOverInfo.carryOverStatus == true)
+        {
+            if (carryOverInfo.carryOverMoney>0){
+                totalCarryIncome+=carryOverInfo.carryOverMoney
+            }
+            else {
+                totalCarryOutcome+=carryOverInfo.carryOverMoney
+            }
+        }
         for (item in total) {
             if (item.assetType == DailyItemType.INCOME) {
-                binding.totalIncome.text = item.money.toString()
+                binding.totalIncome.text = (item.money+totalCarryIncome).toString()
             } else {
-                binding.totalOutcome.text = item.money.toString()
+                binding.totalOutcome.text = (item.money+totalCarryOutcome).toString()
             }
         }
 
     }
-    private fun updateCalendar(dailyItems: List<GetbooksDaysData.DailyItem>) {
+    private fun updateCalendar(
+        dailyItems: List<GetbooksDaysData.DailyItem>,
+        carryOverInfo: GetbooksDaysData.CarryOverInfo
+    ) {
         viewLifeCycleScope.launch {
             viewModel.calendar.collect {
 
@@ -83,12 +100,15 @@ class DailyFragment  : BindingFragment<FragmentDailyBinding>(R.layout.fragment_d
                 )
 
                 binding.dailyCalendar.adapter = adapter
-
                 adapter.submitList(dailyItems)
 
                 firstCallCalendar = false
             }
         }
+    }
+    fun checktype(money : Double){
+        if (money>0)
+            return
     }
 
 }

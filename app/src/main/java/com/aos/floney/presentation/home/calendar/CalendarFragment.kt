@@ -62,8 +62,8 @@ class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.frag
                                 state.data.totalIncome+=state.data.carryOverInfo.carryOverMoney
                             }
                             else {
-                                state.data.calendarItems[1].money += state.data.carryOverInfo.carryOverMoney
-                                state.data.totalOutcome+=state.data.carryOverInfo.carryOverMoney
+                                state.data.calendarItems[1].money += state.data.carryOverInfo.carryOverMoney*(-1)
+                                state.data.totalOutcome+=state.data.carryOverInfo.carryOverMoney*(-1)
                             }
                         }
                         //deactivateLoadingProgressBar()

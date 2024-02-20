@@ -71,8 +71,29 @@ data class GetbooksDaysResponseDto(
                 exceptStatus = dayLineItem.exceptStatus,
                 userNickName = dayLineItem.userNickName
             )
+        }?.let { dailyItems ->
+            // Check if carryOverInfo is true
+            if (carryOverInfo.carryOverStatus == true && carryOverInfo.carryOverMoney != 0.0) {
+                // Create an empty DailyItem
+                val emptyDailyItem = GetbooksDaysData.DailyItem(
+                    id = -1, // Use a unique identifier
+                    money = carryOverInfo.carryOverMoney, // Set the default value for money
+                    assetType = DailyItemType.CARRY, // Set default assetType or adjust as needed
+                    img = "user_default", // Set default image or adjust as needed
+                    category = emptyList(), // Set default categories or adjust as needed
+                    content = "이월", // Set default content or adjust as needed
+                    userEmail = "", // Set default userEmail or adjust as needed
+                    exceptStatus = false, // Set default exceptStatus or adjust as needed
+                    userNickName = "" // Set default userNickName or adjust as needed
+                )
+                // Add the emptyDailyItem as the first item
+                listOf(emptyDailyItem) + dailyItems
+            } else {
+                dailyItems
+            }
         }
     }
+
     fun convertToTotalExpense(): List<GetbooksDaysData.TotalExpense>? {
         return totalExpense?.map { it ->
             GetbooksDaysData.TotalExpense(

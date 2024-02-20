@@ -29,5 +29,5 @@ data class GetbooksDaysData(
 }
 
 enum class DailyItemType {
-    INCOME, OUTCOME
+    INCOME, OUTCOME, CARRY
 }
