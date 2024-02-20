@@ -74,9 +74,9 @@ class DailyFragment  : BindingFragment<FragmentDailyBinding>(R.layout.fragment_d
         }
         for (item in total) {
             if (item.assetType == DailyItemType.INCOME) {
-                binding.totalIncome.text = (item.money+totalCarryIncome).toString()
+                binding.totalIncome.text = ((item.money+totalCarryIncome).toInt()).toString()+"원"
             } else {
-                binding.totalOutcome.text = (item.money+totalCarryOutcome).toString()
+                binding.totalOutcome.text = ((item.money+totalCarryOutcome).toInt()).toString()+"원"
             }
         }
 
