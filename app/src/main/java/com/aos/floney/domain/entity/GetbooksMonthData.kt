@@ -3,12 +3,12 @@ package com.aos.floney.domain.entity
 data class GetbooksMonthData(
     val calendarItems: List<CalendarItem>?,
     val carryOverInfo: CarryOverInfo,
-    val totalIncome: Double,
-    val totalOutcome: Double
+    var totalIncome: Double,
+    var totalOutcome: Double
 ) {
     data class CalendarItem(
         val date: String,
-        val money: Double,
+        var money: Double,
         val assetType: CalendarItemType
     )
 

@@ -1,13 +1,10 @@
 package com.aos.floney.presentation.home.calendar
 
-import android.content.ContextWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aos.floney.R
@@ -19,7 +16,6 @@ import com.aos.floney.util.view.ItemDiffCallback
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
-import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -43,7 +39,10 @@ class CalendarAdapter(
         private val incomeText: TextView = binding.withdrawalTextView
         private val outcomeText: TextView = binding.depositTextView
 
-        fun onBind(date: Date, calendarItems: List<GetbooksMonthData.CalendarItem>) {
+        fun onBind(
+            date: Date,
+            calendarItems: List<GetbooksMonthData.CalendarItem>
+        ) {
 
             val dateFormat = SimpleDateFormat("d", Locale.getDefault())
             val fullDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -74,8 +73,10 @@ class CalendarAdapter(
                 val recordItems = calendarItems.groupBy { it.date.takeLast(2) }
 
                 dayText.text = day
+
                 incomeText.text = getFormattedMoneyText(calendarItems[index].money, calendarItems[index].assetType == CalendarItemType.INCOME)
                 outcomeText.text =  getFormattedMoneyText(calendarItems[index+1].money, calendarItems[index+1].assetType == CalendarItemType.INCOME)
+
 
                 if (incomeText.text.toString().toDouble()==0.0)
                     incomeText.visibility = View.GONE

@@ -1,20 +1,15 @@
 package com.aos.floney.presentation.home.calendar
 
-import android.content.ContextWrapper
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentCalendarBinding
 import com.aos.floney.domain.entity.GetbooksMonthData
 import com.aos.floney.presentation.home.HomeViewModel
-import com.aos.floney.util.fragment.snackBar
 import com.aos.floney.util.fragment.viewLifeCycle
 import com.aos.floney.util.fragment.viewLifeCycleScope
 import com.aos.floney.util.view.UiState
@@ -59,9 +54,21 @@ class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.frag
                 is UiState.Success -> {
                     if (state.data.calendarItems!!.isEmpty()&& !firstCallCalendar) {
                     } else {
+                        // 이월 금액 설정
+                        if (state.data.carryOverInfo.carryOverStatus == true)
+                        {
+                            if (state.data.carryOverInfo.carryOverMoney>0){
+                                state.data.calendarItems[0].money+=state.data.carryOverInfo.carryOverMoney
+                                state.data.totalIncome+=state.data.carryOverInfo.carryOverMoney
+                            }
+                            else {
+                                state.data.calendarItems[1].money += state.data.carryOverInfo.carryOverMoney
+                                state.data.totalOutcome+=state.data.carryOverInfo.carryOverMoney
+                            }
+                        }
                         //deactivateLoadingProgressBar()
                         updateCardView(state.data.totalIncome, state.data.totalOutcome)
-                        updateCalendar(state.data.calendarItems)
+                        updateCalendar(state.data.calendarItems, state.data.carryOverInfo)
                     }
                 }
 
@@ -77,7 +84,10 @@ class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.frag
         binding.totalOutcome.text = totalOutcome.toInt().toString()+"원"
         binding.totalIncome.text = totalIncome.toInt().toString()+"원"
     }
-    private fun updateCalendar(calendarItems: List<GetbooksMonthData.CalendarItem>) {
+    private fun updateCalendar(
+        calendarItems: List<GetbooksMonthData.CalendarItem>,
+        carryOverInfo: GetbooksMonthData.CarryOverInfo
+    ) {
         viewLifeCycleScope.launch {
             viewModel.calendar.collect {
 
@@ -86,6 +96,8 @@ class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.frag
                     viewModel.calendar.value.get(Calendar.MONTH))
 
                 binding.calendar.layoutManager = GridLayoutManager(context, Calendar.DAY_OF_WEEK)
+
+
 
                 adapter = CalendarAdapter(
                     currMonth = viewModel.calendar.value.get(
