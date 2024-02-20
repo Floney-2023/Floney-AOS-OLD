@@ -1,29 +1,39 @@
-package com.aos.floney.presentation.home.calendar
+package com.aos.floney.presentation.home
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.NumberPicker
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.aos.floney.R
-import com.aos.floney.presentation.home.HomeViewModel
+import com.aos.floney.databinding.FragmentYearMonthPickerBinding
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 
-class YearMonthPickerFragment : DialogFragment() {
+@AndroidEntryPoint
+class YearMonthPickerFragment(
+    private val onSelect: (Int, Int) -> Unit
+)
+ : DialogFragment() {
+
+    private var _binding: FragmentYearMonthPickerBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel: HomeViewModel by viewModels(ownerProducer = {  requireActivity() })
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(requireContext())
-        val inflater = requireActivity().layoutInflater
-        val dialogView = inflater.inflate(R.layout.fragment_year_month_picker, null)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        _binding = FragmentYearMonthPickerBinding.inflate(inflater, container, false)
+        val view = binding.root
 
-        val yearPicker: NumberPicker = dialogView.findViewById(R.id.picker_year)
-        val monthPicker: NumberPicker = dialogView.findViewById(R.id.picker_month)
-        val btnClicker: AppCompatButton = dialogView.findViewById(R.id.btn_year_month_pick)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val yearPicker: NumberPicker = binding.pickerYear
+        val monthPicker: NumberPicker = binding.pickerMonth
+        val btnClicker: AppCompatButton = binding.btnYearMonthPick
 
 
         // 년도 설정
@@ -39,19 +49,24 @@ class YearMonthPickerFragment : DialogFragment() {
         monthPicker.maxValue = 12
         monthPicker.value = currentMonth + 1// 현재 달 월로 초기값 설정
         monthPicker.wrapSelectorWheel = false
+        monthPicker.textColor
 
         btnClicker.setOnClickListener{
             val selectedYear = yearPicker.value
             val selectedMonth = monthPicker.value - 1
             Log.d("selectMonthYear", "Observer yearmonthpicker: ${selectedYear} ${selectedMonth}")
             // viewmodel 선택한 날짜 바꾸기
-            viewModel.clickSelectYearMonth(selectedYear,selectedMonth)
+
+            onSelect(selectedYear, selectedMonth)
+
             // 창 닫기
             dismiss()
         }
 
-        builder.setView(dialogView)
-
-        return builder.create()
+        return view
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

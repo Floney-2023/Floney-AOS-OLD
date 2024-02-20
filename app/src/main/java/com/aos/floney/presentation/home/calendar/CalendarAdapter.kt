@@ -1,106 +1,111 @@
 package com.aos.floney.presentation.home.calendar
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.ReportFragment.Companion.reportFragment
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aos.floney.R
-import com.aos.floney.domain.entity.CalendarItem
-import com.aos.floney.presentation.HomeActivity
-import com.aos.floney.presentation.home.HomeFragment
+import com.aos.floney.databinding.ItemCustomCalendarBinding
+import com.aos.floney.domain.entity.CalendarData
+import com.aos.floney.domain.entity.GetbooksMonthData
 import com.aos.floney.presentation.home.HomeViewModel
-import com.google.android.material.bottomappbar.BottomAppBarTopEdgeTreatment
-import kotlinx.coroutines.currentCoroutineContext
+import com.aos.floney.util.view.ItemDiffCallback
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
-import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-class CalendarAdapter(private val viewModel: HomeViewModel) :
-    RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
+class CalendarAdapter(
+    private val currMonth: Int,
+    private val onDateClick: (Date) -> Unit
+) : ListAdapter<CalendarData, CalendarAdapter.ViewHolder>(
+    ItemDiffCallback<CalendarData>(
+        onItemsTheSame = { old, new -> old == new },
+        onContentsTheSame = { old, new -> old == new }
+    )
+){
+    class ViewHolder(
+        private val binding : ItemCustomCalendarBinding,
+        private val onDateClick: (Date) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
+        var currMonth: Int = 0
+        private val dayText: TextView = binding.dateTextView
+        private val incomeText: TextView = binding.withdrawalTextView
+        private val outcomeText: TextView = binding.depositTextView
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun onBind(
+            item : CalendarData
+        ) {
 
-        val dateTextView: TextView = itemView.findViewById(R.id.dateTextView)
-        val depositTextView: TextView = itemView.findViewById(R.id.depositTextView)
-        val withdrawalTextView: TextView = itemView.findViewById(R.id.withdrawalTextView)
-        init {
-            itemView.setOnClickListener {
-                // 클릭 이벤트 처리
-                viewModel.clickSelectDate(dateTextView.text.toString().toInt())
-                // 모달창 올라오는 이벤트
-                dailyBottomSheet(itemView, dateTextView.text.toString().toInt())
+            val dateFormat = SimpleDateFormat("d", Locale.getDefault())
+
+            // 현재 월에 속하는 날짜만 보이도록 처리
+            if (item.income.date=="0") {
+                binding.root.visibility = View.INVISIBLE
+            } else {
+                val date = convertStringToDate(item.income.date)
+                // 오늘 날짜 배경 처리
+                if (isToday(date)) {
+                    dayText.setBackgroundResource(R.drawable.ellipse)
+                    // ContextCompat.getColor를 사용하여 색상 값 가져오기
+                    dayText.setTextColor(ContextCompat.getColor(dayText.context, R.color.white))
+                }
+                val day = dateFormat.format(date)
+                val index = day.toInt()-1
+                dayText.text = day
+                incomeText.text = String.format("+${item.income.money.toInt()}")
+                outcomeText.text = String.format("-${item.outcome.money.toInt()}")
+
+
+
+
+                if (incomeText.text.toString().toDouble()==0.0)
+                    incomeText.visibility = View.GONE
+                if (outcomeText.text.toString().toDouble()==0.0)
+                    outcomeText.visibility = View.GONE
+
+                binding.root.visibility = View.VISIBLE
+                // Set up click listener
+                binding.root.setOnClickListener {
+                    if (date != null) {
+                        onDateClick(date)
+                    }
+                }
             }
         }
+        fun isToday(date: Date?): Boolean {
+            val currentDate = LocalDate.now()
+            val formattedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
+                Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
+            )
+            return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date) == formattedDate
+        }
+        fun convertStringToDate(dateString: String, pattern: String = "yyyy-MM-dd"): Date? {
+            val dateFormatter = SimpleDateFormat(pattern, Locale.getDefault())
+            return try {
+                dateFormatter.parse(dateString)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_custom_calendar, parent, false)
-        return ViewHolder(view)
+        val binding =
+            ItemCustomCalendarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding, onDateClick)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        val currentDate = LocalDate.now()
-        val formattedDate = SimpleDateFormat("yyyy.M.d", Locale.getDefault()).format(Date.from(currentDate.atStartOfDay(
-            ZoneId.systemDefault()).toInstant()))
-
-
-
-        val item = getItem(position)
-
-        val parts = item.date.split(".")
-        val dayOfMonth = parts.lastOrNull() ?: ""
-
-
-        holder.dateTextView.text = dayOfMonth
-        holder.depositTextView.text = item.depositAmount
-        holder.withdrawalTextView.text = item.withdrawalAmount
-
-        // 오늘 날짜 배경 처리
-        if (item.date == formattedDate) {
-            holder.dateTextView.setBackgroundResource(R.drawable.ellipse)
-            // ContextCompat.getColor를 사용하여 색상 값 가져오기
-            holder.dateTextView.setTextColor(ContextCompat.getColor(holder.dateTextView.context, R.color.white))
-        }
-
-        // 현재 월에 속하는 날짜만 보이도록 처리
-        if (item.date=="") {
-            holder.itemView.visibility = View.INVISIBLE
-        } else {
-            holder.itemView.visibility = View.VISIBLE
-        }
+        holder.currMonth = currMonth
+        val calendarItem = getItem(position)
+        holder.onBind(calendarItem)
     }
 
-    override fun getItemCount(): Int {
-        return viewModel.calendarItems.value?.size ?: 0
-    }
-
-    fun getItem(position: Int): CalendarItem {
-        return viewModel.calendarItems.value?.get(position) ?: CalendarItem("", "", "")
-    }
-
-    private fun showToast(message: String) {
-
-    }
-    private fun dailyBottomSheet(itemView: View, date : Int) {
-        val bottomSheetPostFragment = BottomSheetFragment()
-        bottomSheetPostFragment.show(
-            (itemView.context as AppCompatActivity).supportFragmentManager,
-            bottomSheetPostFragment.tag
-        )
-    }
 }

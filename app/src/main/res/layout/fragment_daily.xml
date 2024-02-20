@@ -37,6 +37,7 @@
                     android:textAppearance="@style/expense_income_text" />
 
                 <TextView
+                    android:id="@+id/totalIncome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0원"
@@ -57,6 +58,7 @@
                     android:textAppearance="@style/expense_income_text" />
 
                 <TextView
+                    android:id="@+id/totalOutcome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0원"

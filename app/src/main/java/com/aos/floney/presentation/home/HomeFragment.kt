@@ -1,6 +1,5 @@
 package com.aos.floney.presentation.home
 
-import android.app.DatePickerDialog.OnDateSetListener
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -10,21 +9,26 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentHomeBinding
-import com.aos.floney.presentation.home.calendar.BottomSheetFragment
 import com.aos.floney.presentation.home.calendar.CalendarFragment
-import com.aos.floney.presentation.home.calendar.YearMonthPickerFragment
 import com.aos.floney.presentation.home.daily.DailyFragment
-import kotlinx.coroutines.flow.collectLatest
+import com.aos.floney.util.fragment.viewLifeCycle
+import com.aos.floney.util.fragment.viewLifeCycleScope
+import com.aos.floney.util.view.UiState
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-
+@AndroidEntryPoint
 class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home){
     private val viewModel: HomeViewModel by viewModels(ownerProducer = {  requireActivity() })
     private var dateFormat = SimpleDateFormat("yyyy.MM", Locale.getDefault())
@@ -35,6 +39,7 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
         settingCalendarText()
         settingCalendarType()
         settingCalendarDialog()
+        settingCalendarBookInfo()
     }
 
     private fun settingCalendarText() {
@@ -57,6 +62,8 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
         }
     }
 
+
+
     private fun updateDisplayedDate() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
@@ -67,7 +74,7 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
                             Log.d("selectMonthYear", "Observer updateDisplay: ${it.time}")
                         }
                     } catch (e: Throwable) {
-                        println("Exception from the flow: $e")
+                        Log.d("selectMonthYear", "Observer updateDisplay: ${e}")
                     }
                 }
             }
@@ -75,8 +82,14 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
     }
     private fun settingCalendarDialog() {
         binding.calendarNowYearMonth.setOnClickListener {
-            val yearMonthPickerFragment = YearMonthPickerFragment()
-            yearMonthPickerFragment.show(parentFragmentManager, "YearMonthPicker")
+            // 캘린더 별 볼 때만 클릭 가능
+            if (dateFormat.toPattern() == "yyyy.MM") {
+                val yearMonthPickerFragment = YearMonthPickerFragment { year, month ->
+                    viewModel.clickSelectYearMonth(year, month)
+                    updateDisplayedDate()
+                }
+                yearMonthPickerFragment.show(parentFragmentManager, "YearMonthPicker")
+            }
         }
     }
     private fun settingCalendarType() {
@@ -104,6 +117,27 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
         }
     }
 
+    private fun settingCalendarBookInfo(){
+        viewModel.getbooksInformationState.flowWithLifecycle(viewLifeCycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    if (state.data.ourBookUsers?.isEmpty() == true) {
+                        // 값이 없을 경우 로직 구현
+                    } else {
+                        /*if (state.data.bookImg != null)
+                            binding.walletImage.setImageResource(state.data.bookImg)*/
+                        binding.walletName.text = state.data.bookName
+                    }
+                }
+
+                is UiState.Failure -> Timber.e("Failure : ${state.msg}")
+                is UiState.Empty -> Unit
+                is UiState.Loading -> {
+                    //activateLoadingProgressBar()
+                }
+            }
+        }.launchIn(viewLifeCycleScope)
+    }
     private inline fun <reified T : Fragment> navigateTo() {
         childFragmentManager.commit {
             replace<T>(R.id.calendarTypeFragment, T::class.simpleName)

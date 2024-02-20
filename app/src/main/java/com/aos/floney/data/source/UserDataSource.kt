@@ -1,4 +1,15 @@
 package com.aos.floney.data.source
 
-class UserDataSource {
+import com.aos.floney.data.dto.request.PostLoginRequestDto
+import com.aos.floney.data.dto.request.RequestPostRegisterUserDto
+import com.aos.floney.data.service.UserService
+import javax.inject.Inject
+
+class UserDataSource @Inject constructor(
+    private val userService: UserService
+) {
+    suspend fun postRegisterUser(requestPostRegisterUserDto: RequestPostRegisterUserDto) =
+        userService.postRegisterUser(requestPostRegisterUserDto)
+    suspend fun postLoginUser(postLoginRequestDto: PostLoginRequestDto) =
+        userService.postLoginUser(postLoginRequestDto)
 }

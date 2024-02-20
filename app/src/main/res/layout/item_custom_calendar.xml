@@ -5,45 +5,48 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="67dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- 각 날짜의 날짜, 수입 금액, 지출 금액을 나타내는 텍스트뷰-->
-
-        <TextView
-            android:id="@+id/dateTextView"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
             android:gravity="center"
-            android:padding="4dp"
-            android:text="1"
-            android:textAppearance="@style/date_text_view" />
+            android:orientation="vertical">
+            <!-- 각 날짜의 날짜, 수입 금액, 지출 금액을 나타내는 텍스트뷰-->
+            <TextView
+                android:id="@+id/dateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="1"
+                android:textAppearance="@style/date_text_view" />
 
 
+            <TextView
+                android:id="@+id/withdrawalTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_horizontal|bottom"
+                android:text="-3000"
+                android:textAppearance="@style/withdraw_text_view" />
 
-        <TextView
-            android:id="@+id/withdrawalTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:gravity="center_horizontal|bottom"
-            android:text="-3000"
-            android:textAppearance="@style/withdraw_text_view" />
-
-        <TextView
-            android:id="@+id/depositTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="11dp"
-            android:gravity="center_horizontal|bottom"
-            android:text="+3000"
-            android:textAppearance="@style/deposit_text_view" />
+            <TextView
+                android:id="@+id/depositTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_horizontal|bottom"
+                android:text="+3000"
+                android:textAppearance="@style/deposit_text_view" />
+        </LinearLayout>
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

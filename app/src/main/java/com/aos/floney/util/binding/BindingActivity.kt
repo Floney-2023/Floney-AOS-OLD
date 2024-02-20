@@ -1,6 +1,7 @@
-package kr.ac.konkuk.gdsc.plantory.util.binding
+package com.aos.floney.util.binding
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -10,10 +11,17 @@ abstract class BindingActivity<T : ViewDataBinding>(
     @LayoutRes private val layoutResId: Int
 ) : AppCompatActivity() {
     protected lateinit var binding: T
+    private var waitTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutResId)
         binding.lifecycleOwner = this
     }
+
+    protected fun shortShowToast(msg: String) =
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+
+    protected fun longShowToast(msg: String) =
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
 }
