@@ -109,7 +109,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:background="@drawable/icon_arrow_right" />
+                    android:background="@drawable/icon_arrow_right"
+                    android:paddingEnd="10dp" />
             </LinearLayout>
 
 

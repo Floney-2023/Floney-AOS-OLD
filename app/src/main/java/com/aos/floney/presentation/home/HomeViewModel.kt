@@ -25,7 +25,6 @@ class HomeViewModel @Inject constructor(
     private val calendarRepository: CalendarRepository
 ) : ViewModel() {
 
-    
 
     // calendar를 MutableStateFlow로 변경
     private val _calendar = MutableStateFlow<Calendar>(Calendar.getInstance())
@@ -133,49 +132,31 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             calendarRepository.getbooksMonthData(Authorization, bookKey, firstDayFormat.format(firstDayOfMonth.time))
                 .onSuccess { response ->
-                    if (response != null) {
-                        _getCalendarInformationState.value =
+                    _getCalendarInformationState.value =
                             UiState.Success(response)
                         Log.d("selectDay", "onsuccess: $response")
-                    } else {
-                        _getCalendarInformationState.value = UiState.Success(response)
-                    }
                 }.onFailure { t ->
                     Log.d("selectDay", "onfailure: ${t}")
                     _getCalendarInformationState.value = UiState.Failure("${t.message}")
                 }
         }
     }
-    fun updateCalendarDayList(currYear: Int, currMonth: Int): MutableList<Date> {
-
-        val dayList = mutableListOf<Date>()
+    fun updateCalendarDayList(currYear: Int, currMonth: Int): Int {
         _calendar.value?.get(Calendar.MONTH) // 월에 대한 작업이 불필요한 경우 제거
 
         val firstDayOfMonth = _calendar.value?.clone() as Calendar
         firstDayOfMonth?.set(Calendar.DAY_OF_MONTH, 1)
-        adjustToStartOfWeek(firstDayOfMonth) // 주의 시작을 맞추기 위한 조정
-
-        val lastDayOfMonth = _calendar.value?.clone() as Calendar
-        lastDayOfMonth?.set(Calendar.DAY_OF_MONTH, lastDayOfMonth.getActualMaximum(Calendar.DAY_OF_MONTH))
-        adjustToEndOfWeek(lastDayOfMonth) // 주의 끝을 맞추기 위한 조정
-
-        var currentDate = firstDayOfMonth?.time
-
-        while (!currentDate?.after(lastDayOfMonth?.time)!!) {
-            dayList.add(currentDate)
-            val nextDate = Calendar.getInstance()
-            nextDate.time = currentDate
-            nextDate.add(Calendar.DATE, 1)
-            currentDate = nextDate.time
-        }
-        return dayList
+        return adjustToStartOfWeek(firstDayOfMonth) // 오는 날로 주의 시작까지 count
     }
 
     // 첫째 날이 포함된 주의 첫째 날로 조정
-    private fun adjustToStartOfWeek(calendar: Calendar) {
+    private fun adjustToStartOfWeek(calendar: Calendar):Int {
+        var count = 0
         while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
             calendar.add(Calendar.DATE, -1)
+            count+=1
         }
+        return count
     }
 
     // 마지막 날이 포함된 주의 마지막 날로 조정

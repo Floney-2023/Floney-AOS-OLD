@@ -8,6 +8,8 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentCalendarBinding
+import com.aos.floney.domain.entity.CalendarData
+import com.aos.floney.domain.entity.CalendarItemType
 import com.aos.floney.domain.entity.GetbooksMonthData
 import com.aos.floney.presentation.home.HomeViewModel
 import com.aos.floney.util.fragment.viewLifeCycle
@@ -31,22 +33,7 @@ class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.frag
         super.onViewCreated(view, savedInstanceState)
         firstCallCalendar = true
 
-        initsetting()
         getCalendarInformationStateObserver()
-    }
-    fun initsetting(){
-        //viewModel = ViewModelProvider(this).get(CalendarViewModel::class.java)
-        /*adapter = CalendarAdapter(viewModel)
-
-        binding.calendar.layoutManager = GridLayoutManager(context, 7)
-        binding.calendar.adapter = adapter
-
-
-        viewModel.calendarItems.observe(viewLifecycleOwner, { items ->
-            Log.d("CalendarFragment", "Observer triggered: $items")
-            adapter.notifyDataSetChanged()
-        })
-*/
     }
     private fun getCalendarInformationStateObserver() {
         viewModel.getCalendarInformationState.flowWithLifecycle(viewLifeCycle).onEach { state ->
@@ -84,26 +71,35 @@ class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.frag
         binding.totalOutcome.text = totalOutcome.toInt().toString()+"원"
         binding.totalIncome.text = totalIncome.toInt().toString()+"원"
     }
+    private fun createEmptyItemList(size: Int): MutableList<CalendarData> {
+        return MutableList(size) { CalendarData(GetbooksMonthData.CalendarItem("0",0.0,CalendarItemType.INCOME), GetbooksMonthData.CalendarItem("0",0.0,CalendarItemType.OUTCOME))}
+    }
     private fun updateCalendar(
         calendarItems: List<GetbooksMonthData.CalendarItem>
     ) {
         viewLifeCycleScope.launch {
             viewModel.calendar.collect {
-
-                val dayList = viewModel.updateCalendarDayList(
+                // 빈칸으로 시작
+                val daySize = viewModel.updateCalendarDayList(
                     viewModel.calendar.value.get(Calendar.YEAR),
                     viewModel.calendar.value.get(Calendar.MONTH))
 
                 binding.calendar.layoutManager = GridLayoutManager(context, Calendar.DAY_OF_WEEK)
 
+                // CalendarData 리스트 생성 (초기에 빈 객체로 초기화)
+                var expenseItemList = createEmptyItemList(daySize)
+
+                // CalendarItem 리스트를 2개씩 묶어 CalendarData에 추가
+                calendarItems.chunked(2).forEach { chunk ->
+                    expenseItemList.add(CalendarData(chunk.get(0), chunk.get(1)))
+
+                }
+
                 adapter = CalendarAdapter(
                     currMonth = viewModel.calendar.value.get(
-                        Calendar.MONTH),
-                    calendarItems = calendarItems,
-                    viewModel = viewModel
+                        Calendar.MONTH)
                 ) { date ->
                     viewModel.clickSelectDate(date)
-                    Log.d("selectDay", "Calendar items updated: ${date}")
                     val bottomSheetPostFragment = BottomSheetFragment()
                     bottomSheetPostFragment.show(
                         childFragmentManager,
@@ -113,7 +109,7 @@ class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.frag
 
                 binding.calendar.adapter = adapter
 
-                adapter.submitList(dayList)
+                adapter.submitList(expenseItemList)
 
                 firstCallCalendar = false
             }

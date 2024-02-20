@@ -18,6 +18,10 @@ data class GetbooksMonthData(
     )
 }
 
+data class CalendarData(
+    val income: GetbooksMonthData.CalendarItem,
+    var outcome: GetbooksMonthData.CalendarItem
+)
 enum class CalendarItemType {
     INCOME, OUTCOME
 }

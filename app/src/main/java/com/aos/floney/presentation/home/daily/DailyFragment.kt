@@ -29,6 +29,7 @@ class DailyFragment  : BindingFragment<FragmentDailyBinding>(R.layout.fragment_d
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         firstCallCalendar = true
+        viewModel.updateDailyItems(viewModel.calendar.value.time)
 
         getCalendarInformationStateObserver()
     }
