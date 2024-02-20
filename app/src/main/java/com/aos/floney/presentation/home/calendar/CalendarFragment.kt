@@ -68,7 +68,7 @@ class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.frag
                         }
                         //deactivateLoadingProgressBar()
                         updateCardView(state.data.totalIncome, state.data.totalOutcome)
-                        updateCalendar(state.data.calendarItems, state.data.carryOverInfo)
+                        updateCalendar(state.data.calendarItems)
                     }
                 }
 
@@ -85,8 +85,7 @@ class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.frag
         binding.totalIncome.text = totalIncome.toInt().toString()+"원"
     }
     private fun updateCalendar(
-        calendarItems: List<GetbooksMonthData.CalendarItem>,
-        carryOverInfo: GetbooksMonthData.CarryOverInfo
+        calendarItems: List<GetbooksMonthData.CalendarItem>
     ) {
         viewLifeCycleScope.launch {
             viewModel.calendar.collect {
@@ -97,24 +96,20 @@ class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.frag
 
                 binding.calendar.layoutManager = GridLayoutManager(context, Calendar.DAY_OF_WEEK)
 
-
-
                 adapter = CalendarAdapter(
                     currMonth = viewModel.calendar.value.get(
                         Calendar.MONTH),
                     calendarItems = calendarItems,
-                    viewModel = viewModel,
-                    onDateClick = {
-                        date ->
-                        viewModel.clickSelectDate(date)
-                        Log.d("selectDay", "Calendar items updated: ${date}")
-                        val bottomSheetPostFragment = BottomSheetFragment()
-                        bottomSheetPostFragment.show(
-                            childFragmentManager,
-                            bottomSheetPostFragment.tag
-                        )
-                    }
-                )
+                    viewModel = viewModel
+                ) { date ->
+                    viewModel.clickSelectDate(date)
+                    Log.d("selectDay", "Calendar items updated: ${date}")
+                    val bottomSheetPostFragment = BottomSheetFragment()
+                    bottomSheetPostFragment.show(
+                        childFragmentManager,
+                        bottomSheetPostFragment.tag
+                    )
+                }
 
                 binding.calendar.adapter = adapter
 

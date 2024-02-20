@@ -122,11 +122,8 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
             when (state) {
                 is UiState.Success -> {
                     if (state.data.ourBookUsers?.isEmpty() == true) {
-
-                        Log.d("selectDay", "엠티: ${state.data}")
                         // 값이 없을 경우 로직 구현
                     } else {
-                        Log.d("selectDay", "들고옴: ${state.data}")
                         /*if (state.data.bookImg != null)
                             binding.walletImage.setImageResource(state.data.bookImg)*/
                         binding.walletName.text = state.data.bookName

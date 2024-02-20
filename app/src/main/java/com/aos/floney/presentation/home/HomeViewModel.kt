@@ -55,28 +55,47 @@ class HomeViewModel @Inject constructor(
         _calendar.value = Calendar.getInstance()
         updateCalendarItems()
         updatebooksInfoItems()
+        updateDailyItems(_calendar.value?.time)
     }
 
     // ... (이후 코드는 동일)
 
     fun moveToPreviousMonth() {
-        _calendar.value?.add(Calendar.MONTH, -1)
-        updateCalendarItems()
+        viewModelScope.launch{
+            val calendarInstance = _calendar.value
+            calendarInstance.add(Calendar.MONTH, -1)
+            updateCalendarItems()
+            _calendar.emit(calendarInstance)
+        }
     }
 
     fun moveToNextMonth() {
-        _calendar.value?.add(Calendar.MONTH, 1)
-        updateCalendarItems()
+        viewModelScope.launch{
+            val calendarInstance = _calendar.value
+            calendarInstance.add(Calendar.MONTH, 1)
+            updateCalendarItems()
+            _calendar.emit(calendarInstance)
+        }
     }
 
     fun moveToPreviousDay() {
-        _calendar.value?.add(Calendar.DATE, -1)
-        updateDailyItems(_calendar.value?.time)
+        viewModelScope.launch{
+            val calendarInstance = _calendar.value
+            calendarInstance.add(Calendar.DATE, -1)
+            _calendar.emit(calendarInstance)
+            updateDailyItems(_calendar.value?.time)
+        }
     }
 
     fun moveToNextDay() {
-        _calendar.value?.add(Calendar.DATE, 1)
-        updateDailyItems(_calendar.value?.time)
+
+        viewModelScope.launch{
+            val calendarInstance = _calendar.value
+            calendarInstance.add(Calendar.DATE, 1)
+            _calendar.emit(calendarInstance)
+            updateDailyItems(_calendar.value?.time)
+        }
+
     }
 
     fun clickSelectDate(selectDay: Date) {
@@ -103,7 +122,7 @@ class HomeViewModel @Inject constructor(
 
     }
 
-    private fun updateCalendarItems() {
+    fun updateCalendarItems() {
 
 
         val firstDayOfMonth = _calendar.value?.clone() as Calendar
@@ -134,23 +153,15 @@ class HomeViewModel @Inject constructor(
 
         val firstDayOfMonth = _calendar.value?.clone() as Calendar
         firstDayOfMonth?.set(Calendar.DAY_OF_MONTH, 1)
-        val first = firstDayOfMonth?.time
         adjustToStartOfWeek(firstDayOfMonth) // 주의 시작을 맞추기 위한 조정
 
         val lastDayOfMonth = _calendar.value?.clone() as Calendar
         lastDayOfMonth?.set(Calendar.DAY_OF_MONTH, lastDayOfMonth.getActualMaximum(Calendar.DAY_OF_MONTH))
-        val last = lastDayOfMonth?.time
         adjustToEndOfWeek(lastDayOfMonth) // 주의 끝을 맞추기 위한 조정
 
-        val dateFormat = SimpleDateFormat("yyyy-M-d", Locale.getDefault())
         var currentDate = firstDayOfMonth?.time
 
-        Log.d("selectDay", "updateCalendarDayList?:")
         while (!currentDate?.after(lastDayOfMonth?.time)!!) {
-            Log.d("CalendarFragment", "Calendar items updated: $currentDate")
-            var date = dateFormat.format(currentDate)
-            val isCurrentMonth = (currentDate >= first && currentDate <= last)
-
             dayList.add(currentDate)
             val nextDate = Calendar.getInstance()
             nextDate.time = currentDate
