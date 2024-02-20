@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aos.floney.domain.entity.GetbooksDaysData
+import com.aos.floney.domain.entity.GetbooksInfoData
 import com.aos.floney.domain.entity.GetbooksMonthData
 import com.aos.floney.domain.repository.CalendarRepository
 import com.aos.floney.util.view.UiState
@@ -40,6 +41,11 @@ class HomeViewModel @Inject constructor(
     val getDailyInformationState: StateFlow<UiState<GetbooksDaysData>> =
         _getDailyInformationState.asStateFlow()
 
+    private val _getbooksInformationState =
+        MutableStateFlow<UiState<GetbooksInfoData>>(UiState.Loading)
+    val getbooksInformationState: StateFlow<UiState<GetbooksInfoData>> =
+        _getbooksInformationState.asStateFlow()
+
 
     private val _postRegisterCalendarState = MutableStateFlow<UiState<Unit>>(UiState.Loading)
     val postRegisterCalendarState: StateFlow<UiState<Unit>> = _postRegisterCalendarState.asStateFlow()
@@ -48,6 +54,7 @@ class HomeViewModel @Inject constructor(
     init {
         _calendar.value = Calendar.getInstance()
         updateCalendarItems()
+        updatebooksInfoItems()
     }
 
     // ... (이후 코드는 동일)
@@ -185,6 +192,23 @@ class HomeViewModel @Inject constructor(
         }
 
     }
+    fun updatebooksInfoItems() {
+        Log.d("selectDay", "updatebooksInfo")
+
+        viewModelScope.launch {
+            calendarRepository.getbooksInfoData(Authorization, bookKey)
+                .onSuccess { response ->
+                    if (response != null) {
+                        _getbooksInformationState.value = UiState.Success(response)
+                    }
+                }.onFailure { t ->
+                    Log.d("selectDay", "onfailure: ${t}")
+                    _getbooksInformationState.value = UiState.Failure("${t.message}")
+                }
+        }
+
+    }
+
     // 내역 추가 버튼
     fun postButtonClick(){
 

@@ -1,6 +1,7 @@
 package com.aos.floney.data.service
 
 import com.aos.floney.data.dto.response.GetbooksDaysResponseDto
+import com.aos.floney.data.dto.response.GetbooksInfoResponseDto
 import com.aos.floney.data.dto.response.GetbooksMonthResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -22,5 +23,11 @@ interface CalendarService {
         @Query("bookKey") bookKey : String,
         @Query("date") date : String,
     ): GetbooksDaysResponseDto
+
+    @GET("/books/info")
+    suspend fun getbooksInfoData(
+        @Header("Authorization") authorization : String,
+        @Query("bookKey") bookKey : String
+    ): GetbooksInfoResponseDto
 
 }

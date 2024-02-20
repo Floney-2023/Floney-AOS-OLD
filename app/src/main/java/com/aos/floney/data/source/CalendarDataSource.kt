@@ -18,5 +18,9 @@ class CalendarDataSource @Inject constructor(
         date: String
     ) = calendarService.getbooksDaysData(authorization, bookKey, date)
 
+    suspend fun getbooksInfoData(
+        authorization : String,
+        bookKey: String
+    ) = calendarService.getbooksInfoData(authorization, bookKey)
 
 }

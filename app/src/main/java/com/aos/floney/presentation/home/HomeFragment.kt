@@ -9,15 +9,22 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentHomeBinding
 import com.aos.floney.presentation.home.calendar.CalendarFragment
 import com.aos.floney.presentation.home.daily.DailyFragment
+import com.aos.floney.util.fragment.viewLifeCycle
+import com.aos.floney.util.fragment.viewLifeCycleScope
+import com.aos.floney.util.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -29,10 +36,10 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         settingCalendarText()
         settingCalendarType()
         settingCalendarDialog()
+        settingCalendarBookInfo()
     }
 
     private fun settingCalendarText() {
@@ -110,6 +117,30 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
         }
     }
 
+    private fun settingCalendarBookInfo(){
+        viewModel.getbooksInformationState.flowWithLifecycle(viewLifeCycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    if (state.data.ourBookUsers?.isEmpty() == true) {
+
+                        Log.d("selectDay", "엠티: ${state.data}")
+                        // 값이 없을 경우 로직 구현
+                    } else {
+                        Log.d("selectDay", "들고옴: ${state.data}")
+                        /*if (state.data.bookImg != null)
+                            binding.walletImage.setImageResource(state.data.bookImg)*/
+                        binding.walletName.text = state.data.bookName
+                    }
+                }
+
+                is UiState.Failure -> Timber.e("Failure : ${state.msg}")
+                is UiState.Empty -> Unit
+                is UiState.Loading -> {
+                    //activateLoadingProgressBar()
+                }
+            }
+        }.launchIn(viewLifeCycleScope)
+    }
     private inline fun <reified T : Fragment> navigateTo() {
         childFragmentManager.commit {
             replace<T>(R.id.calendarTypeFragment, T::class.simpleName)
