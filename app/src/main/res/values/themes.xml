@@ -106,9 +106,4 @@
         <item name="android:textColorPrimary">@android:color/black</item>
         <item name="android:fontFamily">@font/pretendard_semibold</item>
     </style>
-
-    <style name="Theme.SplashScreen" parent="Theme.AppCompat">
-        <item name="android:statusBarColor">@color/mint</item>
-        <item name="android:animationDuration">1000</item>
-    </style>
 </resources>
