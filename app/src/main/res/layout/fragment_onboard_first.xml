@@ -38,6 +38,7 @@
             android:layout_marginEnd="40dp"
             android:background="@drawable/onboard_area1"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/some_id"
             app:layout_marginEnd="40dp"
@@ -58,7 +59,7 @@
 
         <ImageView
             android:id="@+id/list2"
-            android:layout_width="300dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginStart="18dp"
@@ -224,6 +225,158 @@
             android:background="@drawable/onboard_area2"
             app:layout_constraintEnd_toEndOf="@+id/bg_daily_dialog"
             app:layout_constraintTop_toBottomOf="@+id/line8" />
+
+        <View
+            android:id="@+id/line10"
+            android:layout_width="30dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="68dp"
+            android:background="@drawable/bg_daily_dialog"
+            app:layout_constraintEnd_toEndOf="@+id/list2"
+            app:layout_constraintTop_toTopOf="@+id/list2" />
+
+        <View
+            android:id="@+id/line11"
+            android:layout_width="30dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/bg_daily_dialog"
+            app:layout_constraintEnd_toEndOf="@+id/list2"
+            app:layout_constraintTop_toTopOf="@+id/list2" />
+
+        <View
+            android:id="@+id/line12"
+            android:layout_width="30dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_daily_dialog"
+            app:layout_constraintStart_toEndOf="@+id/line11"
+            app:layout_constraintTop_toTopOf="@+id/list2" />
+
+        <View
+            android:id="@+id/line13"
+            android:layout_width="30dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_daily_dialog"
+            app:layout_constraintStart_toEndOf="@+id/line11"
+            app:layout_constraintTop_toBottomOf="@+id/line12" />
+
+
+        <View
+            android:id="@+id/line14"
+            android:layout_width="30dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_daily_dialog"
+            app:layout_constraintStart_toEndOf="@+id/line15"
+            app:layout_constraintTop_toBottomOf="@+id/line24" />
+
+        <View
+            android:id="@+id/line15"
+            android:layout_width="30dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_daily_dialog"
+            app:layout_constraintStart_toEndOf="@+id/line17"
+            app:layout_constraintTop_toBottomOf="@+id/list2" />
+
+        <View
+            android:id="@+id/line16"
+            android:layout_width="30dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_daily_dialog"
+            app:layout_constraintStart_toEndOf="@+id/line18"
+            app:layout_constraintTop_toBottomOf="@+id/line17" />
+
+        <View
+            android:id="@+id/line17"
+            android:layout_width="30dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_daily_dialog"
+            app:layout_constraintStart_toEndOf="@+id/line19"
+            app:layout_constraintTop_toBottomOf="@+id/list2" />
+
+        <View
+            android:id="@+id/line18"
+            android:layout_width="30dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="-8dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_daily_dialog"
+            app:layout_constraintStart_toStartOf="@+id/list2"
+            app:layout_constraintTop_toBottomOf="@+id/line19" />
+
+
+        <View
+            android:id="@+id/line19"
+            android:layout_width="30dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="-8dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_daily_dialog"
+            app:layout_constraintStart_toStartOf="@+id/list2"
+            app:layout_constraintTop_toBottomOf="@+id/list2" />
+
+        <View
+            android:id="@+id/line20"
+            android:layout_width="30dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_daily_dialog"
+            app:layout_constraintStart_toEndOf="@+id/line22"
+            app:layout_constraintTop_toBottomOf="@+id/list2" />
+
+        <View
+            android:id="@+id/line21"
+            android:layout_width="30dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_daily_dialog"
+            app:layout_constraintStart_toEndOf="@+id/line23"
+            app:layout_constraintTop_toBottomOf="@+id/line22" />
+
+        <View
+            android:id="@+id/line22"
+            android:layout_width="30dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_daily_dialog"
+            app:layout_constraintStart_toEndOf="@+id/line23"
+            app:layout_constraintTop_toBottomOf="@+id/list2" />
+
+        <View
+            android:id="@+id/line23"
+            android:layout_width="30dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_daily_dialog"
+            app:layout_constraintStart_toEndOf="@+id/line24"
+            app:layout_constraintTop_toBottomOf="@+id/list2" />
+
+        <View
+            android:id="@+id/line24"
+            android:layout_width="30dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_daily_dialog"
+            app:layout_constraintStart_toEndOf="@+id/line15"
+            app:layout_constraintTop_toBottomOf="@+id/list2" />
 
         <ImageView
             android:id="@+id/image_profile_second"
