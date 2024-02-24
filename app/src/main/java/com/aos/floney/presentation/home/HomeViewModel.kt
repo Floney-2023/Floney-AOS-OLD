@@ -27,7 +27,7 @@ class HomeViewModel @Inject constructor(
 
     
 
-    // calendar를 MutableStateFlow로 변경
+    // calendar를 MutableStateFlow로 변경.
     private val _calendar = MutableStateFlow<Calendar>(Calendar.getInstance())
     val calendar: MutableStateFlow<Calendar> get() = _calendar
 
