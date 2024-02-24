@@ -3,12 +3,324 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.onboard.SecondFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        >
+
+        <TextView
+            android:id="@+id/some_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="90dp"
+            android:fontFamily="@font/floney_pretendard_bold"
+            android:gravity="top"
+            android:lineSpacingExtra="3sp"
+            android:text="모으고 사용한 흐름을\n한눈에 볼 수 있어요"
+            android:textAppearance="@style/first_onboard_text"
+            android:translationY="-1.28sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/customBackground"
+            android:layout_width="0dp"
+            android:layout_height="174dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/bg_daily_dialog"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/some_id"
+            app:layout_marginEnd="40dp"
+            app:layout_marginStart="40dp" />
+
+        <TextView
+            android:id="@+id/onboard_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:lineSpacingExtra="-3sp"
+            android:text="현재자산"
+            android:textAppearance="@style/second_onboard_text1"
+            app:layout_constraintStart_toStartOf="@+id/customBackground"
+            app:layout_constraintTop_toTopOf="@+id/customBackground" />
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="116dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/onboard_area8"
+            app:layout_constraintStart_toStartOf="@+id/customBackground"
+            app:layout_constraintTop_toBottomOf="@+id/onboard_text1" />
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="25dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/onboard_area5"
+            app:layout_constraintBottom_toBottomOf="@+id/customBackground"
+            app:layout_constraintStart_toEndOf="@+id/line3" />
+
+        <View
+            android:id="@+id/line3"
+            android:layout_width="25dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/onboard_area5"
+            app:layout_constraintBottom_toBottomOf="@+id/customBackground"
+            app:layout_constraintStart_toStartOf="@+id/customBackground" />
+
+        <View
+            android:id="@+id/line4"
+            android:layout_width="25dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/onboard_area5"
+            app:layout_constraintBottom_toBottomOf="@+id/customBackground"
+            app:layout_constraintStart_toEndOf="@+id/line2" />
+
+        <View
+            android:id="@+id/line5"
+            android:layout_width="25dp"
+            android:layout_height="66dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/onboard_area5"
+            app:layout_constraintBottom_toBottomOf="@+id/customBackground"
+            app:layout_constraintStart_toEndOf="@+id/line4" />
+
+        <View
+            android:id="@+id/line6"
+            android:layout_width="25dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/onboard_area5"
+            app:layout_constraintBottom_toBottomOf="@+id/customBackground"
+            app:layout_constraintStart_toEndOf="@+id/line5" />
+
+        <View
+            android:id="@+id/line7"
+            android:layout_width="25dp"
+            android:layout_height="78dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/onboard_area3"
+            app:layout_constraintBottom_toBottomOf="@+id/customBackground"
+            app:layout_constraintStart_toEndOf="@+id/line6" />
+
+
+        <TextView
+            android:id="@+id/first_onboard_passbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:gravity="center_horizontal|top"
+            android:lineSpacingExtra="-2sp"
+            android:text="건너뛰기"
+            android:textAppearance="@style/first_onboard_passbtn"
+            android:textDecoration="underline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/customBackground2" />
+
+        <LinearLayout
+            android:id="@+id/customBackground2"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/bg_daily_dialog"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/customBackground"
+            app:layout_marginEnd="40dp"
+            app:layout_marginStart="40dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/line8"
+                    android:layout_width="38dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
+                    android:background="@drawable/onboard_area3_graph" />
+
+                <View
+                    android:id="@+id/line9"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:background="#31C690" />
+
+                <View
+                    android:id="@+id/line10"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:background="#7FDCBA" />
+
+                <View
+                    android:id="@+id/line11"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:background="@drawable/onboard_area10" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/onboard_area3" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="식비"
+                        android:textAppearance="@style/second_onboard_text3" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="40%"
+                        android:textAppearance="@style/second_onboard_text4" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="180dp"
+                    android:layout_height="0dp"></View>
+
+                <View
+                    android:layout_width="84dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/onboard_area7"
+                    android:gravity="right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/onboard_area1" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="주거/통신"
+                        android:textAppearance="@style/second_onboard_text3" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="25%"
+                        android:textAppearance="@style/second_onboard_text4" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="180dp"
+                    android:layout_height="0dp"></View>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@drawable/onboard_area7"
+                    android:gravity="right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/onboard_area6" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="경조사"
+                        android:textAppearance="@style/second_onboard_text3" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="15%"
+                        android:textAppearance="@style/second_onboard_text4" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="180dp"
+                    android:layout_height="0dp"></View>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@drawable/onboard_area7"
+                    android:gravity="right" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

@@ -36,7 +36,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="40dp"
-            android:background="@drawable/onboard_area1"
+            android:background="@drawable/onboard_area8"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -142,7 +142,7 @@
             android:layout_height="12dp"
             android:layout_marginStart="14dp"
             android:layout_marginTop="24dp"
-            android:background="@drawable/onboard_area1"
+            android:background="@drawable/onboard_area8"
             app:layout_constraintStart_toEndOf="@+id/image_profile_first"
             app:layout_constraintTop_toBottomOf="@+id/first_onboard_month_day" />
 
@@ -152,7 +152,7 @@
             android:layout_height="12dp"
             android:layout_marginStart="14dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/onboard_area1"
+            android:background="@drawable/onboard_area8"
             app:layout_constraintStart_toEndOf="@+id/image_profile_first"
             app:layout_constraintTop_toBottomOf="@+id/line1" />
 
@@ -162,7 +162,7 @@
             android:layout_height="12dp"
             android:layout_marginStart="14dp"
             android:layout_marginTop="36dp"
-            android:background="@drawable/onboard_area1"
+            android:background="@drawable/onboard_area8"
             app:layout_constraintStart_toEndOf="@+id/image_profile_second"
             app:layout_constraintTop_toBottomOf="@+id/line2" />
 
@@ -172,7 +172,7 @@
             android:layout_height="12dp"
             android:layout_marginStart="14dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/onboard_area1"
+            android:background="@drawable/onboard_area8"
             app:layout_constraintStart_toEndOf="@+id/image_profile_second"
             app:layout_constraintTop_toBottomOf="@+id/line3" />
 
@@ -182,7 +182,7 @@
             android:layout_height="12dp"
             android:layout_marginStart="14dp"
             android:layout_marginTop="36dp"
-            android:background="@drawable/onboard_area1"
+            android:background="@drawable/onboard_area8"
             app:layout_constraintStart_toEndOf="@+id/image_profile_third"
             app:layout_constraintTop_toBottomOf="@+id/line4" />
 
@@ -192,7 +192,7 @@
             android:layout_height="12dp"
             android:layout_marginStart="14dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/onboard_area1"
+            android:background="@drawable/onboard_area8"
             app:layout_constraintStart_toEndOf="@+id/image_profile_third"
             app:layout_constraintTop_toBottomOf="@+id/line5" />
 
@@ -202,7 +202,7 @@
             android:layout_height="14dp"
             android:layout_marginTop="43dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/onboard_area2"
+            android:background="@drawable/onboard_area6"
             app:layout_constraintEnd_toEndOf="@+id/bg_daily_dialog"
             app:layout_constraintTop_toBottomOf="@+id/first_onboard_btn_" />
 
@@ -212,7 +212,7 @@
             android:layout_height="14dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/onboard_area2"
+            android:background="@drawable/onboard_area6"
             app:layout_constraintEnd_toEndOf="@+id/bg_daily_dialog"
             app:layout_constraintTop_toBottomOf="@+id/line7" />
 
@@ -222,7 +222,7 @@
             android:layout_height="14dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/onboard_area2"
+            android:background="@drawable/onboard_area6"
             app:layout_constraintEnd_toEndOf="@+id/bg_daily_dialog"
             app:layout_constraintTop_toBottomOf="@+id/line8" />
 
@@ -408,10 +408,11 @@
             android:gravity="center_horizontal|top"
             android:lineSpacingExtra="-2sp"
             android:text="건너뛰기"
-            android:textDecoration="underline"
             android:textAppearance="@style/first_onboard_passbtn"
-            app:layout_constraintTop_toBottomOf="@+id/bg_daily_dialog"
-            tools:layout_editor_absoluteX="184dp" />
+            android:textDecoration="underline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bg_daily_dialog" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
