@@ -206,7 +206,7 @@
                     android:layout_gravity="right"
                     android:text="153,000원"
                     android:fontFamily="@font/pretendard_bold"
-                    android:textAppearance="@style/third_onboard_text4" />
+                    android:textAppearance="@style/third_onboard_text2" />
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -325,7 +325,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="153,000원"
+                    android:text="51,000원"
                     android:fontFamily="@font/pretendard_bold"
                     android:textAppearance="@style/third_onboard_text4" />
             </LinearLayout>
@@ -341,6 +341,7 @@
             android:text="플로니 시작하기"
             android:textAppearance="@style/start_button"
             android:textColor="#FFFFFF"
+            android:fontFamily="@font/pretendard_bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/customBackground2" />
