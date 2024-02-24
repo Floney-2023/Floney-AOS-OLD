@@ -30,8 +30,6 @@ class SplashActivity : AppCompatActivity() {
 
 
     }
-
-
     private fun navigateToMain() {
         navigateTo<HomeActivity>()
     }

@@ -3,10 +3,16 @@ package com.aos.floney.presentation.onboard
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.aos.floney.R
+import com.aos.floney.databinding.ActivityMainBinding
+import com.aos.floney.databinding.ActivityOnBoardBinding
+import com.aos.floney.util.binding.BindingActivity
 
-class OnBoardActivity : AppCompatActivity() {
+class OnBoardActivity : BindingActivity<ActivityOnBoardBinding>(R.layout.activity_on_board) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_on_board)
+
+        val viewPaper = binding.viewpaper2
+        viewPaper.adapter = ViewPaperAdapter(this)
+
     }
 }
