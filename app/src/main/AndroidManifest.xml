@@ -17,6 +17,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.login.LoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.Floney" />
+        <activity
             android:name=".presentation.onboard.OnBoardActivity"
             android:exported="false" />
         <activity
