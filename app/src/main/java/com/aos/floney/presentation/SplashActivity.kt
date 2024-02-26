@@ -1,6 +1,7 @@
 package com.aos.floney.presentation
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -20,11 +21,11 @@ class SplashActivity : AppCompatActivity() {
         // 일정 시간 지연 이후 실행하기 위한 코드
         Handler(Looper.getMainLooper()).postDelayed({
 
-            // 일정 시간이 지나면 MainActivity로 이동
-            navigateToMain()
-
-            // 이전 키를 눌렀을 때 스플래스 스크린 화면으로 이동을 방지하기 위해
-            // 이동한 다음 사용안함으로 finish 처리
+            if (isOnBoardingFinished()) {
+                navigateToMain()
+            } else {
+                navigateToOnboard()
+            }
             finish()
 
         }, 1000) // 시간 1초 이후 실행
@@ -32,6 +33,9 @@ class SplashActivity : AppCompatActivity() {
 
     }
     private fun navigateToMain() {
+        navigateTo<HomeActivity>()
+    }
+    private fun navigateToOnboard() {
         navigateTo<OnBoardActivity>()
     }
 
@@ -41,4 +45,10 @@ class SplashActivity : AppCompatActivity() {
             startActivity(this)
         }
     }
+    //2
+    private fun isOnBoardingFinished(): Boolean {
+        val prefs = this.getSharedPreferences("onBoarding", Context.MODE_PRIVATE)
+        return prefs.getBoolean("finished", false)
+    }
+
 }

@@ -31,8 +31,9 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewpaper2"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/worm_dots_indicator" />
     </androidx.constraintlayout.widget.ConstraintLayout>
