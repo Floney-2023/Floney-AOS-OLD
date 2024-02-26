@@ -5,4 +5,6 @@
     <color name="bottom_black">#262626</color>
     <color name="bottom_gray">#A6A6A6</color>
     <color name="mint">#31C690</color>
+    <color name="primary5">#56D1A5</color>
+    <color name="grayscale8">#BFBFBF</color>
 </resources>
