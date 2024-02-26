@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/spring_dots_indicator" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/worm_dots_indicator" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

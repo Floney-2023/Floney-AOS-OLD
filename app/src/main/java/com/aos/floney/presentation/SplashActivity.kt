@@ -8,6 +8,7 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.aos.floney.R
+import com.aos.floney.presentation.onboard.OnBoardActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,7 +32,7 @@ class SplashActivity : AppCompatActivity() {
 
     }
     private fun navigateToMain() {
-        navigateTo<HomeActivity>()
+        navigateTo<OnBoardActivity>()
     }
 
     private inline fun <reified T : Activity> navigateTo() {
