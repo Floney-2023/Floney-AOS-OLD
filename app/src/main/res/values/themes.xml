@@ -224,7 +224,26 @@
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">#8C8C8C</item>
     </style>
+    <style name="sign_up_email_authentication_timer">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">#259D71</item>
+    </style>
+    <style name="sign_up_email_authentication_inform">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#8C8C8C</item>
+    </style>
 
+    <!--인증 코드 6자리 editText style-->
+    <style name="VerificationCodeEditText">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+    </style>
 
     <!--button style-->
     <style name="MyButtonStyle">
