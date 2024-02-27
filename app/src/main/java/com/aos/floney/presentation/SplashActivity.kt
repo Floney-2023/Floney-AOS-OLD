@@ -9,6 +9,7 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.aos.floney.R
+import com.aos.floney.presentation.login.LoginActivity
 import com.aos.floney.presentation.onboard.OnBoardActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +23,8 @@ class SplashActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
 
             if (isOnBoardingFinished()) {
-                navigateToMain()
+                navigateToLogin()
+            //navigateToMain()
             } else {
                 navigateToOnboard()
             }
@@ -31,6 +33,9 @@ class SplashActivity : AppCompatActivity() {
         }, 1000) // 시간 1초 이후 실행
 
 
+    }
+    private fun navigateToLogin() {
+        navigateTo<LoginActivity>()
     }
     private fun navigateToMain() {
         navigateTo<HomeActivity>()

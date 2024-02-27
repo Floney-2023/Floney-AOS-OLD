@@ -29,7 +29,7 @@ androidx-datastore = "1.0.0"
 androidx-swipe-refresh-layout = "1.1.0"
 
 # kotlin
-kotlin = "1.9.10"
+kotlin = "1.5.0"
 kotlinx-coroutines = "1.7.3"
 kotlinx-serialization-json = "1.5.1"
 kotlinx-datetime = "0.4.0"

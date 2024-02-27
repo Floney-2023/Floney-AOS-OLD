@@ -8,56 +8,87 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/login_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#FFFFFF"
         tools:context=".presentation.login.LoginActivity">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="86dp"
+            android:layout_marginTop="100dp"
             android:src="@drawable/logo_floney_login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/editText"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/id_edit_text"
+            style="@style/login_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="50dp"
             android:layout_marginEnd="20dp"
-            android:hint="이메일"
+            android:theme="@style/login_edit_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:passwordToggleEnabled="false">
 
-        <EditText
-            android:id="@+id/editText2"
+            <EditText
+                android:id="@+id/id_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edit_text"
+                android:hint="이메일"
+                android:padding="16dp"
+                android:textAppearance="@style/login_edit_text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/pw_edit_text"
+            style="@style/login_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
             android:layout_marginEnd="20dp"
-            android:hint="비밀번호"
+            app:hintAnimationEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText" />
+            app:layout_constraintTop_toBottomOf="@+id/id_edit_text"
+            app:passwordToggleEnabled="true">
+
+            <EditText
+                android:id="@+id/pw_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_edit_text"
+                android:hint="비밀번호"
+                android:inputType="textPassword"
+                android:padding="16dp"
+                android:textAppearance="@style/login_edit_text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/appCompatButton"
+            android:id="@+id/start_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/onboard_area1"
+            android:padding="16dp"
             android:text="로그인하기"
+            android:textAppearance="@style/start_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText2" />
+            app:layout_constraintTop_toBottomOf="@+id/pw_edit_text" />
 
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -71,23 +102,27 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatButton">
+            app:layout_constraintTop_toBottomOf="@+id/start_login">
 
             <TextView
+                android:id="@+id/find_pw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="비밀번호 찾기" />
+                android:text="@string/find_pw"
+                android:textAppearance="@style/login_underscore_text" />
 
             <View
                 android:layout_width="76dp"
                 android:layout_height="0dp" />
 
             <TextView
+                android:id="@+id/sing_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="회원가입 하기" />
+                android:text="@string/sign_up"
+                android:textAppearance="@style/login_underscore_text" />
         </LinearLayout>
 
         <TextView
@@ -111,6 +146,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView">
 
             <ImageView
+                android:id="@+id/kakao_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/btn_kakao" />
@@ -120,6 +156,7 @@
                 android:layout_height="0dp" />
 
             <ImageView
+                android:id="@+id/google_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/btn_google" />
