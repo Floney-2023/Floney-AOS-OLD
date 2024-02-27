@@ -232,6 +232,14 @@
         <item name="android:textSize">13sp</item>
         <item name="android:textColor">#8C8C8C</item>
     </style>
+    <style name="sign_up_input_text">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#8C8C8C</item>
+    </style>
+    <style name="sign_up_input_inform_text">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#8C8C8C</item>
+    </style>
 
     <!--인증 코드 6자리 editText style-->
     <style name="VerificationCodeEditText">
