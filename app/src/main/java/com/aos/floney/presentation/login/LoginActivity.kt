@@ -8,6 +8,7 @@ import androidx.fragment.app.replace
 import com.aos.floney.R
 import com.aos.floney.databinding.ActivityLoginBinding
 import com.aos.floney.presentation.home.HomeFragment
+import com.aos.floney.presentation.home.YearMonthPickerFragment
 import com.aos.floney.util.binding.BindingActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,8 +18,18 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         super.onCreate(savedInstanceState)
 
 
+        binding.singUp.setOnClickListener {
+
+        }
         binding.startLogin.setOnClickListener{
-            navigateTo<HomeFragment>()
+            // 이미 가입된 계정
+            val alreadySignFragment = AlreadySignFragment { year, month ->
+
+            }
+            alreadySignFragment.show(supportFragmentManager, "YearMonthPicker")
+
+            // 로그인 성공 시, 홈 페이지
+            //navigateTo<HomeFragment>()
         }
 
     }
