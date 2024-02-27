@@ -13,97 +13,191 @@
     </style>
 
     <style name="Theme.Floney" parent="Base.Theme.Floney" />
+
     <style name="wallet_name">
         <item name="android:textSize">11sp</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
+
     <style name="calendar_now_year_month">
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">#0D0D0D</item>
     </style>
+
     <style name="calendar_type_text">
         <item name="android:textSize">11sp</item>
         <item name="android:textColor">#262626</item>
     </style>
+
     <style name="expense_income_text">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
+
     <style name="expense_income_value">
         <item name="android:textSize">20sp</item>
         <item name="android:letterSpacing">-0.02</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
+
     <style name="details_text">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">#0D0D0D</item>
     </style>
+
     <style name="btn_detail_add">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">#259D71</item>
     </style>
+
     <style name="daily_view_empty">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">#8C8C8C</item>
     </style>
+
     <style name="date_text_view">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">#262626</item>
     </style>
+
     <style name="date_text_today_view">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
+
     <style name="deposit_text_view">
         <item name="android:textSize">10sp</item>
         <item name="android:textColor">#0060E6</item>
     </style>
+
     <style name="withdraw_text_view">
         <item name="android:textSize">10sp</item>
         <item name="android:textColor">#F14F4F</item>
     </style>
+
     <style name="post_button">
         <item name="android:src">@drawable/icon_add_circle</item>
     </style>
+
     <style name="daily_category_text_view">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">#8C8C8C</item>
     </style>
+
     <style name="daily_content_text_view">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#262626</item>
     </style>
+
     <style name="daily_money_text_view">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#262626</item>
         <item name="android:fontFamily">@font/floney_pretendard_bold</item>
     </style>
+
     <style name="daily_dialog_year">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#8C8C8C</item>
     </style>
+
     <style name="daily_dialog_day">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">#0D0D0D</item>
     </style>
 
-    <style name="AppBottomSheetDialogTheme"
-        parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="first_onboard_text">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">#0D0D0D</item>
+    </style>
+
+    <style name="first_onboard_year">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#8C8C8C</item>
+    </style>
+
+    <style name="first_onboard_month_day">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#0D0D0D</item>
+    </style>
+
+    <style name="first_onboard_btn_">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">#259D71</item>
+    </style>
+
+    <style name="first_onboard_passbtn">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#8C8C8C</item>
+    </style>
+
+    <style name="second_onboard_text1">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#8C8C8C</item>
+    </style>
+
+    <style name="second_onboard_text2">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#262626</item>
+    </style>
+
+    <style name="second_onboard_text3">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#262626</item>
+    </style>
+
+    <style name="second_onboard_text4">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#737373</item>
+    </style>
+
+    <style name="third_onboard_text1">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#262626</item>
+    </style>
+
+    <style name="third_onboard_text2">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#414141</item>
+    </style>
+
+    <style name="third_onboard_text3">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#FAFAFA</item>
+    </style>
+
+    <style name="third_onboard_text4">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#135D42</item>
+    </style>
+
+    <style name="third_onboard_text5">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#FAFAFA</item>
+    </style>
+
+    <style name="start_button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
         <item name="android:windowIsFloating">false</item>
-        <item name="android:statusBarColor">@android:color/transparent</item> <!-- And then this will be needed -->
+        <item name="android:statusBarColor">@android:color/transparent
+        </item> <!-- And then this will be needed -->
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
 
-    <style name="AppModalStyle"
-        parent="Widget.Design.BottomSheet.Modal">
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_daily_dialog</item>
         <item name="android:fontFamily">@font/pretendard_semibold</item>
     </style>
+
     <style name="NumberPickerStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textSize">20sp</item>
         <item name="android:textColorPrimary">@android:color/black</item>
         <item name="android:fontFamily">@font/pretendard_semibold</item>
     </style>
+
 </resources>

@@ -1,4 +1,4 @@
-package com.aos.floney.presentation
+package com.aos.floney.presentation.login
 
 import android.os.Bundle
 import android.text.TextUtils.replace
@@ -13,7 +13,7 @@ import com.aos.floney.util.binding.BindingActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
+class LoginActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         navigateTo<HomeFragment>()
