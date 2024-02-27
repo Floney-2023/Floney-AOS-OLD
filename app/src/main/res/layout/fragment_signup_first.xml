@@ -229,6 +229,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayout7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -247,12 +248,14 @@
                     android:layout_height="wrap_content"
                     android:buttonTint="@drawable/checkbox_selector"
                     android:checked="false" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="만 14세 이상 확인 (필수)"
                     android:fontFamily="@font/pretendard_regular"
-                    android:textAppearance="@style/sign_up_right_text"/>
+                    android:text="만 14세 이상 확인 (필수)"
+                    android:textAppearance="@style/sign_up_right_text" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -263,6 +266,15 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon_chevron_right" />
             </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/next_button"
+                style="@style/MyButtonStyle"
+                android:layout_marginBottom="38dp"
+                android:text="다음으로"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
