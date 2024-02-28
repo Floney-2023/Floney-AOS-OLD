@@ -33,101 +33,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <View
+            <ImageView
                 android:id="@+id/customBackground"
                 android:layout_width="0dp"
-                android:layout_height="174dp"
-                android:layout_marginStart="30dp"
+                android:layout_height="230dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="28dp"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/bg_daily_dialog"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/icon_graph"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/some_id" />
-
-            <TextView
-                android:id="@+id/onboard_text1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:lineSpacingExtra="-3sp"
-                android:text="현재자산"
-                android:textAppearance="@style/second_onboard_text1"
-                app:layout_constraintStart_toStartOf="@+id/customBackground"
-                app:layout_constraintTop_toTopOf="@+id/customBackground" />
-
-            <View
-                android:id="@+id/line1"
-                android:layout_width="116dp"
-                android:layout_height="14dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/onboard_area8"
-                app:layout_constraintStart_toStartOf="@+id/customBackground"
-                app:layout_constraintTop_toBottomOf="@+id/onboard_text1" />
-
-            <View
-                android:id="@+id/line2"
-                android:layout_width="25dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="28dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/onboard_area5"
-                app:layout_constraintBottom_toBottomOf="@+id/customBackground"
-                app:layout_constraintStart_toEndOf="@+id/line3" />
-
-            <View
-                android:id="@+id/line3"
-                android:layout_width="25dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/onboard_area5"
-                app:layout_constraintBottom_toBottomOf="@+id/customBackground"
-                app:layout_constraintStart_toStartOf="@+id/customBackground" />
-
-            <View
-                android:id="@+id/line4"
-                android:layout_width="25dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="28dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/onboard_area5"
-                app:layout_constraintBottom_toBottomOf="@+id/customBackground"
-                app:layout_constraintStart_toEndOf="@+id/line2" />
-
-            <View
-                android:id="@+id/line5"
-                android:layout_width="25dp"
-                android:layout_height="66dp"
-                android:layout_marginStart="28dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/onboard_area5"
-                app:layout_constraintBottom_toBottomOf="@+id/customBackground"
-                app:layout_constraintStart_toEndOf="@+id/line4" />
-
-            <View
-                android:id="@+id/line6"
-                android:layout_width="25dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="28dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/onboard_area5"
-                app:layout_constraintBottom_toBottomOf="@+id/customBackground"
-                app:layout_constraintStart_toEndOf="@+id/line5" />
-
-            <View
-                android:id="@+id/line7"
-                android:layout_width="25dp"
-                android:layout_height="78dp"
-                android:layout_marginStart="28dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/onboard_area3"
-                app:layout_constraintBottom_toBottomOf="@+id/customBackground"
-                app:layout_constraintStart_toEndOf="@+id/line6" />
-
 
 
             <LinearLayout
