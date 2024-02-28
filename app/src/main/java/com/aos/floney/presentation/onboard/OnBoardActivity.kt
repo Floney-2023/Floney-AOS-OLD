@@ -5,7 +5,9 @@ import android.os.Bundle
 import com.aos.floney.R
 import com.aos.floney.databinding.ActivityOnBoardBinding
 import com.aos.floney.util.binding.BindingActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OnBoardActivity : BindingActivity<ActivityOnBoardBinding>(R.layout.activity_on_board) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

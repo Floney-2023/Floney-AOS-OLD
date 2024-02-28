@@ -6,6 +6,7 @@
     <data>
 
     </data>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,8 +14,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/some_id"
@@ -64,8 +64,8 @@
                     <View
                         android:layout_width="0dp"
                         android:layout_height="12dp"
-                        android:background="@drawable/onboard_area8"
-                        android:layout_weight="2.5"/>
+                        android:layout_weight="2.5"
+                        android:background="@drawable/onboard_area8" />
 
                     <View
                         android:layout_width="0dp"
@@ -105,8 +105,8 @@
                     <View
                         android:layout_width="0dp"
                         android:layout_height="12dp"
-                        android:background="@drawable/onboard_area8"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:background="@drawable/onboard_area8" />
 
 
                     <View
@@ -146,8 +146,8 @@
                     <View
                         android:layout_width="0dp"
                         android:layout_height="12dp"
-                        android:background="@drawable/onboard_area8"
-                        android:layout_weight="3"/>
+                        android:layout_weight="3"
+                        android:background="@drawable/onboard_area8" />
 
                     <View
                         android:layout_width="0dp"
@@ -349,6 +349,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginStart="30dp"
+                android:layout_marginTop="36dp"
                 android:layout_marginEnd="30dp"
                 android:background="@drawable/onboard_area1"
                 android:fontFamily="@font/pretendard_bold"

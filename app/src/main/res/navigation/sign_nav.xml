@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sign_nav"
+    app:startDestination="@id/fistFragment">
+
+    <fragment
+        android:id="@+id/fistFragment"
+        android:name="com.aos.floney.presentation.signup.SignUpFirstFragment"
+        android:label="SignUpFirstFragment" >
+        <action
+            android:id="@+id/action_fistFragment_to_secondFragment"
+            app:destination="@id/secondFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/secondFragment"
+        android:name="com.aos.floney.presentation.signup.SignUpSecondFragment"
+        android:label="SignUpSecondFragment" >
+        <action
+            android:id="@+id/action_secondFragment_to_thirdFragment"
+            app:destination="@id/thirdFragment" />
+        <action
+            android:id="@+id/action_secondFragment_to_fistFragment"
+            app:destination="@id/fistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/thirdFragment"
+        android:name="com.aos.floney.presentation.signup.SignUpThirdFragment"
+        android:label="SignUpThirdFragment" >
+        <action
+            android:id="@+id/action_thirdFragment_to_FourthFragment"
+            app:destination="@id/FourthFragment" />
+        <action
+            android:id="@+id/action_thirdFragment_to_secondFragment"
+            app:destination="@id/secondFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/FourthFragment"
+        android:name="com.aos.floney.presentation.signup.SignUpFourthFragment"
+        android:label="SignUpFourthFragment" >
+        <action
+            android:id="@+id/action_FourthFragment_to_FifthFragment"
+            app:destination="@id/FifthFragment" />
+        <action
+            android:id="@+id/action_FourthFragment_to_thirdFragment"
+            app:destination="@id/thirdFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/FifthFragment"
+        android:name="com.aos.floney.presentation.signup.SignUpFifthFragment"
+        android:label="SignUpFifthFragment" />
+</navigation>

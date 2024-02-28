@@ -6,6 +6,7 @@
     <data>
 
     </data>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,8 +14,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/some_id"
@@ -38,7 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="230dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:src="@drawable/icon_graph"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -46,187 +46,24 @@
                 app:layout_constraintTop_toBottomOf="@+id/some_id" />
 
 
-            <LinearLayout
+            <ImageView
                 android:id="@+id/customBackground2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/bg_card_view"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="290dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/icon_graph_2"
                 android:padding="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/customBackground">
+                app:layout_constraintTop_toBottomOf="@+id/customBackground"></ImageView>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:id="@+id/line8"
-                        android:layout_width="38dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.6"
-                        android:background="@drawable/onboard_area3_graph" />
-
-                    <View
-                        android:id="@+id/line9"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.4"
-                        android:background="#31C690" />
-
-                    <View
-                        android:id="@+id/line10"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.4"
-                        android:background="#7FDCBA" />
-
-                    <View
-                        android:id="@+id/line11"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.4"
-                        android:background="@drawable/onboard_area10" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="4dp"
-                        android:layout_height="20dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/onboard_area3" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="식비"
-                            android:textAppearance="@style/second_onboard_text3" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="40%"
-                            android:textAppearance="@style/second_onboard_text4" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="180dp"
-                        android:layout_height="0dp"></View>
-
-                    <View
-                        android:layout_width="84dp"
-                        android:layout_height="20dp"
-                        android:background="@drawable/onboard_area7"
-                        android:gravity="right" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="4dp"
-                        android:layout_height="20dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/onboard_area1" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="주거/통신"
-                            android:textAppearance="@style/second_onboard_text3" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25%"
-                            android:textAppearance="@style/second_onboard_text4" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="180dp"
-                        android:layout_height="0dp"></View>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="20dp"
-                        android:background="@drawable/onboard_area7"
-                        android:gravity="right" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="4dp"
-                        android:layout_height="20dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/onboard_area6" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="경조사"
-                            android:textAppearance="@style/second_onboard_text3" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="15%"
-                            android:textAppearance="@style/second_onboard_text4" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="180dp"
-                        android:layout_height="0dp"></View>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="20dp"
-                        android:background="@drawable/onboard_area7"
-                        android:gravity="right" />
-                </LinearLayout>
-            </LinearLayout>
             <TextView
                 android:id="@+id/first_onboard_passbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="38dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center_horizontal|top"
                 android:lineSpacingExtra="-2sp"
                 android:text="건너뛰기"

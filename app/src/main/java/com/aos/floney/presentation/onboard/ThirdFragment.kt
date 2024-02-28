@@ -16,24 +16,29 @@ import com.aos.floney.databinding.ActivityOnBoardBinding
 import com.aos.floney.databinding.FragmentHomeBinding
 import com.aos.floney.databinding.FragmentOnboardThirdBinding
 import com.aos.floney.presentation.HomeActivity
+import com.aos.floney.presentation.login.LoginActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
-
+@AndroidEntryPoint
 class ThirdFragment : BindingFragment<FragmentOnboardThirdBinding>(R.layout.fragment_onboard_third) {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.root.requestLayout()
         super.onViewCreated(view, savedInstanceState)
+
         binding.startButton.setOnClickListener {
             navigateToMain()
             onBoardingFinished()
         }
     }
+
     private fun onBoardingFinished() {
         val prefs = requireActivity().getSharedPreferences("onBoarding", Context.MODE_PRIVATE)
         prefs.edit().putBoolean("finished", true).apply()
     }
     private fun navigateToMain() {
-        navigateTo<HomeActivity>()
+        navigateTo<LoginActivity>()
     }
 
     private fun navigateToOnboard() {
