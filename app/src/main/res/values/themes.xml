@@ -265,6 +265,12 @@
         <item name="android:textAppearance">@style/start_button</item>
     </style>
 
+    <!--item_toast_sample-->
+    <style name="item_toast_sample" parent="Base.Theme.Floney">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
     <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
         <item name="android:windowIsFloating">false</item>
