@@ -21,7 +21,7 @@ class SignUpThirdFragment : BindingFragment<FragmentSignupThirdBinding>(R.layout
         super.onViewCreated(view, savedInstanceState)
 
         binding.imageView2.setOnClickListener {
-            findNavController().navigate(R.id.action_thirdFragment_to_secondFragment)
+            findNavController().popBackStack()
         }
         binding.nextButton.setOnClickListener {
             findNavController().navigate(R.id.action_thirdFragment_to_FourthFragment)

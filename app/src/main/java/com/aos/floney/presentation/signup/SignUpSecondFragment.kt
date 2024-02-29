@@ -22,7 +22,7 @@ class SignUpSecondFragment : BindingFragment<FragmentSignupSecondBinding>(R.layo
         super.onViewCreated(view, savedInstanceState)
 
         binding.imageView2.setOnClickListener {
-            findNavController().navigate(R.id.action_secondFragment_to_fistFragment)
+            findNavController().popBackStack()
         }
         binding.sendMail.setOnClickListener {
             findNavController().navigate(R.id.action_secondFragment_to_thirdFragment)

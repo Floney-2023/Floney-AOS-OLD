@@ -21,7 +21,7 @@ class SignUpFourthFragment : BindingFragment<FragmentSignupFourthBinding>(R.layo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.imageView2.setOnClickListener {
-            findNavController().navigate(R.id.action_FourthFragment_to_thirdFragment)
+            findNavController().popBackStack()
         }
         binding.nextButton.setOnClickListener {
             findNavController().navigate(R.id.action_FourthFragment_to_FifthFragment)
