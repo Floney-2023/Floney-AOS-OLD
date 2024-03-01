@@ -23,6 +23,9 @@ class SignUpFirstFragment : BindingFragment<FragmentSignupFirstBinding>(R.layout
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initsetting()
+    }
+    private fun initsetting(){
         binding.checkService.setOnClickListener { updateCheckAll() }
         binding.checkPrivacy.setOnClickListener { updateCheckAll() }
         binding.checkMarketing.setOnClickListener { updateCheckAll() }

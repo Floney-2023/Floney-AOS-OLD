@@ -176,6 +176,8 @@
     </style>
 
     <style name="start_button">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
@@ -187,6 +189,8 @@
         <item name="android:textCursorDrawable">@color/grayscale6</item>
         <item name="android:textColorHint">@color/grayscale6</item>
         <item name="hintTextColor">@color/grayscale6</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
     <style name="login_underscore_text">
         <item name="android:textSize">14sp</item>
@@ -199,6 +203,7 @@
     </style>
     <style name="login_popup_text2">
         <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">#0D0D0D</item>
     </style>
@@ -219,14 +224,20 @@
     <style name="sign_up_right_text">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#262626</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
     <style name="sign_up_email_authentication">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">#8C8C8C</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
     <style name="sign_up_email_authentication_timer">
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">#259D71</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
     <style name="sign_up_email_authentication_inform">
         <item name="android:textSize">13sp</item>
@@ -235,10 +246,13 @@
     <style name="sign_up_input_text">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#8C8C8C</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
     </style>
     <style name="sign_up_input_inform_text">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">#8C8C8C</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
     </style>
 
     <!--인증 코드 6자리 editText style-->
@@ -251,6 +265,7 @@
         <item name="android:maxLength">1</item>
         <item name="android:textSize">30sp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="fontFamily">@font/pretendard_bold</item>
     </style>
 
     <!--button style-->
@@ -269,6 +284,8 @@
     <style name="item_toast_sample" parent="Base.Theme.Floney">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#FFFFFF</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
