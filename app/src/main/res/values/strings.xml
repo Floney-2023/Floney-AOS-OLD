@@ -19,4 +19,18 @@
     <string name="find_pw"><u>비밀번호 찾기</u></string>
     <string name="sign_up"><u>회원가입 하기</u></string>
 
+    <!--myPageActivity(메인)-->
+    <string name="mypage_main_mypage_text">마이페이지</string>
+    <string name="mypage_main_appstore_text">앱스토어에서\n별점을 남겨주세요</string>
+    <string name="mypage_main_appstore_write_text">리뷰쓰기</string>
+    <string name="mypage_main_suppose_text">플로니는 여러분의\n다양한 의견을\n기다리고 있어요</string>
+    <string name="mypage_main_suppose_write_text">제안하기</string>
+    <string name="mypage_main_my_wallet">내 가계부</string>
+    <string name="mypage_main_user_soppose_text1">고객지원</string>
+    <string name="mypage_main_user_soppose_text2">문의하기</string>
+    <string name="mypage_main_user_soppose_text3">공지사항</string>
+    <string name="mypage_main_user_soppose_text4">리뷰 작성하기</string>
+    <string name="mypage_main_user_soppose_text5">개인정보 처리방침</string>
+    <string name="mypage_main_user_soppose_text6">이용 약관</string>
+
 </resources>
