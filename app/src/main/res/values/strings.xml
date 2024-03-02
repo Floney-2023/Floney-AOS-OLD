@@ -33,4 +33,10 @@
     <string name="mypage_main_user_soppose_text5">개인정보 처리방침</string>
     <string name="mypage_main_user_soppose_text6">이용 약관</string>
 
+    <!--myPageActivity(설정)-->
+    <string name="mypage_main_setting_text">설정</string>
+    <string name="mypage_main_setting_text1">알림 설정</string>
+    <string name="mypage_main_setting_text2">언어 설정</string>
+    <string name="mypage_main_setting_text3">Version 1.1</string>
+
 </resources>
