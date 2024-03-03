@@ -38,5 +38,7 @@
     <string name="mypage_main_setting_text1">알림 설정</string>
     <string name="mypage_main_setting_text2">언어 설정</string>
     <string name="mypage_main_setting_text3">Version 1.1</string>
+    <string name="mypage_main_setting_text4">마케팅 정보 수신 알림</string>
+    <string name="mypage_main_setting_text5">한국어</string>
 
 </resources>

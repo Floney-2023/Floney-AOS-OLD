@@ -25,7 +25,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="36dp"
                     android:fontFamily="@font/floney_pretendard_bold"
-                    android:text="@string/mypage_main_setting_text"
+                    android:text="@string/mypage_main_setting_text1"
                     android:textAppearance="@style/mypage_inform_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +46,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/mypage_main_setting_text1"
+                        android:text="@string/mypage_main_setting_text4"
                         android:textAppearance="@style/mypage_user_email" />
 
                     <View
@@ -58,55 +58,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/icon_chevron_right" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/language_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/alarm_view">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/mypage_main_setting_text2"
-                        android:textAppearance="@style/mypage_user_email" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/icon_chevron_right" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/review_write"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:padding="20dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/language_view">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/mypage_main_setting_text3"
-                        android:textAppearance="@style/mypage_user_email" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
