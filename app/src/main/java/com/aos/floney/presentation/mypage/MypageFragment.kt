@@ -21,7 +21,7 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
 
     }
     private fun initsetting(){
-        binding.alarmButton.setOnClickListener {
+        binding.alarm.setOnClickListener {
 
         }
         binding.settingButton.setOnClickListener {
@@ -31,6 +31,10 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
     private inline fun <reified T : Fragment> navigateTo() {
         childFragmentManager.commit {
             replace<T>(R.id.mypageFragment, T::class.simpleName)
+            addToBackStack(ROOT_FRAGMENT_HOME)
         }
+    }
+    companion object {
+        private const val ROOT_FRAGMENT_HOME = "MypageFragment"
     }
 }

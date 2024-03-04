@@ -11,8 +11,7 @@ import android.widget.NumberPicker
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.aos.floney.databinding.FragmentAlreadySignBinding
-import com.aos.floney.databinding.FragmentYearMonthPickerBinding
+import com.aos.floney.databinding.FragmentSignupAlreadyDialogBinding
 import com.aos.floney.presentation.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
@@ -23,12 +22,12 @@ class AlreadySignFragment(
 )
  : DialogFragment() {
 
-    private var _binding: FragmentAlreadySignBinding? = null
+    private var _binding: FragmentSignupAlreadyDialogBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: HomeViewModel by viewModels(ownerProducer = {  requireActivity() })
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = FragmentAlreadySignBinding.inflate(inflater, container, false)
+        _binding = FragmentSignupAlreadyDialogBinding.inflate(inflater, container, false)
         val view = binding.root
 
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
