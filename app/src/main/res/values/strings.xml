@@ -69,11 +69,13 @@
 
     <!--myPageActivity(회원정보 1-5, 회원탈퇴1단계)-->
     <string name="mypage_main_inform_exit_title">회원탈퇴 전\n이유를 선택해주세요 😥</string>
-    <string name="mypage_main_inform_text1">잠깐! 탈퇴 시 가계부 기록이\n모두 삭제 됩니다.</string>
-    <string name="mypage_main_inform_text2">플로니를 어떻게 사용하는지 모르겠어요</string>
-    <string name="mypage_main_inform_text3">다시 가입할 거예요</string>
-    <string name="mypage_main_inform_text4">직접 입력하기</string>
-    <string name="mypage_main_inform_text5">이유를 작성해 주세요 (100자 이내)</string>
+    <string name="mypage_main_inform_exit_text1">잠깐! 탈퇴 시 가계부 기록이\n모두 삭제 됩니다.</string>
+    <string name="mypage_main_inform_exit_text2">플로니를 어떻게 사용하는지 모르겠어요</string>
+    <string name="mypage_main_inform_exit_text3">구독료가 비싸요</string>
+    <string name="mypage_main_inform_exit_text4">자주 사용하지 않게 돼요</string>
+    <string name="mypage_main_inform_exit_text5">다시 가입할 거예요</string>
+    <string name="mypage_main_inform_exit_text6">직접 입력하기</string>
+    <string name="mypage_main_inform_exit_text7">이유를 작성해 주세요 (100자 이내)</string>
 
     <!--myPageActivity(회원정보 1-6, 회원탈퇴2단계)-->
     <string name="mypage_main_inform_exit_2_title">마지막으로 비밀번호를\n입력해 주세요.</string>
