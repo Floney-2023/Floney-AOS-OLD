@@ -13,8 +13,9 @@ import com.aos.floney.databinding.FragmentMypageSettingBinding
 import com.aos.floney.presentation.mypage.MypageViewModel
 import com.aos.floney.presentation.mypage.settings.alarm.MypageFragmentSettingAlarm
 import com.aos.floney.presentation.mypage.settings.language.MypageFragmentSettingLanguage
+import dagger.hilt.android.AndroidEntryPoint
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
-
+@AndroidEntryPoint
 class MypageFragmentSetting  : BindingFragment<FragmentMypageSettingBinding>(R.layout.fragment_mypage_setting){
     private val viewModel: MypageViewModel by viewModels()
 

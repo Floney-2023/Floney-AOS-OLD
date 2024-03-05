@@ -2,9 +2,11 @@ package com.aos.floney.di
 
 import com.aos.floney.data.repository.CalendarRepositoryImpl
 import com.aos.floney.data.repository.DataStoreRepositoryImpl
+import com.aos.floney.data.repository.MypageRepositoryImpl
 import com.aos.floney.data.repository.UserRepositoryImpl
 import com.aos.floney.domain.repository.CalendarRepository
 import com.aos.floney.domain.repository.DataStoreRepository
+import com.aos.floney.domain.repository.MyPageRepository
 import com.aos.floney.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -32,4 +34,10 @@ abstract class RepositoryModule {
     abstract fun bindsCalendarRepository(
         calendarRepositoryImpl: CalendarRepositoryImpl
     ): CalendarRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindsMypageRepository(
+        mypageRepositoryImpl: MypageRepositoryImpl
+    ): MyPageRepository
 }

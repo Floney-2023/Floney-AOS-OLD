@@ -12,8 +12,9 @@ import androidx.fragment.app.viewModels
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentMypageSettingLanguageBinding
 import com.aos.floney.presentation.mypage.MypageViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
-
+@AndroidEntryPoint
 class MypageFragmentSettingLanguage  : BindingFragment<FragmentMypageSettingLanguageBinding>(R.layout.fragment_mypage_setting_language){
     private val viewModel: MypageViewModel by viewModels()
     private lateinit var callback: OnBackPressedCallback

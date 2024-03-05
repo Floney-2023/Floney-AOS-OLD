@@ -76,6 +76,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView10">
 
                     <ImageView
+                        android:id="@+id/profile_img"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/icon_profile_" />
@@ -87,6 +88,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/nick_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
@@ -95,6 +97,7 @@
                             android:textAppearance="@style/mypage_user_name" />
 
                         <TextView
+                            android:id="@+id/email"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="user@gmail.com"
@@ -191,76 +194,24 @@
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout10" />
 
                 <LinearLayout
-                    android:id="@+id/wallet_1_view"
+                    android:id="@+id/wallet_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="22dp"
                     android:layout_marginEnd="25dp"
-                    android:background="@drawable/bg_grayscale12"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="20dp"
+
+                    android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView9">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/icon_profile_" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dp"
-                            android:text="name"
-                            android:textAppearance="@style/mypage_user_name" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1명"
-                            android:textAppearance="@style/mypage_wallet_count" />
-                    </LinearLayout>
-
                     <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
+                        android:layout_width="10dp"
+                        android:layout_height="10dp" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/icon_check_circle_activated" />
-                </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/wallet_2_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="25dp"
-                    android:gravity="center|center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="20dp"
-                    android:background="@drawable/item_dashed_border"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/wallet_1_view">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:src="@drawable/icon_add_wallet"
-                        android:backgroundTint="@color/grayscale9"/>
+
 
                 </LinearLayout>
 
@@ -274,7 +225,7 @@
                     android:text="@string/mypage_main_user_soppose_text1"
                     android:textAppearance="@style/mypage_inform_text"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/wallet_2_view" />
+                    app:layout_constraintTop_toBottomOf="@id/wallet_view" />
 
 
                 <LinearLayout

@@ -14,8 +14,9 @@ import com.aos.floney.databinding.FragmentMypageSettingAlarmBinding
 import com.aos.floney.databinding.FragmentMypageSettingBinding
 import com.aos.floney.presentation.mypage.MypageViewModel
 import com.aos.floney.presentation.mypage.settings.MypageFragmentSetting
+import dagger.hilt.android.AndroidEntryPoint
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
-
+@AndroidEntryPoint
 class MypageFragmentSettingAlarm  : BindingFragment<FragmentMypageSettingAlarmBinding>(R.layout.fragment_mypage_setting_alarm){
     private val viewModel: MypageViewModel by viewModels()
     private var share : Boolean = false
