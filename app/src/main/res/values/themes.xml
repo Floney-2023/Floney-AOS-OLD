@@ -325,6 +325,11 @@
         <item name="fontFamily">@font/floney_pretendard_bold</item>
     </style>
 
+    <style name="mypage_inform_title_text">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/grayscale2</item>
+    </style>
+
     <!--인증 코드 6자리 editText style-->
     <style name="VerificationCodeEditText">
         <item name="android:layout_width">50dp</item>

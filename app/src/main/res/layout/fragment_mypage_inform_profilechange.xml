@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:id="@+id/mypageFragmentSetting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        tools:context=".presentation.mypage.inform.MypageFragmentInform">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/mypageFragmentSetting">
+
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="24dp"
+                android:padding="20dp"
+                android:src="@drawable/icon_chevron_left"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:fontFamily="@font/floney_pretendard_bold"
+                android:text="@string/mypage_main_inform_profile_change"
+                android:textAppearance="@style/mypage_inform_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <FrameLayout
+                android:id="@+id/profile_view"
+                android:layout_width="124dp"
+                android:layout_height="124dp"
+                android:layout_marginTop="38dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView10">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/profile_card_view"
+                    android:layout_gravity="center"
+                    android:layout_width="124dp"
+                    android:layout_height="124dp"
+                    app:cardCornerRadius="100dp">
+
+                    <ImageView
+                        android:id="@+id/profileImg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/mypage_main_inform_nickname"
+                        android:textAppearance="@style/sign_up_input_text"
+                        android:src="@drawable/btn_profile"
+                        />
+
+                </androidx.cardview.widget.CardView>
+
+                <ToggleButton
+                    android:id="@+id/btn_photo_camera"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:textOff=""
+                    android:textOn=""
+                    android:background="@drawable/btn_photo_camera"
+                    android:layout_gravity="bottom|end"/>
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/profile_change_basic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/floney_pretendard_bold"
+                android:text="@string/mypage_main_inform_profile_change_basic"
+                android:textAppearance="@style/first_onboard_passbtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profile_view" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/grayscale2"
+                android:paddingTop="20dp"
+                android:paddingBottom="32dp"
+                android:text="변경하기"
+                android:textAppearance="@style/start_button"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
+</layout>
