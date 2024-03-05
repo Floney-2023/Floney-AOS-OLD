@@ -3,6 +3,7 @@ package com.aos.floney.presentation.mypage
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -65,26 +66,31 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
         binding.nickName.text = state.data.nickname
         binding.email.text = state.data.email
 
-        /*// 첫 번재 가계부 view
-        //binding.bookImg.setImageResource(state.data.myBooks[0].bookImg)
-        binding.name.text=state.data.myBooks[0].name
-        binding.memberCount.text=state.data.myBooks[0].memberCount.toString()
-
-        //state.data.myBooks 의 개수에 맞춰서 wallet_detail_view 생성해서 wallet_view에 추가해 나가기 부탁..*/
         binding.walletView.removeAllViews()
 
         // Iterate through each item in myBooks
         for (book in state.data.myBooks) {
-            // Inflate the wallet_detail_view layout
+
             val walletDetailView = layoutInflater.inflate(R.layout.item_wallet_detail_view, null)
-
-            // Set data to wallet_detail_view
-            //walletDetailView.findViewById<ImageView>(R.id.book_img).setImageResource(book.bookImg)
+            
             walletDetailView.findViewById<TextView>(R.id.name).text = book.name
-            walletDetailView.findViewById<TextView>(R.id.member_count).text = book.memberCount.toString()
+            walletDetailView.findViewById<TextView>(R.id.member_count).text = book.memberCount.toString() + "명"
 
-            // Add wallet_detail_view to wallet_view
-            binding.walletView.addView(walletDetailView)
+            // Set layout parameters with margins
+            val layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            layoutParams.setMargins(0, 0, 0, 20) // Adjust the margins as needed
+
+            // 클릭 시 가계부 회원 정보 표시
+            walletDetailView.setOnClickListener {
+
+            }
+
+            // Add wallet_detail_view to wallet_view with layout parameters
+            binding.walletView.addView(walletDetailView, layoutParams)
+
         }
 
         if (state.data.myBooks.size == 1){
