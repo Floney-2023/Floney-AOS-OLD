@@ -49,6 +49,22 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".presentation.mypage.inform.MypageActivityInformEmail"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".presentation.mypage.inform.MypageActivityInformSimple"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".presentation.SplashActivity"
             android:exported="true">
             <intent-filter>
