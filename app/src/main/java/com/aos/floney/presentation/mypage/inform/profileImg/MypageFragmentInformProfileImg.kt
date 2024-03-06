@@ -49,7 +49,7 @@ class MypageFragmentInformProfileImg : BindingFragment<FragmentMypageInformProfi
         }
         binding.changeButton.setOnClickListener {
             // 이미지 변경 요청
-
+            parentFragmentManager.popBackStack()
         }
     }
 

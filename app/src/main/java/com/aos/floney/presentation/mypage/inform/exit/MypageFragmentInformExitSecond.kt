@@ -28,7 +28,7 @@ class MypageFragmentInformExitSecond  : BindingFragment<FragmentMypageInformExit
     }
     private fun initsetting(){
 
-        binding.back.setOnClickListener {
+        binding.backButton.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
         binding.nextButton.setOnClickListener{
@@ -37,7 +37,7 @@ class MypageFragmentInformExitSecond  : BindingFragment<FragmentMypageInformExit
     }
     private inline fun <reified T : Fragment> navigateTo() {
         parentFragmentManager.commit {
-            replace<T>(R.id.mypageFragmentSetting, T::class.simpleName)
+            replace<T>(R.id.mypageInformEmail, T::class.simpleName)
             addToBackStack(ROOT_FRAGMENT_HOME_SETTING)
         }
     }

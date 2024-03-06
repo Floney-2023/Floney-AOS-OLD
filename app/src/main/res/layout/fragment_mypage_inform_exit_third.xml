@@ -8,14 +8,16 @@
     </data>
 
     <FrameLayout
+        android:id="@+id/mypageInformEmail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.mypage.inform.exit.MypageFragmentInformExitThird"
-        android:id="@+id/MypageFragmentInformExitThird">
+        android:background="#FFFFFF"
+        tools:context=".presentation.mypage.inform.MypageActivityInformEmail">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/mypageInformEmail"
             >
 
 
