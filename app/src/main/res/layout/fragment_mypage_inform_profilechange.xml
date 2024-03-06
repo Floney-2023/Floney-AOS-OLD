@@ -54,19 +54,19 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/profile_card_view"
-                    android:layout_gravity="center"
                     android:layout_width="124dp"
                     android:layout_height="124dp"
+                    android:layout_gravity="center"
                     app:cardCornerRadius="100dp">
 
                     <ImageView
                         android:id="@+id/profileImg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="@string/mypage_main_inform_nickname"
-                        android:textAppearance="@style/sign_up_input_text"
+                        android:scaleType="centerCrop"
                         android:src="@drawable/btn_profile"
-                        />
+                        android:text="@string/mypage_main_inform_nickname"
+                        android:textAppearance="@style/sign_up_input_text" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -94,6 +94,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/profile_view" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/change_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/grayscale2"
