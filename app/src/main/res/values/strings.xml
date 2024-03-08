@@ -19,4 +19,84 @@
     <string name="find_pw"><u>비밀번호 찾기</u></string>
     <string name="sign_up"><u>회원가입 하기</u></string>
 
+    <!--myPageActivity(메인)-->
+    <string name="mypage_main_mypage_text">마이페이지</string>
+    <string name="mypage_main_appstore_text">앱스토어에서\n별점을 남겨주세요</string>
+    <string name="mypage_main_appstore_write_text">리뷰쓰기</string>
+    <string name="mypage_main_suppose_text">플로니는 여러분의\n다양한 의견을\n기다리고 있어요</string>
+    <string name="mypage_main_suppose_write_text">제안하기</string>
+    <string name="mypage_main_my_wallet">내 가계부</string>
+    <string name="mypage_main_user_soppose_text1">고객지원</string>
+    <string name="mypage_main_user_soppose_text2">문의하기</string>
+    <string name="mypage_main_user_soppose_text3">공지사항</string>
+    <string name="mypage_main_user_soppose_text4">리뷰 작성하기</string>
+    <string name="mypage_main_user_soppose_text5">개인정보 처리방침</string>
+    <string name="mypage_main_user_soppose_text6">이용 약관</string>
+
+    <!--myPageActivity(설정)-->
+    <string name="mypage_main_setting_text">설정</string>
+    <string name="mypage_main_setting_text1">알림 설정</string>
+    <string name="mypage_main_setting_text2">언어 설정</string>
+    <string name="mypage_main_setting_text3">Version 1.1</string>
+    <string name="mypage_main_setting_text4">마케팅 정보 수신 알림</string>
+    <string name="mypage_main_setting_text5">한국어</string>
+
+
+    <!--myPageActivity(회원정보 1-1, 회원 정보)-->
+    <string name="mypage_main_inform_title">회원 정보</string>
+    <string name="mypage_main_inform_nickname">닉네임</string>
+    <string name="mypage_main_inform_nickname_tint">닉네임을 입력하세요.</string>
+    <string name="mypage_main_inform_change_button">변경하기</string>
+    <string name="mypage_main_inform_change_profile">프로필 이미지 변경</string>
+    <string name="mypage_main_inform_change_passwd">비밀번호 변경</string>
+    <string name="mypage_main_inform_logout">로그아웃</string>
+    <string name="mypage_main_inform_exit"><u>회원탈퇴</u></string>
+
+    <!--myPageActivity(회원정보 1-2, 비밀번호 변경)-->
+    <string name="mypage_main_inform_pwchange_title">비밀번호 변경</string>
+    <string name="mypage_main_inform_pwchange_nowpw">현재 비밀번호</string>
+    <string name="mypage_main_inform_pwchange_nowpw_tint">현재 비밀번호를 입력하세요.</string>
+    <string name="mypage_main_inform_pwchange_newpw">새 비밀번호</string>
+    <string name="mypage_main_inform_pwchange_newpw_tint">영문 대소문자, 숫자, 특수문자 포함 8자 이상</string>
+    <string name="mypage_main_inform_pwchange_newpw_check">새 비밀번호 확인</string>
+    <string name="mypage_main_inform_pwchange_newpw_check_tint">영문 대소문자, 숫자, 특수문자 포함 8자 이상</string>
+    <string name="mypage_main_inform_pwchange_check_button">확인</string>
+
+    <!--myPageActivity(회원정보 1-4, 프로필 이미지 변경)-->
+    <string name="mypage_main_inform_profile_change">프로필 이미지 변경</string>
+    <string name="mypage_main_inform_profile_change_basic">기본 프로필로 변경</string>
+    <string name="mypage_main_inform_profile_change_btn">변경하기</string>
+
+    <!--myPageActivity(회원정보 1-5, 회원탈퇴1단계)-->
+    <string name="mypage_main_inform_exit_title">회원탈퇴 전\n이유를 선택해주세요 😥</string>
+    <string name="mypage_main_inform_exit_text1">잠깐! 탈퇴 시 가계부 기록이\n모두 삭제 됩니다.</string>
+    <string name="mypage_main_inform_exit_text2">플로니를 어떻게 사용하는지 모르겠어요</string>
+    <string name="mypage_main_inform_exit_text3">구독료가 비싸요</string>
+    <string name="mypage_main_inform_exit_text4">자주 사용하지 않게 돼요</string>
+    <string name="mypage_main_inform_exit_text5">다시 가입할 거예요</string>
+    <string name="mypage_main_inform_exit_text6">직접 입력하기</string>
+    <string name="mypage_main_inform_exit_text7">이유를 작성해 주세요 (100자 이내)</string>
+
+    <!--myPageActivity(회원정보 1-6, 회원탈퇴2단계)-->
+    <string name="mypage_main_inform_exit_2_title">마지막으로 비밀번호를\n입력해 주세요.</string>
+    <string name="mypage_main_inform_exit_2_text1">비밀번호</string>
+    <string name="mypage_main_inform_exit_2_text2">탈퇴하기</string>
+
+    <!--myPageActivity(회원정보 1-6, pop up 회원탈퇴)-->
+    <string name="mypage_main_inform_exit_popup_title">탈퇴 전에 꼭 확인해 주세요</string>
+    <string name="mypage_main_inform_exit_popup_text1">-가계부 방장일 경우 팀원에게\n방장이 자동으로 위임되며 가계부를 나가게 됩니다.\n\n-가계부 팀원일 경우 즉시 가계부를 나가게 됩니다.\n\n-모든 사용자는 회원탈퇴 시 모든 가계부 및\n데이터, 개인정보가 즉시 파기됩니다.
+\n\n그래도 탈퇴하시겠습니까?</string>
+    <string name="mypage_main_inform_exit_popup_btn_exit">탈퇴하기</string>
+    <string name="mypage_main_inform_exit_popup_btn_cancel">취소하기</string>
+
+    <!--myPageActivity(회원정보 1-7, 탈퇴완료)-->
+    <string name="mypage_main_inform_exit_complete_title">회원 탈퇴가\n무사히 완료되었어요</string>
+    <string name="mypage_main_inform_exit_complete_text1">이용해 주셔서 감사합니다.\n언제든 다시 돌아오세요!</string>
+    <string name="mypage_main_inform_exit_complete_btn_close">닫기</string>
+
+    <!--이미지 선택-->
+    <string name="camera">카메라</string>
+    <string name="gallery">갤러리</string>
+    <string name="choose_image_source">이미지를 업로드해주세요.</string>
+
 </resources>

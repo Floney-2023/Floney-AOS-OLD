@@ -32,7 +32,7 @@ class SignUpFirstFragment : BindingFragment<FragmentSignupFirstBinding>(R.layout
         binding.checkAge.setOnClickListener { updateCheckAll() }
         binding.allCheck.setOnClickListener { onCheckAllClicked(it)}
 
-        binding.imageView2.setOnClickListener {
+        binding.back.setOnClickListener {
             navigateTo<LoginActivity>()
         }
         binding.nextButton.setOnClickListener {

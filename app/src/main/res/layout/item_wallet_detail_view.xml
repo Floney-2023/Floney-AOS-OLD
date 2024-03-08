@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wallet_detail_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_grayscale12"
+    android:gravity="center_vertical"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/book_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_profile_" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="name"
+            android:textAppearance="@style/mypage_user_name" />
+
+        <TextView
+            android:id="@+id/member_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1명"
+            android:textAppearance="@style/mypage_wallet_count" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <ImageView
+        android:id="@+id/bool_activated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_check_circle_inactivated" />
+</LinearLayout>

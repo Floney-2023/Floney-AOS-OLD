@@ -1,6 +1,7 @@
 package com.aos.floney.di
 
 import com.aos.floney.data.service.CalendarService
+import com.aos.floney.data.service.MypageService
 import com.aos.floney.data.service.UserService
 import dagger.Module
 import dagger.Provides
@@ -22,4 +23,9 @@ object ServiceModule {
     @Singleton
     fun provideCalendarService(retrofit: Retrofit): CalendarService =
         retrofit.create(CalendarService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMypageService(retrofit: Retrofit): MypageService =
+        retrofit.create(MypageService::class.java)
 }
