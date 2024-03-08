@@ -20,7 +20,6 @@ class MypageViewModel @Inject constructor(
     private val myPageRepository: MyPageRepository
 ): ViewModel() {
 
-    
     private val _getusersMypageState =
         MutableStateFlow<UiState<UserMypageData>>(UiState.Loading)
     val getusersMypageState: StateFlow<UiState<UserMypageData>> =
