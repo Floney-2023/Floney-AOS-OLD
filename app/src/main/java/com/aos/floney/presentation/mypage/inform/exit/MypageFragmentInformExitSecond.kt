@@ -13,6 +13,7 @@ import com.aos.floney.databinding.FragmentMypageInformExitFirstBinding
 import com.aos.floney.databinding.FragmentMypageInformExitSecondBinding
 import com.aos.floney.databinding.FragmentMypageInformProfilechangeBinding
 import com.aos.floney.databinding.FragmentMypageSettingBinding
+import com.aos.floney.presentation.home.YearMonthPickerFragment
 import com.aos.floney.presentation.mypage.MypageViewModel
 import com.aos.floney.presentation.mypage.settings.alarm.MypageFragmentSettingAlarm
 import com.aos.floney.presentation.mypage.settings.language.MypageFragmentSettingLanguage
@@ -32,7 +33,12 @@ class MypageFragmentInformExitSecond  : BindingFragment<FragmentMypageInformExit
             parentFragmentManager.popBackStack()
         }
         binding.nextButton.setOnClickListener{
-            navigateTo<MypageFragmentInformExitThird>()
+            val exitDialogFragment = ExitDialogFragment { checked ->
+                if (checked)
+                    navigateTo<MypageFragmentInformExitThird>()
+            }
+            exitDialogFragment.show(parentFragmentManager, "ExitDialog")
+
         }
     }
     private inline fun <reified T : Fragment> navigateTo() {

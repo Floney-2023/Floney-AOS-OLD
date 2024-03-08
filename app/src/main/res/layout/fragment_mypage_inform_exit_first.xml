@@ -9,10 +9,10 @@
 
     <FrameLayout
         android:id="@+id/mypageInformEmail"
+        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
-        tools:context=".presentation.mypage.inform.MypageActivityInformEmail">
+        android:background="#FFFFFF">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

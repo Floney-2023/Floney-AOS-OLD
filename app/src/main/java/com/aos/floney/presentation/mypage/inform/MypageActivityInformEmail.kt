@@ -1,6 +1,7 @@
 package com.aos.floney.presentation.mypage.inform
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -58,6 +59,8 @@ class MypageActivityInformEmail  : BindingActivity<ActivityMypageInformEmaillogi
     }
 
     private inline fun <reified T : Fragment> navigateTo() {
+        window.decorView.findViewById<View>(android.R.id.content).isClickable = false
+
         supportFragmentManager.commit {
             replace<T>(R.id.mypageInformEmail, T::class.simpleName)
             addToBackStack(ROOT_FRAGMENT_HOME_SETTING)

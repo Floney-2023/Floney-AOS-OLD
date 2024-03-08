@@ -34,7 +34,8 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="1dp">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_exit"
@@ -45,7 +46,9 @@
             android:text="@string/mypage_main_inform_exit_popup_btn_exit"
             android:textAllCaps="false"
             android:textAppearance="@style/mypage_wallet_count"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:elevation="0dp"
+            android:stateListAnimator="@null" />
         <View
             android:layout_width="12dp"
             android:layout_height="0dp"/>
@@ -58,7 +61,8 @@
             android:text="@string/mypage_main_inform_exit_popup_btn_cancel"
             android:textAllCaps="false"
             android:textAppearance="@style/start_button"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:stateListAnimator="@null"/>
     </LinearLayout>
 
 

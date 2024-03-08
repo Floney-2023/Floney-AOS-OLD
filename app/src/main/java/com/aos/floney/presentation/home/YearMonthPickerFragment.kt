@@ -49,7 +49,6 @@ class YearMonthPickerFragment(
         monthPicker.maxValue = 12
         monthPicker.value = currentMonth + 1// 현재 달 월로 초기값 설정
         monthPicker.wrapSelectorWheel = false
-        monthPicker.textColor
 
         btnClicker.setOnClickListener{
             val selectedYear = yearPicker.value
