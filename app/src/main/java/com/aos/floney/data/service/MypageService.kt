@@ -1,5 +1,6 @@
 package com.aos.floney.data.service
 
+import com.aos.floney.data.dto.response.GetUserReceiveMarketingResponseDto
 import com.aos.floney.data.dto.response.GetbooksDaysResponseDto
 import com.aos.floney.data.dto.response.GetbooksInfoResponseDto
 import com.aos.floney.data.dto.response.GetbooksMonthResponseDto
@@ -15,4 +16,9 @@ interface MypageService {
     suspend fun getusersMypageData(
         @Header("Authorization") authorization : String
     ): GetusersMypageResponseDto
+
+    @GET("/users/receive-marketing")
+    suspend fun getusersReceiveMarketingData(
+        @Header("Authorization") authorization : String
+    ): GetUserReceiveMarketingResponseDto
 }
