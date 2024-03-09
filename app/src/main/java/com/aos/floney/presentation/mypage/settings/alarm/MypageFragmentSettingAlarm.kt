@@ -9,13 +9,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentMypageSettingAlarmBinding
 import com.aos.floney.databinding.FragmentMypageSettingBinding
 import com.aos.floney.presentation.mypage.MypageViewModel
 import com.aos.floney.presentation.mypage.settings.MypageFragmentSetting
+import com.aos.floney.util.fragment.viewLifeCycle
+import com.aos.floney.util.fragment.viewLifeCycleScope
+import com.aos.floney.util.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
+import timber.log.Timber
+
 @AndroidEntryPoint
 class MypageFragmentSettingAlarm  : BindingFragment<FragmentMypageSettingAlarmBinding>(R.layout.fragment_mypage_setting_alarm){
     private val viewModel: MypageViewModel by viewModels()
@@ -26,10 +34,30 @@ class MypageFragmentSettingAlarm  : BindingFragment<FragmentMypageSettingAlarmBi
         initsetting()
     }
     private fun initsetting(){
+        getMarketing()
         switchToggle()
         binding.backButton.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
+    }
+    private fun getMarketing(){
+        viewModel.getusersReceiveMarketingState.flowWithLifecycle(viewLifeCycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    if (state.data.receiveMarketing == true) {
+                        share=true
+                    } else {
+                        share=false
+                    }
+                }
+
+                is UiState.Failure -> Timber.e("Failure : ${state.msg}")
+                is UiState.Empty -> Unit
+                is UiState.Loading -> {
+                    //activateLoadingProgressBar()
+                }
+            }
+        }.launchIn(viewLifeCycleScope)
     }
     private fun switchToggle() {
         val toggle = binding.categoryToggleIv
