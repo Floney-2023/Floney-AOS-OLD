@@ -15,6 +15,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import timber.log.Timber
 import javax.inject.Inject
 @HiltViewModel
 class MypageViewModel @Inject constructor(
@@ -33,6 +35,7 @@ class MypageViewModel @Inject constructor(
         _getusersReceiveMarketingState.asStateFlow()
     init {
         updatemypageItems()
+        updateusersReceiveMarketing()
     }
 
     fun updatemypageItems()
@@ -60,6 +63,30 @@ class MypageViewModel @Inject constructor(
                 }.onFailure { t ->
                     Log.d("myPage", "onfailure: ${t}")
                     _getusersReceiveMarketingState.value = UiState.Failure("${t.message}")
+                }
+        }
+    }
+    private val _putusersReceiveMarketingState =
+        MutableStateFlow<UiState<Unit>>(UiState.Loading)
+    val putusersReceiveMarketingState: StateFlow<UiState<Unit>> =
+        _putusersReceiveMarketingState.asStateFlow()
+    fun putusersReceiveMarketing(agree : Boolean)
+    {
+        viewModelScope.launch {
+            _putusersReceiveMarketingState.value = UiState.Loading
+            myPageRepository.putusersReceiveMarketingData(
+                authorization = Authorization,
+                agree = agree
+            )
+                .onSuccess { response ->
+                    _putusersReceiveMarketingState.value = UiState.Success(response)
+                    Timber.e("성공 ${UiState.Success(response)}")
+                }.onFailure { t ->
+                    if (t is HttpException) {
+                        val errorResponse = t.response()?.errorBody()?.string()
+                        Timber.e("HTTP 실패: $errorResponse")
+                    }
+                    _putusersReceiveMarketingState.value = UiState.Failure("${t.message}")
                 }
         }
     }

@@ -16,4 +16,9 @@ class MypageDataSource @Inject constructor(
         authorization : String
     ) = mypageService.getusersReceiveMarketingData(authorization)
 
+    suspend fun putusersReceiveMarketingData(
+        authorization : String,
+        agree : Boolean
+    ) = mypageService.putusersReceiveMarketingData(authorization, agree)
+
 }

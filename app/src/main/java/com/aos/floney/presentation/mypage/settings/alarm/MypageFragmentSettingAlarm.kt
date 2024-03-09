@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -32,30 +33,53 @@ class MypageFragmentSettingAlarm  : BindingFragment<FragmentMypageSettingAlarmBi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initsetting()
+
     }
     private fun initsetting(){
         getMarketing()
-        switchToggle()
+        callbackSetting()
+        backbuttonSetting()
+        putusersReceiveMarketingStateObserver()
+    }
+    private fun backbuttonSetting(){
         binding.backButton.setOnClickListener {
+            viewModel.putusersReceiveMarketing(share)
             parentFragmentManager.popBackStack()
         }
+    }
+    private fun callbackSetting(){
+        // 뒤로가기 이벤트 감지
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            Log.d("BackButton", "Back button is pressed")
+            viewModel.putusersReceiveMarketing(share)
+
+        }
+
     }
     private fun getMarketing(){
         viewModel.getusersReceiveMarketingState.flowWithLifecycle(viewLifeCycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data.receiveMarketing == true) {
-                        share=true
-                    } else {
-                        share=false
-                    }
+                    share=state.data.receiveMarketing
+                    switchToggle()
                 }
-
                 is UiState.Failure -> Timber.e("Failure : ${state.msg}")
                 is UiState.Empty -> Unit
                 is UiState.Loading -> {
                     //activateLoadingProgressBar()
                 }
+            }
+        }.launchIn(viewLifeCycleScope)
+    }
+    private fun putusersReceiveMarketingStateObserver(){
+        viewModel.putusersReceiveMarketingState.flowWithLifecycle(viewLifeCycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    parentFragmentManager.popBackStack() // 뒤로가기를 처리
+                }
+                is UiState.Failure -> Timber.e("Failure : ${state.msg}")
+                is UiState.Empty -> Unit
+                is UiState.Loading -> Unit
             }
         }.launchIn(viewLifeCycleScope)
     }

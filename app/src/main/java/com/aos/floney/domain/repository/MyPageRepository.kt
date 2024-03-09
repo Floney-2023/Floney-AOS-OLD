@@ -10,4 +10,9 @@ interface MyPageRepository {
     suspend fun getusersReceiveMarketingData(
         authorization : String
     ) : Result<ReceiveMarketing>
+
+    suspend fun putusersReceiveMarketingData(
+        authorization : String,
+        agree : Boolean
+    ) : Result<Unit>
 }

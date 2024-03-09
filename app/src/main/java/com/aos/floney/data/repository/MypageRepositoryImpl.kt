@@ -30,5 +30,12 @@ class MypageRepositoryImpl @Inject constructor(
                 receiveMarketing = response.receiveMarketing
             )
         }
+    override suspend fun putusersReceiveMarketingData(
+        authorization: String,
+        agree : Boolean
+    ): Result<Unit> =
+        runCatching {
+            mypageDataSource.putusersReceiveMarketingData(authorization, agree)
+        }
     
 }
