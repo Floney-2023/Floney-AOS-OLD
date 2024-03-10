@@ -1,6 +1,7 @@
 package com.aos.floney.data.repository
 
 import com.aos.floney.data.dto.request.RequestPostRegisterUserDto
+import com.aos.floney.data.dto.request.RequestPutUsersPasswordDto
 import com.aos.floney.data.dto.response.GetUserReceiveMarketingResponseDto
 import com.aos.floney.data.source.MypageDataSource
 import com.aos.floney.domain.entity.UserMypageData
@@ -37,5 +38,12 @@ class MypageRepositoryImpl @Inject constructor(
         runCatching {
             mypageDataSource.putusersReceiveMarketingData(authorization, agree)
         }
-    
+    override suspend fun putusersPasswordData(
+        authorization: String,
+        requestPutUsersPasswordDto: RequestPutUsersPasswordDto
+    ): Result<Unit> =
+        runCatching {
+            mypageDataSource.putusersPasswordData(authorization, requestPutUsersPasswordDto)
+        }
+
 }

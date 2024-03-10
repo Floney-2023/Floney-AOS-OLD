@@ -1,5 +1,6 @@
 package com.aos.floney.data.source
 
+import com.aos.floney.data.dto.request.RequestPutUsersPasswordDto
 import com.aos.floney.data.service.CalendarService
 import com.aos.floney.data.service.MypageService
 import javax.inject.Inject
@@ -21,4 +22,8 @@ class MypageDataSource @Inject constructor(
         agree : Boolean
     ) = mypageService.putusersReceiveMarketingData(authorization, agree)
 
+    suspend fun putusersPasswordData(
+        authorization : String,
+        requestPutUsersPasswordDto: RequestPutUsersPasswordDto
+    ) = mypageService.putusersPasswordData(authorization, requestPutUsersPasswordDto)
 }

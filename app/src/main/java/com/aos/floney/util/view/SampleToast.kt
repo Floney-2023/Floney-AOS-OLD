@@ -20,7 +20,7 @@ object SampleToast {
 
         return Toast(context).apply {
             setGravity(Gravity.BOTTOM or Gravity.FILL_HORIZONTAL, 0, 22.toPx())
-            duration = Toast.LENGTH_LONG
+            duration = Toast.LENGTH_SHORT
             view = binding.root
         }
     }

@@ -1,5 +1,6 @@
 package com.aos.floney.domain.repository
 
+import com.aos.floney.data.dto.request.RequestPutUsersPasswordDto
 import com.aos.floney.domain.entity.UserMypageData
 import com.aos.floney.domain.entity.mypage.ReceiveMarketing
 
@@ -14,5 +15,10 @@ interface MyPageRepository {
     suspend fun putusersReceiveMarketingData(
         authorization : String,
         agree : Boolean
+    ) : Result<Unit>
+
+    suspend fun putusersPasswordData(
+        authorization : String,
+        putUsersPasswordDto: RequestPutUsersPasswordDto
     ) : Result<Unit>
 }

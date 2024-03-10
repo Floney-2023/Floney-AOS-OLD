@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aos.floney.data.dto.request.RequestPutUsersPasswordDto
 import com.aos.floney.domain.entity.GetbooksInfoData
 import com.aos.floney.domain.entity.UserMypageData
 import com.aos.floney.domain.entity.mypage.ReceiveMarketing
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
@@ -87,6 +89,37 @@ class MypageViewModel @Inject constructor(
                         Timber.e("HTTP 실패: $errorResponse")
                     }
                     _putusersReceiveMarketingState.value = UiState.Failure("${t.message}")
+                }
+        }
+    }
+
+    /*비밀번호 변경*/
+    private val _putusersPasswordState =
+        MutableStateFlow<UiState<Unit>>(UiState.Loading)
+    val putusersPasswordState: StateFlow<UiState<Unit>> =
+        _putusersPasswordState.asStateFlow()
+    fun putusersPassword(newPassword: String, oldPassword :String)
+    {
+        viewModelScope.launch {
+            _putusersPasswordState.value = UiState.Loading
+            myPageRepository.putusersPasswordData(
+                authorization = Authorization,
+                RequestPutUsersPasswordDto(
+                    newPassword, oldPassword
+                )
+            )
+                .onSuccess { response ->
+                    _putusersPasswordState.value = UiState.Success(response)
+                    Timber.e("성공 ${UiState.Success(response)}")
+                }.onFailure { t ->
+                    if (t is HttpException) {
+                        val errorResponse = t.response()?.errorBody()?.string()
+                        val json = JSONObject(errorResponse)
+                        val code = json.getString("code")
+                        Timber.e("HTTP 실패: $errorResponse")
+                        _putusersPasswordState.value = UiState.Failure("${code}")
+                    }
+
                 }
         }
     }
