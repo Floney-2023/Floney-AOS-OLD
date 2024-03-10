@@ -1,4 +1,4 @@
-package com.aos.floney.domain.entity
+package com.aos.floney.domain.entity.mypage
 
 data class UserMypageData(
     val nickname: String,

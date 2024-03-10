@@ -1,7 +1,8 @@
 package com.aos.floney.domain.repository
 
+import android.provider.ContactsContract.CommonDataKinds.Nickname
 import com.aos.floney.data.dto.request.RequestPutUsersPasswordDto
-import com.aos.floney.domain.entity.UserMypageData
+import com.aos.floney.domain.entity.mypage.UserMypageData
 import com.aos.floney.domain.entity.mypage.ReceiveMarketing
 
 interface MyPageRepository {
@@ -20,5 +21,10 @@ interface MyPageRepository {
     suspend fun putusersPasswordData(
         authorization : String,
         putUsersPasswordDto: RequestPutUsersPasswordDto
+    ) : Result<Unit>
+
+    suspend fun getusersNicknameUpdate(
+        authorization: String,
+        nickname: String
     ) : Result<Unit>
 }

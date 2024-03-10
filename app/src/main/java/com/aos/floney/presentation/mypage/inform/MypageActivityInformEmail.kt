@@ -1,11 +1,16 @@
 package com.aos.floney.presentation.mypage.inform
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.aos.floney.R
 import com.aos.floney.databinding.ActivityMypageInformEmailloginBinding
 import com.aos.floney.databinding.ActivityMypageInformSimpleloginBinding
@@ -14,7 +19,12 @@ import com.aos.floney.presentation.mypage.inform.exit.MypageFragmentInformExitFi
 import com.aos.floney.presentation.mypage.inform.profileImg.MypageFragmentInformProfileImg
 import com.aos.floney.presentation.mypage.inform.pwChange.MypageFragmentInformpwChange
 import com.aos.floney.util.binding.BindingActivity
+import com.aos.floney.util.view.SampleToast
+import com.aos.floney.util.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MypageActivityInformEmail  : BindingActivity<ActivityMypageInformEmailloginBinding>(R.layout.activity_mypage_inform_emaillogin){
@@ -26,15 +36,30 @@ class MypageActivityInformEmail  : BindingActivity<ActivityMypageInformEmaillogi
 
     }
     private fun initsetting(){
+        nicknameHintSetting()
         backButtonClick()
+        nicknameChangeClick()
         profileChangeClick()
         passWordChangeClick()
         logoutClick()
         exitClick()
+        getusersNicknameUpdateObserver()
+    }
+    private fun nicknameHintSetting(){
+        val nickname = intent.getStringExtra("nickname")
+        binding.nicknameText.hint = nickname
     }
     private fun backButtonClick(){
         binding.backButton.setOnClickListener {
             finish()
+        }
+    }
+    private fun nicknameChangeClick(){
+        binding.nicknameChangeButton.setOnClickListener {
+            if (binding.nicknameText.text.toString().isEmpty())
+                SampleToast.createToast(this,"닉네임을 입력해주세요.")?.show()
+            else
+                viewModel.getusersNicknameUpdate(binding.nicknameText.text.toString())
         }
     }
     private fun profileChangeClick(){
@@ -56,6 +81,35 @@ class MypageActivityInformEmail  : BindingActivity<ActivityMypageInformEmaillogi
         binding.exit.setOnClickListener {
             navigateTo<MypageFragmentInformExitFirst>()
         }
+    }
+    private fun getusersNicknameUpdateObserver() {
+        viewModel.getusersNicknameUpdateState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+
+                is UiState.Loading -> Unit
+
+                is UiState.Success -> {
+                    Timber.d("Success : changeNickname ")
+                    SampleToast.createToast(this, "변경이 완료되었습니다.")?.show()
+                    viewModel.updateNickname(binding.nicknameText.text.toString())
+                }
+
+                is UiState.Failure -> {
+                    handlePasswordError(state.msg)
+                }
+
+                is UiState.Empty -> Unit
+            }
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun handlePasswordError(errorCode: String) {
+        val errorMessage = when (errorCode) {
+            "U008" -> "해당 이메일로 가입된 유저가 없습니다"
+            else -> "알 수 없는 오류가 발생했습니다. 다시 시도해 주세요."
+        }
+
+        SampleToast.createToast(this, errorMessage)?.show()
     }
 
     private inline fun <reified T : Fragment> navigateTo() {

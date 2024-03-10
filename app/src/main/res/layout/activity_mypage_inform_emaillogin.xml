@@ -80,7 +80,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_edit_text"
-                        android:hint="@string/mypage_main_inform_nickname_tint"
                         android:padding="16dp"
                         android:textAppearance="@style/login_edit_text" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -91,6 +90,7 @@
                     android:layout_weight="2" />
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/nickname_change_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="8"

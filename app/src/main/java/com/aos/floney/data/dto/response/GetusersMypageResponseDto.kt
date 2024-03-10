@@ -1,6 +1,6 @@
 package com.aos.floney.data.dto.response
 
-import com.aos.floney.domain.entity.UserMypageData
+import com.aos.floney.domain.entity.mypage.UserMypageData
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

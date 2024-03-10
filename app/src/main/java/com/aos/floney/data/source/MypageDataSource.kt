@@ -26,4 +26,10 @@ class MypageDataSource @Inject constructor(
         authorization : String,
         requestPutUsersPasswordDto: RequestPutUsersPasswordDto
     ) = mypageService.putusersPasswordData(authorization, requestPutUsersPasswordDto)
+
+    suspend fun getusersNicknameUpdate(
+        authorization : String,
+        nickname : String
+    ) = mypageService.getusersNicknameUpdate(authorization, nickname)
+
 }

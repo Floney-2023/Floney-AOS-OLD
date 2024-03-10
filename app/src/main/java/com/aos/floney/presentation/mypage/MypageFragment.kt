@@ -3,6 +3,7 @@ package com.aos.floney.presentation.mypage
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -10,31 +11,38 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentMypageBinding
-import com.aos.floney.domain.entity.UserMypageData
+import com.aos.floney.domain.entity.mypage.UserMypageData
+import com.aos.floney.presentation.home.daily.DailyAdapter
 import com.aos.floney.presentation.mypage.inform.MypageActivityInformEmail
 import com.aos.floney.presentation.mypage.inform.MypageActivityInformSimple
 import com.aos.floney.presentation.mypage.settings.MypageFragmentSetting
 import com.aos.floney.util.fragment.viewLifeCycle
 import com.aos.floney.util.fragment.viewLifeCycleScope
+import com.aos.floney.util.view.SampleToast
 import com.aos.floney.util.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
 import timber.log.Timber
 @AndroidEntryPoint
 class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment_mypage){
     private val viewModel: MypageViewModel by viewModels(ownerProducer = {  requireActivity() })
-
+    private val INFORM_EMAIL_REQUEST_CODE = 123
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initsetting()
         updateMyPageItem()
-
+        nicknameObserver()
     }
     private fun initsetting(){
 
@@ -70,8 +78,8 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
         val loginType = state.data.provider
         binding.userInformView.setOnClickListener {
             when (loginType) {
-                "EMAIL" -> navigateActivityTo<MypageActivityInformEmail>()
-                "KAKAO" -> navigateActivityTo<MypageActivityInformSimple>()
+                "EMAIL" -> navigateActivityTo<MypageActivityInformEmail>(state.data.nickname)
+                "KAKAO" -> navigateActivityTo<MypageActivityInformSimple>(state.data.nickname)
             }
         }
 
@@ -111,14 +119,32 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
         }
 
     }
+    fun nicknameObserver()
+    {
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                launch {
+                    try {
+                        viewModel.nickname.collect {
+                            binding.nickName.text = it
+                            Log.d("nickname", "Observer updateDisplay: ${it}")
+                        }
+                    } catch (e: Throwable) {
+                        Log.d("nickname", "Observer updateDisplay: ${e}")
+                    }
+                }
+            }
+        }
+    }
     private inline fun <reified T : Fragment> navigateTo() {
         childFragmentManager.commit {
             replace<T>(R.id.mypageFragment, T::class.simpleName)
             addToBackStack(ROOT_FRAGMENT_HOME)
         }
     }
-    private inline fun <reified T : Activity> navigateActivityTo() {
+    private inline fun <reified T : Activity> navigateActivityTo(nickname:String) {
         val intent = Intent(getActivity(), T::class.java)
+        intent.putExtra("nickname", nickname) // "email" 키로 값을 전달
         startActivity(intent)
     }
     companion object {

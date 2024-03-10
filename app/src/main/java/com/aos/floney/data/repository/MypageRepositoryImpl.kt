@@ -1,10 +1,8 @@
 package com.aos.floney.data.repository
 
-import com.aos.floney.data.dto.request.RequestPostRegisterUserDto
 import com.aos.floney.data.dto.request.RequestPutUsersPasswordDto
-import com.aos.floney.data.dto.response.GetUserReceiveMarketingResponseDto
 import com.aos.floney.data.source.MypageDataSource
-import com.aos.floney.domain.entity.UserMypageData
+import com.aos.floney.domain.entity.mypage.UserMypageData
 import com.aos.floney.domain.entity.mypage.ReceiveMarketing
 import com.aos.floney.domain.repository.MyPageRepository
 import javax.inject.Inject
@@ -45,5 +43,13 @@ class MypageRepositoryImpl @Inject constructor(
         runCatching {
             mypageDataSource.putusersPasswordData(authorization, requestPutUsersPasswordDto)
         }
+
+    override suspend fun getusersNicknameUpdate(
+        authorization: String,
+        nickname: String
+    ): Result<Unit> =
+        runCatching {
+        mypageDataSource.getusersNicknameUpdate(authorization,nickname)
+    }
 
 }

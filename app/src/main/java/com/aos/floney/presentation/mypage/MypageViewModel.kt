@@ -1,14 +1,11 @@
 package com.aos.floney.presentation.mypage
 
 import android.util.Log
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aos.floney.data.dto.request.RequestPutUsersPasswordDto
-import com.aos.floney.domain.entity.GetbooksInfoData
-import com.aos.floney.domain.entity.UserMypageData
+import com.aos.floney.domain.entity.mypage.UserMypageData
 import com.aos.floney.domain.entity.mypage.ReceiveMarketing
-import com.aos.floney.domain.repository.CalendarRepository
 import com.aos.floney.domain.repository.MyPageRepository
 import com.aos.floney.util.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,13 +16,17 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.HttpException
 import timber.log.Timber
+import java.util.Calendar
 import javax.inject.Inject
 @HiltViewModel
 class MypageViewModel @Inject constructor(
     private val myPageRepository: MyPageRepository
 ): ViewModel() {
 
-    
+     // calendar를 MutableStateFlow로 변경.
+    private val _nickname = MutableStateFlow<String>("")
+    val nickname: MutableStateFlow<String> get() = _nickname
+
     private val _getusersMypageState =
         MutableStateFlow<UiState<UserMypageData>>(UiState.Loading)
     val getusersMypageState: StateFlow<UiState<UserMypageData>> =
@@ -122,5 +123,40 @@ class MypageViewModel @Inject constructor(
 
                 }
         }
+    }
+    /*닉네임 변경*/
+    private val _getusersNicknameUpdateState =
+        MutableStateFlow<UiState<Unit>>(UiState.Loading)
+    val getusersNicknameUpdateState: StateFlow<UiState<Unit>> =
+        _getusersNicknameUpdateState.asStateFlow()
+    fun getusersNicknameUpdate(nickname :String)
+    {
+        viewModelScope.launch {
+            _getusersNicknameUpdateState.value = UiState.Loading
+            myPageRepository.getusersNicknameUpdate(
+                authorization = Authorization,
+                nickname = nickname
+            )
+                .onSuccess { response ->
+                    _getusersNicknameUpdateState.value = UiState.Success(response)
+                    Timber.e("성공 ${UiState.Success(response)}")
+                }.onFailure { t ->
+                    if (t is HttpException) {
+                        val errorResponse = t.response()?.errorBody()?.string()
+                        val json = JSONObject(errorResponse)
+                        val code = json.getString("code")
+                        Timber.e("HTTP 실패: $errorResponse")
+                        _getusersNicknameUpdateState.value = UiState.Failure("${code}")
+                    }
+
+                }
+        }
+    }
+    fun updateNickname(nickname: String)
+    {
+        viewModelScope.launch{
+            _nickname.value = nickname
+        }
+
     }
 }

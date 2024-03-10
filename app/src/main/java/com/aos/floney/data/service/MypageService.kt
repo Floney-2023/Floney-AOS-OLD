@@ -32,4 +32,10 @@ interface MypageService {
         @Body requestPutUsersPasswordDto : RequestPutUsersPasswordDto
     )
 
+    @GET("/users/nickname/update")
+    suspend fun getusersNicknameUpdate(
+        @Header("Authorization") authorization : String,
+        @Query("nickname") nickname : String
+    )
+
 }
