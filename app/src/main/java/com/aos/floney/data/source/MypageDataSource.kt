@@ -1,5 +1,6 @@
 package com.aos.floney.data.source
 
+import com.aos.floney.data.dto.request.RequestPostUsersBookKeyDto
 import com.aos.floney.data.dto.request.RequestPutUsersPasswordDto
 import com.aos.floney.data.service.CalendarService
 import com.aos.floney.data.service.MypageService
@@ -31,5 +32,10 @@ class MypageDataSource @Inject constructor(
         authorization : String,
         nickname : String
     ) = mypageService.getusersNicknameUpdate(authorization, nickname)
+
+    suspend fun getusersBookKey(
+        authorization : String,
+        requestPostUsersBookKeyDto: RequestPostUsersBookKeyDto
+    ) = mypageService.getusersBookKey(authorization, requestPostUsersBookKeyDto)
 
 }

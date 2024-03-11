@@ -1,5 +1,6 @@
 package com.aos.floney.data.repository
 
+import com.aos.floney.data.dto.request.RequestPostUsersBookKeyDto
 import com.aos.floney.data.dto.request.RequestPutUsersPasswordDto
 import com.aos.floney.data.source.MypageDataSource
 import com.aos.floney.domain.entity.mypage.UserMypageData
@@ -51,5 +52,13 @@ class MypageRepositoryImpl @Inject constructor(
         runCatching {
         mypageDataSource.getusersNicknameUpdate(authorization,nickname)
     }
+
+    override suspend fun getusersBookKey(
+        authorization: String,
+        requestPostUsersBookKeyDto: RequestPostUsersBookKeyDto
+    ): Result<Unit> =
+        runCatching {
+            mypageDataSource.getusersBookKey(authorization,requestPostUsersBookKeyDto)
+        }
 
 }

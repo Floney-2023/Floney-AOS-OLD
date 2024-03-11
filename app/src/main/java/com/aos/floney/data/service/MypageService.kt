@@ -1,11 +1,13 @@
 package com.aos.floney.data.service
 
+import com.aos.floney.data.dto.request.RequestPostUsersBookKeyDto
 import com.aos.floney.data.dto.request.RequestPutUsersPasswordDto
 import com.aos.floney.data.dto.response.GetUserReceiveMarketingResponseDto
 import com.aos.floney.data.dto.response.GetusersMypageResponseDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Query
 
@@ -37,6 +39,9 @@ interface MypageService {
         @Header("Authorization") authorization : String,
         @Query("nickname") nickname : String
     )
-
-
+    @POST("/users/bookKey")
+    suspend fun getusersBookKey(
+        @Header("Authorization") authorization : String,
+        @Body requestPostUsersBookKeyDto : RequestPostUsersBookKeyDto
+    )
 }
