@@ -38,4 +38,5 @@ interface MypageService {
         @Query("nickname") nickname : String
     )
 
+
 }

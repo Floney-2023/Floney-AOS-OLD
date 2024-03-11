@@ -4,6 +4,7 @@ import com.aos.floney.data.source.CalendarDataSource
 import com.aos.floney.domain.entity.GetbooksDaysData
 import com.aos.floney.domain.entity.GetbooksInfoData
 import com.aos.floney.domain.entity.GetbooksMonthData
+import com.aos.floney.domain.entity.books.GetbooksUsersCheckData
 import com.aos.floney.domain.repository.CalendarRepository
 import javax.inject.Inject
 
@@ -54,5 +55,15 @@ class CalendarRepositoryImpl @Inject constructor(
                 ourBookUsers = response.convertToOutBookUsers()
             )
         }
+    override suspend fun getbooksUsersCheckData(
+        authorization : String
+    ): Result<GetbooksUsersCheckData> =
+        runCatching {
+            val response = calendarDataSource.getbooksUsersCheck(authorization)
+            GetbooksUsersCheckData(
+                bookKey = response.bookKey
+            )
+        }
+
 
 }

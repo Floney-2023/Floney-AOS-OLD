@@ -3,7 +3,6 @@ package com.aos.floney.presentation.mypage
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -11,38 +10,33 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentMypageBinding
 import com.aos.floney.domain.entity.mypage.UserMypageData
-import com.aos.floney.presentation.home.daily.DailyAdapter
+import com.aos.floney.presentation.home.HomeViewModel
 import com.aos.floney.presentation.mypage.inform.MypageActivityInformEmail
 import com.aos.floney.presentation.mypage.inform.MypageActivityInformSimple
 import com.aos.floney.presentation.mypage.settings.MypageFragmentSetting
 import com.aos.floney.util.fragment.viewLifeCycle
 import com.aos.floney.util.fragment.viewLifeCycleScope
-import com.aos.floney.util.view.SampleToast
 import com.aos.floney.util.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
 import timber.log.Timber
 @AndroidEntryPoint
 class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment_mypage){
-    private val viewModel: MypageViewModel by viewModels(ownerProducer = {  requireActivity() })
+    private val mypageViewModel: MypageViewModel by viewModels(ownerProducer = {  requireActivity() })
+    private val homeviewModel: HomeViewModel by viewModels(ownerProducer = {  requireActivity() })
+
     private val INFORM_EMAIL_REQUEST_CODE = 123
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initsetting()
         updateMyPageItem()
-        nicknameObserver()
     }
     private fun initsetting(){
 
@@ -54,7 +48,7 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
         }
     }
     fun updateMyPageItem(){
-        viewModel.getusersMypageState.flowWithLifecycle(viewLifeCycle).onEach { state ->
+        mypageViewModel.getusersMypageState.flowWithLifecycle(viewLifeCycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
                     if (state.data.myBooks?.isEmpty() == true) {
@@ -103,8 +97,9 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
             )
             layoutParams.setMargins(0, 0, 0, 20) // Adjust the margins as needed
 
-            // 클릭 시 가계부 회원 정보 표시
+            // 클릭 시 가계부 bookKey 변경
             walletDetailView.setOnClickListener {
+                homeviewModel.updateBookKey(book.bookKey)
 
             }
 
@@ -118,23 +113,6 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
             binding.walletView.addView(walletEmptyView)
         }
 
-    }
-    fun nicknameObserver()
-    {
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                launch {
-                    try {
-                        viewModel.nickname.collect {
-                            binding.nickName.text = it
-                            Log.d("nickname", "Observer updateDisplay: ${it}")
-                        }
-                    } catch (e: Throwable) {
-                        Log.d("nickname", "Observer updateDisplay: ${e}")
-                    }
-                }
-            }
-        }
     }
     private inline fun <reified T : Fragment> navigateTo() {
         childFragmentManager.commit {
