@@ -19,6 +19,7 @@ import com.aos.floney.databinding.FragmentMypageSettingBinding
 import com.aos.floney.presentation.mypage.MypageViewModel
 import com.aos.floney.presentation.mypage.settings.alarm.MypageFragmentSettingAlarm
 import com.aos.floney.presentation.mypage.settings.language.MypageFragmentSettingLanguage
+import com.aos.floney.util.view.ErrorToast
 import com.aos.floney.util.view.SampleToast
 import com.aos.floney.util.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
@@ -91,7 +92,7 @@ class MypageFragmentInformpwChange : BindingFragment<FragmentMypageInformPwchang
             else -> "알 수 없는 오류가 발생했습니다"
         }
 
-        SampleToast.createToast(requireContext(), errorMessage)?.show()
+        ErrorToast.createToast(requireContext(), errorMessage)?.show()
     }
 
     private fun checkPasswordFields(): Boolean {
@@ -105,16 +106,16 @@ class MypageFragmentInformpwChange : BindingFragment<FragmentMypageInformPwchang
         val isNewPasswordCheckEmpty = newPasswordCheck.isEmpty()
 
         if (isNowPasswordEmpty) {
-            SampleToast.createToast(requireContext(), "현재 비밀번호를 입력해주세요.")?.show()
+            ErrorToast.createToast(requireContext(), "현재 비밀번호를 입력해주세요.")?.show()
             return false
         } else if (isNewPasswordEmpty) {
-            SampleToast.createToast(requireContext(), "새 비밀번호를 입력해주세요.")?.show()
+            ErrorToast.createToast(requireContext(), "새 비밀번호를 입력해주세요.")?.show()
             return false
         } else if (isNewPasswordCheckEmpty) {
-            SampleToast.createToast(requireContext(), "새 비밀번호 확인을 입력해주세요.")?.show()
+            ErrorToast.createToast(requireContext(), "새 비밀번호 확인을 입력해주세요.")?.show()
             return false
         } else if (!isPasswordValid(nowPassword, newPassword, newPasswordCheck)) {
-            SampleToast.createToast(requireContext(), "비밀번호 양식을 확인해주세요.")?.show()
+            ErrorToast.createToast(requireContext(), "비밀번호 양식을 확인해주세요.")?.show()
             return false
         }
         return true
@@ -125,13 +126,13 @@ class MypageFragmentInformpwChange : BindingFragment<FragmentMypageInformPwchang
         val passwordRegex = Regex("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*()-_+=]).{8,}$")
 
         if (!passwordRegex.matches(newPassword)) {
-            SampleToast.createToast(requireContext(), "비밀번호 양식을 확인해주세요.")?.show()
+            ErrorToast.createToast(requireContext(), "비밀번호 양식을 확인해주세요.")?.show()
             return false
         }
 
         // 새 비밀번호와 새 비밀번호 확인이 일치하는지 확인
         if (newPassword != newPasswordCheck) {
-            SampleToast.createToast(requireContext(), "새 비밀번호가 일치하지 않습니다.")?.show()
+            ErrorToast.createToast(requireContext(), "새 비밀번호가 일치하지 않습니다.")?.show()
             return false
         }
 
