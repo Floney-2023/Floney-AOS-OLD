@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.aos.floney.presentation.mypage.MypageViewModel" />
     </data>
 
     <FrameLayout
@@ -94,7 +96,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
                             android:fontFamily="@font/floney_pretendard_bold"
-                            android:text="user"
+                            android:text="test"
                             android:textAppearance="@style/mypage_user_name" />
 
                         <TextView

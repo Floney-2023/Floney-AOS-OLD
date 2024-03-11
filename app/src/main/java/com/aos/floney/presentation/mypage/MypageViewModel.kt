@@ -24,9 +24,6 @@ class MypageViewModel @Inject constructor(
 ): ViewModel() {
 
     
-    // calendar를 MutableStateFlow로 변경.
-    private val _nickname = MutableStateFlow<String>("")
-    val nickname: MutableStateFlow<String> get() = _nickname
 
     private val _getusersMypageState =
         MutableStateFlow<UiState<UserMypageData>>(UiState.Loading)
@@ -152,12 +149,5 @@ class MypageViewModel @Inject constructor(
 
                 }
         }
-    }
-    fun updateNickname(nickname: String)
-    {
-        viewModelScope.launch{
-            _nickname.emit(nickname)
-        }
-
     }
 }

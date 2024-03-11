@@ -9,11 +9,13 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.aos.floney.R
 import com.aos.floney.databinding.ActivityMypageInformEmailloginBinding
 import com.aos.floney.databinding.ActivityMypageInformSimpleloginBinding
+import com.aos.floney.presentation.mypage.MypageFragment
 import com.aos.floney.presentation.mypage.MypageViewModel
 import com.aos.floney.presentation.mypage.inform.exit.MypageFragmentInformExitFirst
 import com.aos.floney.presentation.mypage.inform.profileImg.MypageFragmentInformProfileImg
@@ -24,11 +26,12 @@ import com.aos.floney.util.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
 class MypageActivityInformEmail  : BindingActivity<ActivityMypageInformEmailloginBinding>(R.layout.activity_mypage_inform_emaillogin){
-    private val viewModel: MypageViewModel by viewModels()
+    private val viewModel by viewModels<MypageViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,7 +94,6 @@ class MypageActivityInformEmail  : BindingActivity<ActivityMypageInformEmaillogi
                 is UiState.Success -> {
                     Timber.d("Success : changeNickname ")
                     SampleToast.createToast(this, "변경이 완료되었습니다.")?.show()
-                    viewModel.updateNickname(binding.nicknameText.text.toString())
                 }
 
                 is UiState.Failure -> {
