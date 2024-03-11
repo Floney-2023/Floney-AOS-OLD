@@ -22,27 +22,31 @@ data class GetbooksDaysResponseDto(
         val id: Int,
         @SerialName("money")
         val money: Double,
-        @SerialName("img")
-        val img: String,
-        @SerialName("category")
-        val category: List<String>,
-        @SerialName("assetType")
-        val assetType: String,
-        @SerialName("content")
-        val content: String,
-        @SerialName("userEmail")
-        val userEmail: String?,
+        @SerialName("description")
+        val description: String,
         @SerialName("exceptStatus")
         val exceptStatus: Boolean,
-        @SerialName("userNickName")
-        val userNickName: String
+        @SerialName("lineCategory")
+        val lineCategory: String,
+        @SerialName("lineSubCategory")
+        val lineSubCategory: String,
+        @SerialName("assetSubCategory")
+        val assetSubCategory: String,
+        @SerialName("writerEmail")
+        val writerEmail: String,
+        @SerialName("writerNickname")
+        val writerNickname: String,
+        @SerialName("writerProfileImg")
+        val writerProfileImg: String,
+        @SerialName("repeatDuration")
+        val repeatDuration: String,
     )
 
     @Serializable
     data class TotalExpenseDto(
         @SerialName("money")
         val money: Double,
-        @SerialName("assetType")
+        @SerialName("categoryType")
         val assetType: String
     )
 
@@ -56,19 +60,21 @@ data class GetbooksDaysResponseDto(
 
     fun convertToDailyItems(): List<GetbooksDaysData.DailyItem>? {
         return dayLinesResponse?.map { dayLineItem ->
-            val categories = dayLineItem.category
-            val assetType = DailyItemType.valueOf(dayLineItem.assetType)
+            val categories = dayLineItem.lineSubCategory
+            val assetType = DailyItemType.valueOf(dayLineItem.lineCategory)
 
             GetbooksDaysData.DailyItem(
                 id = dayLineItem.id,
                 money = dayLineItem.money,
-                assetType = assetType,
-                img = dayLineItem.img,
-                category = categories,
-                content = dayLineItem.content,
-                userEmail = dayLineItem.userEmail ?: "",
+                description = dayLineItem.description,
                 exceptStatus = dayLineItem.exceptStatus,
-                userNickName = dayLineItem.userNickName
+                lineCategory = assetType,
+                lineSubCategory = dayLineItem.lineSubCategory,
+                assetSubCategory = dayLineItem.assetSubCategory,
+                writerEmail = dayLineItem.writerEmail,
+                writerNickname = dayLineItem.writerNickname,
+                writerProfileImg = dayLineItem.writerProfileImg,
+                repeatDuration = dayLineItem.repeatDuration
             )
         }?.let { dailyItems ->
             // Check if carryOverInfo is true
@@ -76,13 +82,15 @@ data class GetbooksDaysResponseDto(
                 val emptyDailyItem = GetbooksDaysData.DailyItem(
                     id = -1, // Use a unique identifier
                     money = carryOverInfo.carryOverMoney,
-                    assetType = DailyItemType.CARRY,
-                    img = "user_default",
-                    category = emptyList(),
-                    content = "이월",
-                    userEmail = "",
+                    description = "이월",
                     exceptStatus = false,
-                    userNickName = ""
+                    lineCategory = DailyItemType.TRANSFER,
+                    lineSubCategory = "",
+                    assetSubCategory = "",
+                    writerEmail = "",
+                    writerNickname = "",
+                    writerProfileImg = "",
+                    repeatDuration = ""
                 )
                 listOf(emptyDailyItem) + dailyItems
             } else {
@@ -95,7 +103,7 @@ data class GetbooksDaysResponseDto(
         return totalExpense?.map { it ->
             GetbooksDaysData.TotalExpense(
                 money = it.money,
-                assetType = DailyItemType.valueOf(it.assetType),
+                categoryType = DailyItemType.valueOf(it.assetType),
             )
         }
     }
