@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "918730717655",
+    "project_id": "floney",
+    "storage_bucket": "floney.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:918730717655:android:a55f937e55be403ed2b392",
+        "android_client_info": {
+          "package_name": "com.aos.floney"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "918730717655-na8j2blf20ud312335ob5a8u0ml45l4a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMkE1miBqFDiYvhqsCUFTrulOWMuyZ7qE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "918730717655-na8j2blf20ud312335ob5a8u0ml45l4a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "918730717655-a5ikvohl1gjfbtqjic8uidild4p3pk9i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.SCDore.Floney-Dev"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
