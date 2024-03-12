@@ -3,18 +3,12 @@ package com.aos.floney.presentation.mypage
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentMypageBinding
 import com.aos.floney.domain.entity.mypage.UserMypageData
@@ -24,24 +18,25 @@ import com.aos.floney.presentation.mypage.inform.MypageActivityInformSimple
 import com.aos.floney.presentation.mypage.settings.MypageFragmentSetting
 import com.aos.floney.util.fragment.viewLifeCycle
 import com.aos.floney.util.fragment.viewLifeCycleScope
-import com.aos.floney.util.view.SampleToast
 import com.aos.floney.util.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
 import timber.log.Timber
+
+
 @AndroidEntryPoint
 class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment_mypage){
     private val mypageViewModel by viewModels<MypageViewModel>(ownerProducer = {  requireActivity() })
     private val homeviewModel: HomeViewModel by viewModels(ownerProducer = {  requireActivity() })
+    private lateinit var adapter : MypageAdapter
 
     override fun onStart() {
         super.onStart()
         mypageViewModel.updatemypageItems() // 회원정보 변경 후(Activity->Fragment), 데이터 업데이트 하고자.
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -49,7 +44,7 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
 
         initsetting()
         updateMyPageItem()
-        //nicknameObserver()
+        bookKeyObserver()
     }
     private fun initsetting(){
 
@@ -95,8 +90,11 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
 
         binding.walletView.removeAllViews()
 
+        updateWalletView(state.data.myBooks)
+
+        Timber.d("Success : update ${homeviewModel.bookKey.value}")
         // Iterate through each item in myBooks
-        for (book in state.data.myBooks) {
+        /*for (book in state.data.myBooks) {
 
             val walletDetailView = layoutInflater.inflate(R.layout.item_wallet_detail_view, null)
 
@@ -112,20 +110,56 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
 
             // 클릭 시 가계부 bookKey 변경
             walletDetailView.setOnClickListener {
-                homeviewModel.updateBookKey(book.bookKey)
-
+                //homeviewModel.updateBookKey(book.bookKey)
+                mypageViewModel.getusersBookKey(book.bookKey)
             }
 
             // Add wallet_detail_view to wallet_view with layout parameters
             binding.walletView.addView(walletDetailView, layoutParams)
 
-        }
+        }*/
 
-        if (state.data.myBooks.size == 1){
+    }
+    fun updateWalletView(booksList : List<UserMypageData.Book>){
+
+        val nowBookKey = homeviewModel.bookKey.value
+
+        val sortedBooksList = booksList.sortedByDescending { it.bookKey == nowBookKey }
+        Timber.d("Success : observer ${sortedBooksList}")
+        adapter = MypageAdapter(
+            clickBookKey = nowBookKey,
+            onBookClick = { bookKey ->
+                mypageViewModel.getusersBookKey(bookKey)
+                homeviewModel.updateBookKey(bookKey)
+            }
+        )
+
+        binding.walletItemView.adapter = adapter
+
+        adapter.submitList(sortedBooksList)
+
+        binding.walletView.addView(binding.walletItemView)
+
+        if (booksList.size == 2){
             val walletEmptyView = layoutInflater.inflate(R.layout.item_wallet_empty_view, null)
             binding.walletView.addView(walletEmptyView)
         }
+    }
+    fun bookKeyObserver(){
+        mypageViewModel.getusersBookKeyState.flowWithLifecycle(viewLifeCycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    Timber.d("Success : observer ${homeviewModel.bookKey.value}")
+                    updateMyPageItem()
+                }
 
+                is UiState.Failure -> Timber.e("Failure : ${state.msg}")
+                is UiState.Empty -> Unit
+                is UiState.Loading -> {
+                    //activateLoadingProgressBar()
+                }
+            }
+        }.launchIn(viewLifeCycleScope)
     }
     private inline fun <reified T : Fragment> navigateTo() {
         childFragmentManager.commit {

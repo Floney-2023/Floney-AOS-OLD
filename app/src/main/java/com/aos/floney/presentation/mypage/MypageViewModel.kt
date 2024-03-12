@@ -3,6 +3,7 @@ package com.aos.floney.presentation.mypage
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aos.floney.data.dto.request.RequestPostUsersBookKeyDto
 import com.aos.floney.data.dto.request.RequestPutUsersPasswordDto
 import com.aos.floney.domain.entity.mypage.UserMypageData
 import com.aos.floney.domain.entity.mypage.ReceiveMarketing
@@ -23,7 +24,7 @@ class MypageViewModel @Inject constructor(
     private val myPageRepository: MyPageRepository
 ): ViewModel() {
 
-    
+
 
     private val _getusersMypageState =
         MutableStateFlow<UiState<UserMypageData>>(UiState.Loading)
@@ -145,6 +146,35 @@ class MypageViewModel @Inject constructor(
                         val code = json.getString("code")
                         Timber.e("HTTP 실패: $errorResponse")
                         _getusersNicknameUpdateState.value = UiState.Failure("${code}")
+                    }
+
+                }
+        }
+    }
+    /*최신 접근 가계부 불러오기*/
+    /*닉네임 변경*/
+    private val _getusersBookKeyState =
+        MutableStateFlow<UiState<Unit>>(UiState.Loading)
+    val getusersBookKeyState: StateFlow<UiState<Unit>> =
+        _getusersBookKeyState.asStateFlow()
+    fun getusersBookKey(bookKey :String)
+    {
+        viewModelScope.launch {
+            _getusersBookKeyState.value = UiState.Loading
+            myPageRepository.getusersBookKey(
+                authorization = Authorization,
+                requestPostUsersBookKeyDto = RequestPostUsersBookKeyDto(bookKey)
+            )
+                .onSuccess { response ->
+                    _getusersBookKeyState.value = UiState.Success(response)
+                    Timber.e("성공 ${UiState.Success(response)}")
+                }.onFailure { t ->
+                    if (t is HttpException) {
+                        val errorResponse = t.response()?.errorBody()?.string()
+                        val json = JSONObject(errorResponse)
+                        val code = json.getString("code")
+                        Timber.e("HTTP 실패: $errorResponse")
+                        _getusersBookKeyState.value = UiState.Failure("${code}")
                     }
 
                 }

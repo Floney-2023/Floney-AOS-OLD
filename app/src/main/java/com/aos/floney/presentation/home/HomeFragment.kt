@@ -33,11 +33,14 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
     private val viewModel: HomeViewModel by viewModels(ownerProducer = {  requireActivity() })
     private var dateFormat = SimpleDateFormat("yyyy.MM", Locale.getDefault())
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.updateBookKeyItems() // 회원정보 변경 후(Activity->Fragment), 데이터 업데이트 하고자.
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         settingBookKey()
-
     }
 
     private fun settingBookKey(){

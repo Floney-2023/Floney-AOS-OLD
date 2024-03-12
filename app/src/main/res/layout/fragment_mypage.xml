@@ -203,21 +203,17 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="22dp"
                     android:layout_marginEnd="25dp"
-
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView9">
-
-                    <View
-                        android:layout_width="10dp"
-                        android:layout_height="10dp" />
-
-
-
-
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/wallet_item_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                 </LinearLayout>
-
                 <TextView
                     android:id="@+id/textView11"
                     android:layout_width="wrap_content"
