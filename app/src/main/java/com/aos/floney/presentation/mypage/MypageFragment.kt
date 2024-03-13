@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -13,7 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentMypageBinding
-import com.aos.floney.domain.entity.UserMypageData
+import com.aos.floney.domain.entity.mypage.UserMypageData
+import com.aos.floney.presentation.home.HomeViewModel
 import com.aos.floney.presentation.mypage.inform.MypageActivityInformEmail
 import com.aos.floney.presentation.mypage.inform.MypageActivityInformSimple
 import com.aos.floney.presentation.mypage.settings.MypageFragmentSetting
@@ -25,16 +24,27 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
 import timber.log.Timber
+
+
 @AndroidEntryPoint
 class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment_mypage){
-    private val viewModel: MypageViewModel by viewModels(ownerProducer = {  requireActivity() })
+    private val mypageViewModel by viewModels<MypageViewModel>(ownerProducer = {  requireActivity() })
+    private val homeviewModel: HomeViewModel by viewModels(ownerProducer = {  requireActivity() })
+    private lateinit var adapter : MypageAdapter
+
+    override fun onStart() {
+        super.onStart()
+        mypageViewModel.updatemypageItems() // 회원정보 변경 후(Activity->Fragment), 데이터 업데이트 하고자.
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.viewModel = mypageViewModel
+
         initsetting()
         updateMyPageItem()
-
+        bookKeyObserver()
     }
     private fun initsetting(){
 
@@ -46,7 +56,7 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
         }
     }
     fun updateMyPageItem(){
-        viewModel.getusersMypageState.flowWithLifecycle(viewLifeCycle).onEach { state ->
+        mypageViewModel.getusersMypageState.flowWithLifecycle(viewLifeCycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
                     if (state.data.myBooks?.isEmpty() == true) {
@@ -70,8 +80,8 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
         val loginType = state.data.provider
         binding.userInformView.setOnClickListener {
             when (loginType) {
-                "EMAIL" -> navigateActivityTo<MypageActivityInformEmail>()
-                "KAKAO" -> navigateActivityTo<MypageActivityInformSimple>()
+                "EMAIL" -> navigateActivityTo<MypageActivityInformEmail>(state.data.nickname)
+                "KAKAO" -> navigateActivityTo<MypageActivityInformSimple>(state.data.nickname)
             }
         }
 
@@ -80,8 +90,11 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
 
         binding.walletView.removeAllViews()
 
+        updateWalletView(state.data.myBooks)
+
+        Timber.d("Success : update ${homeviewModel.bookKey.value}")
         // Iterate through each item in myBooks
-        for (book in state.data.myBooks) {
+        /*for (book in state.data.myBooks) {
 
             val walletDetailView = layoutInflater.inflate(R.layout.item_wallet_detail_view, null)
 
@@ -95,21 +108,58 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
             )
             layoutParams.setMargins(0, 0, 0, 20) // Adjust the margins as needed
 
-            // 클릭 시 가계부 회원 정보 표시
+            // 클릭 시 가계부 bookKey 변경
             walletDetailView.setOnClickListener {
-
+                //homeviewModel.updateBookKey(book.bookKey)
+                mypageViewModel.getusersBookKey(book.bookKey)
             }
 
             // Add wallet_detail_view to wallet_view with layout parameters
             binding.walletView.addView(walletDetailView, layoutParams)
 
-        }
+        }*/
 
-        if (state.data.myBooks.size == 1){
+    }
+    fun updateWalletView(booksList : List<UserMypageData.Book>){
+
+        val nowBookKey = homeviewModel.bookKey.value
+
+        val sortedBooksList = booksList.sortedByDescending { it.bookKey == nowBookKey }
+        Timber.d("Success : observer ${sortedBooksList}")
+        adapter = MypageAdapter(
+            clickBookKey = nowBookKey,
+            onBookClick = { bookKey ->
+                mypageViewModel.getusersBookKey(bookKey)
+                homeviewModel.updateBookKey(bookKey)
+            }
+        )
+
+        binding.walletItemView.adapter = adapter
+
+        adapter.submitList(sortedBooksList)
+
+        binding.walletView.addView(binding.walletItemView)
+
+        if (booksList.size == 2){
             val walletEmptyView = layoutInflater.inflate(R.layout.item_wallet_empty_view, null)
             binding.walletView.addView(walletEmptyView)
         }
+    }
+    fun bookKeyObserver(){
+        mypageViewModel.getusersBookKeyState.flowWithLifecycle(viewLifeCycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    Timber.d("Success : observer ${homeviewModel.bookKey.value}")
+                    updateMyPageItem()
+                }
 
+                is UiState.Failure -> Timber.e("Failure : ${state.msg}")
+                is UiState.Empty -> Unit
+                is UiState.Loading -> {
+                    //activateLoadingProgressBar()
+                }
+            }
+        }.launchIn(viewLifeCycleScope)
     }
     private inline fun <reified T : Fragment> navigateTo() {
         childFragmentManager.commit {
@@ -117,8 +167,9 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
             addToBackStack(ROOT_FRAGMENT_HOME)
         }
     }
-    private inline fun <reified T : Activity> navigateActivityTo() {
+    private inline fun <reified T : Activity> navigateActivityTo(nickname:String) {
         val intent = Intent(getActivity(), T::class.java)
+        intent.putExtra("nickname", nickname)
         startActivity(intent)
     }
     companion object {

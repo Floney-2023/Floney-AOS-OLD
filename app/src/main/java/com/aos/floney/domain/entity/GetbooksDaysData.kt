@@ -5,21 +5,24 @@ data class GetbooksDaysData(
     val totalExpense: List<TotalExpense>?,
     val carryOverInfo: CarryOverInfo,
     val seeProfileImg: Boolean
-){
+) {
     data class DailyItem(
         val id: Int,
         val money: Double,
-        val img: String,
-        val category: List<String>,
-        val assetType: DailyItemType,
-        val content: String,
-        val userEmail: String,
+        val description: String,
         val exceptStatus: Boolean,
-        val userNickName: String
+        val lineCategory: DailyItemType,
+        val lineSubCategory: String,
+        val assetSubCategory: String,
+        val writerEmail: String,
+        val writerNickname: String,
+        val writerProfileImg: String,
+        val repeatDuration: String
     )
+
     data class TotalExpense(
-        val money: Double,
-        val assetType: DailyItemType
+        val categoryType: DailyItemType,
+        val money: Double
     )
 
     data class CarryOverInfo(
@@ -29,5 +32,5 @@ data class GetbooksDaysData(
 }
 
 enum class DailyItemType {
-    INCOME, OUTCOME, CARRY
+    INCOME, OUTCOME, TRANSFER
 }

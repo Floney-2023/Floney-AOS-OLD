@@ -1,7 +1,10 @@
 package com.aos.floney.data.repository
 
+import com.aos.floney.data.dto.request.RequestPostUsersBookKeyDto
+import com.aos.floney.data.dto.request.RequestPutUsersPasswordDto
 import com.aos.floney.data.source.MypageDataSource
-import com.aos.floney.domain.entity.UserMypageData
+import com.aos.floney.domain.entity.mypage.UserMypageData
+import com.aos.floney.domain.entity.mypage.ReceiveMarketing
 import com.aos.floney.domain.repository.MyPageRepository
 import javax.inject.Inject
 
@@ -20,5 +23,42 @@ class MypageRepositoryImpl @Inject constructor(
                 myBooks = response.convertToBookDto()
             )
         }
-    
+    override suspend fun getusersReceiveMarketingData(authorization: String): Result<ReceiveMarketing> =
+        runCatching {
+            val response = mypageDataSource.getusersReceiveMarketingData(authorization)
+            ReceiveMarketing(
+                receiveMarketing = response.receiveMarketing
+            )
+        }
+    override suspend fun putusersReceiveMarketingData(
+        authorization: String,
+        agree : Boolean
+    ): Result<Unit> =
+        runCatching {
+            mypageDataSource.putusersReceiveMarketingData(authorization, agree)
+        }
+    override suspend fun putusersPasswordData(
+        authorization: String,
+        requestPutUsersPasswordDto: RequestPutUsersPasswordDto
+    ): Result<Unit> =
+        runCatching {
+            mypageDataSource.putusersPasswordData(authorization, requestPutUsersPasswordDto)
+        }
+
+    override suspend fun getusersNicknameUpdate(
+        authorization: String,
+        nickname: String
+    ): Result<Unit> =
+        runCatching {
+        mypageDataSource.getusersNicknameUpdate(authorization,nickname)
+    }
+
+    override suspend fun getusersBookKey(
+        authorization: String,
+        requestPostUsersBookKeyDto: RequestPostUsersBookKeyDto
+    ): Result<Unit> =
+        runCatching {
+            mypageDataSource.getusersBookKey(authorization,requestPostUsersBookKeyDto)
+        }
+
 }

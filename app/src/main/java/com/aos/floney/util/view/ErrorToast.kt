@@ -9,12 +9,12 @@ import androidx.databinding.DataBindingUtil
 import com.aos.floney.R
 import com.aos.floney.databinding.ItemToastSampleBinding
 
-object SampleToast {
+object ErrorToast {
 
     fun createToast(context: Context, message: String): Toast? {
         val inflater = LayoutInflater.from(context)
         val binding: ItemToastSampleBinding =
-            DataBindingUtil.inflate(inflater, R.layout.item_toast_sample, null, false)
+            DataBindingUtil.inflate(inflater, R.layout.item_toast_error, null, false)
 
         binding.tvSample.text = message
 

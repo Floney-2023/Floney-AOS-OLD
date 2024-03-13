@@ -33,13 +33,41 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
     private val viewModel: HomeViewModel by viewModels(ownerProducer = {  requireActivity() })
     private var dateFormat = SimpleDateFormat("yyyy.MM", Locale.getDefault())
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.updateBookKeyItems() // 회원정보 변경 후(Activity->Fragment), 데이터 업데이트 하고자.
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        settingCalendarText()
-        settingCalendarType()
-        settingCalendarDialog()
-        settingCalendarBookInfo()
+        settingBookKey()
+    }
+
+    private fun settingBookKey(){
+        viewModel.getUsersCheckState.flowWithLifecycle(viewLifeCycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    if (state.data.bookKey?.isEmpty() == true) {
+                        // 값이 없을 경우 로직 구현
+                    } else {
+                        Timber.e("BookKey : ${state.data}")
+                        viewModel.updateBookKey(state.data.bookKey)
+                        viewModel.updateCalendarItems()
+                        viewModel.updateDailyItems(viewModel.calendar.value.time)
+                        settingCalendarText()
+                        settingCalendarType()
+                        settingCalendarDialog()
+                        settingCalendarBookInfo()
+                    }
+                }
+
+                is UiState.Failure -> Timber.e("Failure : ${state.msg}")
+                is UiState.Empty -> Unit
+                is UiState.Loading -> {
+                    //activateLoadingProgressBar()
+                }
+            }
+        }.launchIn(viewLifeCycleScope)
     }
 
     private fun settingCalendarText() {

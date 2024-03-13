@@ -34,16 +34,16 @@ class DailyAdapter(
                 dailyProfile.setImageResource(dailyItem.img)
             */
 
-            dailyContent.text = dailyItem.content
+            dailyContent.text = dailyItem.description
 
-            if (dailyItem.category.isEmpty()) {
+            if (dailyItem.writerEmail.isEmpty()) {
                 dailyCategory.text = String.format("-")
                 dailyMoney.text=dailyItem.money.toInt().toString()
             }
             else
             {
-                dailyCategory.text = String.format(dailyItem.category[0]+" ‧ "+dailyItem.category[1])
-                dailyMoney.text=getFormattedMoneyText(dailyItem.money, dailyItem.assetType == DailyItemType.INCOME)
+                dailyCategory.text = String.format(dailyItem.lineSubCategory+" ‧ "+dailyItem.assetSubCategory)
+                dailyMoney.text=getFormattedMoneyText(dailyItem.money, dailyItem.lineCategory == DailyItemType.INCOME)
                 binding.root.setOnClickListener {
                 }
             }

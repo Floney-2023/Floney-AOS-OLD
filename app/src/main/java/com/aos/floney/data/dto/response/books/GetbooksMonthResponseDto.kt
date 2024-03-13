@@ -1,4 +1,4 @@
-package com.aos.floney.data.dto.response
+package com.aos.floney.data.dto.response.books
 
 import com.aos.floney.domain.entity.CalendarItemType
 import com.aos.floney.domain.entity.GetbooksMonthData
@@ -22,7 +22,7 @@ data class GetbooksMonthResponseDto (
         val date : String,
         @SerialName("money")
         val money : Double,
-        @SerialName("assetType")
+        @SerialName("categoryType")
         val assetType : String
         )
     @Serializable

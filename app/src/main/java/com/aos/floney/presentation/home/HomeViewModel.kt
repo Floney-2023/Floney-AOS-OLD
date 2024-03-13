@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.aos.floney.domain.entity.GetbooksDaysData
 import com.aos.floney.domain.entity.GetbooksInfoData
 import com.aos.floney.domain.entity.GetbooksMonthData
+import com.aos.floney.domain.entity.books.GetbooksUsersCheckData
 import com.aos.floney.domain.repository.CalendarRepository
 import com.aos.floney.util.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,9 +26,18 @@ class HomeViewModel @Inject constructor(
     private val calendarRepository: CalendarRepository
 ) : ViewModel() {
 
+    
+    val _bookKey = MutableStateFlow<String>("")
+    val bookKey: MutableStateFlow<String> get() = _bookKey
+
     // calendar를 MutableStateFlow로 변경.
     private val _calendar = MutableStateFlow<Calendar>(Calendar.getInstance())
     val calendar: MutableStateFlow<Calendar> get() = _calendar
+
+    private val _getUsersCheckState =
+        MutableStateFlow<UiState<GetbooksUsersCheckData>>(UiState.Loading)
+    val getUsersCheckState: StateFlow<UiState<GetbooksUsersCheckData>> =
+        _getUsersCheckState.asStateFlow()
 
     private val _getCalendarInformationState =
         MutableStateFlow<UiState<GetbooksMonthData>>(UiState.Loading)
@@ -51,12 +61,11 @@ class HomeViewModel @Inject constructor(
 
     init {
         _calendar.value = Calendar.getInstance()
-        updateCalendarItems()
+        updateBookKeyItems()
+        //updateCalendarItems()
         updatebooksInfoItems()
-        updateDailyItems(_calendar.value?.time)
+        //updateDailyItems(_calendar.value?.time)
     }
-
-    // ... (이후 코드는 동일)
 
     fun moveToPreviousMonth() {
         viewModelScope.launch{
@@ -121,15 +130,13 @@ class HomeViewModel @Inject constructor(
     }
 
     fun updateCalendarItems() {
-
-
         val firstDayOfMonth = _calendar.value?.clone() as Calendar
         firstDayOfMonth?.set(Calendar.DAY_OF_MONTH, 1)
         val firstDayFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
         // 날짜에 따른 deposit, withdrawalAmount 받아오기(bookKey 예시)
         viewModelScope.launch {
-            calendarRepository.getbooksMonthData(Authorization, bookKey, firstDayFormat.format(firstDayOfMonth.time))
+            calendarRepository.getbooksMonthData(Authorization, bookKey.value, firstDayFormat.format(firstDayOfMonth.time))
                 .onSuccess { response ->
                     _getCalendarInformationState.value =
                             UiState.Success(response)
@@ -146,6 +153,20 @@ class HomeViewModel @Inject constructor(
         val firstDayOfMonth = _calendar.value?.clone() as Calendar
         firstDayOfMonth?.set(Calendar.DAY_OF_MONTH, 1)
         return adjustToStartOfWeek(firstDayOfMonth) // 오는 날로 주의 시작까지 count
+    }
+
+    fun updateBookKeyItems(){
+        viewModelScope.launch {
+            calendarRepository.getbooksUsersCheckData(Authorization)
+                .onSuccess { response ->
+                    _getUsersCheckState.value =
+                        UiState.Success(response)
+                    Log.d("bookKey", "onsuccess: $response")
+                }.onFailure { t ->
+                    Log.d("bookKey", "onfailure: ${t}")
+                    _getUsersCheckState.value = UiState.Failure("${t.message}")
+                }
+        }
     }
 
     // 첫째 날이 포함된 주의 첫째 날로 조정
@@ -171,7 +192,7 @@ class HomeViewModel @Inject constructor(
 
         // 날짜에 따른 deposit, withdrawalAmount 받아오기(bookKey 예시)
         viewModelScope.launch {
-            calendarRepository.getbooksDaysData(Authorization, bookKey, dateFormat.format(date))
+            calendarRepository.getbooksDaysData(Authorization, bookKey.value, dateFormat.format(date))
                 .onSuccess { response ->
                     if (response != null) {
                         _getDailyInformationState.value = UiState.Success(response)
@@ -187,7 +208,7 @@ class HomeViewModel @Inject constructor(
         Log.d("selectDay", "updatebooksInfo")
 
         viewModelScope.launch {
-            calendarRepository.getbooksInfoData(Authorization, bookKey)
+            calendarRepository.getbooksInfoData(Authorization, bookKey.value)
                 .onSuccess { response ->
                     if (response != null) {
                         _getbooksInformationState.value = UiState.Success(response)
@@ -198,6 +219,10 @@ class HomeViewModel @Inject constructor(
                 }
         }
 
+    }
+
+    fun updateBookKey(bookKey : String){
+        _bookKey.value=bookKey
     }
 
     // 내역 추가 버튼

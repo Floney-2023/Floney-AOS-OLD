@@ -1,14 +1,17 @@
 package com.aos.floney.presentation.mypage.inform.profileImg
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.viewModels
 import com.aos.floney.R
@@ -25,10 +28,9 @@ import java.util.Locale
 @AndroidEntryPoint
 class MypageFragmentInformProfileImg : BindingFragment<FragmentMypageInformProfilechangeBinding>(R.layout.fragment_mypage_inform_profilechange) {
     private val viewModel: MypageViewModel by viewModels()
-    private val GET_GALLERY_IMAGE = 1
-    private val GET_CAMERA_IMAGE = 2
-    private var capturedImageUri: Uri? = null
-    val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+    private val REQUEST_IMAGE_CAPTURE = 1
+    private val REQUEST_IMAGE_PICK = 2
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,31 +51,90 @@ class MypageFragmentInformProfileImg : BindingFragment<FragmentMypageInformProfi
         }
         binding.changeButton.setOnClickListener {
             // 이미지 변경 요청
+            binding.profileImg
             parentFragmentManager.popBackStack()
         }
     }
-
     private fun showImagePickerOptions() {
+        val items = arrayOf(getString(R.string.camera), getString(R.string.gallery),getString(R.string.random_image))
+
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.choose_image_source))
+            .setItems(items) { _, which ->
+                when (which) {
+                    0 -> dispatchTakePictureIntent()
+                    1 -> dispatchPickImageIntent()
+                    2 -> dispatchRamdomPictureIntent()
+                }
+            }
+            .show()
+    }
+
+    private fun dispatchTakePictureIntent() {
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE)
+    }
+
+    private fun dispatchPickImageIntent() {
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        galleryIntent.type = "image/*"
+        startActivityForResult(galleryIntent, REQUEST_IMAGE_PICK)
+    }
 
+    private fun dispatchRamdomPictureIntent() {
+        val randomImageResourceId = getRandomDrawableResourceId()
+        val randomImageDrawable = ContextCompat.getDrawable(requireContext(), randomImageResourceId)
+        binding.profileImg.setImageDrawable(randomImageDrawable)
+    }
+    private fun getRandomDrawableResourceId(): Int {
+        val drawableArray = arrayOf(
+            R.drawable.img___01,
+            R.drawable.img___02,
+            R.drawable.img___03
+        )
+        val randomIndex = (drawableArray.indices).random()
+        return drawableArray[randomIndex]
+    }
 
-        val photoFile: File? = createImageFile()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
-        if (photoFile != null) {
-            capturedImageUri = FileProvider.getUriForFile(
-                requireContext(),
-                "com.example.android.fileprovider",
-                photoFile
-            )
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_IMAGE_CAPTURE -> {
+                    val imageBitmap = data?.extras?.get("data") as Bitmap
+                    binding.profileImg.setImageBitmap(imageBitmap)
+                }
+                REQUEST_IMAGE_PICK -> {
+                    val selectedImageUri = data?.data
+                    binding.profileImg.setImageURI(selectedImageUri)
+                }
+            }
         }
+    }
+    /*private fun showImagePickerOptions() {
+
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        val randomImageIntent = Intent("com.example.ACTION_PICK_RANDOM_IMAGE")
 
         val chooser = Intent.createChooser(Intent(), "Select Image")
-        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(galleryIntent, cameraIntent))
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(galleryIntent, cameraIntent, randomImageIntent))
 
-        if (chooser.resolveActivity(requireActivity().packageManager) != null) {
-            startActivityForResult(chooser, GET_GALLERY_IMAGE)
+        //startActivity(chooser)
+        val component = chooser.resolveActivity(requireActivity().packageManager)
+        if (component != null) {
+            Log.d("profilechange", "component: $component")
+
+            // Check if the selected option is the camera or gallery
+            if (component?.packageName == cameraIntent.resolveActivity(requireActivity().packageManager)?.packageName) {
+                // The user chose the camera option
+                startActivityForResult(chooser, GET_CAMERA_IMAGE)
+            } else {
+                // The user chose the gallery option
+                startActivityForResult(chooser, GET_GALLERY_IMAGE)
+            }
         } else {
             // Handle the case where there is no app available to handle the intent
             Toast.makeText(requireContext(), "No app available to handle the intent", Toast.LENGTH_SHORT).show()
@@ -102,5 +163,5 @@ class MypageFragmentInformProfileImg : BindingFragment<FragmentMypageInformProfi
                 }
             }
         }
-    }
+    }*/
 }

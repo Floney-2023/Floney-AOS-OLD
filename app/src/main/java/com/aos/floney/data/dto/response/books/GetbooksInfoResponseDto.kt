@@ -1,8 +1,5 @@
-package com.aos.floney.data.dto.response
+package com.aos.floney.data.dto.response.books
 
-import com.aos.floney.domain.entity.CalendarItemType
-import com.aos.floney.domain.entity.DailyItemType
-import com.aos.floney.domain.entity.GetbooksDaysData
 import com.aos.floney.domain.entity.GetbooksInfoData
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

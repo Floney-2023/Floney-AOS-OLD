@@ -97,7 +97,7 @@ class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.frag
 
                 adapter = CalendarAdapter(
                     currMonth = viewModel.calendar.value.get(
-                        Calendar.MONTH)
+                        Calendar.MONTH),
                 ) { date ->
                     viewModel.clickSelectDate(date)
                     val bottomSheetPostFragment = BottomSheetFragment()
