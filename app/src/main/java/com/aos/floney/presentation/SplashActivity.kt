@@ -41,7 +41,7 @@ class SplashActivity : AppCompatActivity() {
 
             if (isOnBoardingFinished()) {
                 getDeviceToken()
-                navigateToLogin()
+                //navigateToLogin()
                 //navigateToMain()
             } else {
                 navigateToOnboard()
@@ -54,7 +54,6 @@ class SplashActivity : AppCompatActivity() {
     }
     private fun getDeviceToken(){
         lifecycleScope.launch {
-            delay(DELAY_TIME)
 
             if (BuildConfig.DEBUG) {
                 checkAutoLogin()
@@ -72,6 +71,7 @@ class SplashActivity : AppCompatActivity() {
     private fun checkAutoLogin() {
         lifecycleScope.launch {
             val accessToken = dataStoreRepository.getAccessToken()?.firstOrNull()
+            Timber.d("accessToken: $accessToken")
             if (accessToken.isNullOrBlank()) {
                 navigateToLogin()
             } else {

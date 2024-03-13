@@ -8,4 +8,6 @@ import com.aos.floney.domain.entity.login.PostusersLoginData
 interface UserRepository {
     suspend fun postRegisterUser(requestPostRegisterUserDto: RequestPostRegisterUserDto): Result<Unit>
     suspend fun postLoginUser(postLoginRequestDto: PostLoginRequestDto): Result<PostusersLoginData>
+
+    suspend fun getLogoutUser(accessToken: String): Result<Unit>
 }

@@ -5,8 +5,10 @@ import com.aos.floney.data.dto.request.RequestPostRegisterUserDto
 import com.aos.floney.data.dto.response.users.PostUserLoginResponseDto
 import com.aos.floney.domain.entity.login.PostusersLoginData
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface UserService {
     @POST("/users")
@@ -17,4 +19,9 @@ interface UserService {
     suspend fun postLoginUser(
         @Body postLoginRequestDto: PostLoginRequestDto
     ) : PostUserLoginResponseDto
+    @GET("/users/logout")
+    suspend fun getLogoutUser(
+        @Query("acceessToken") accessToken : String,
+    ) : PostUserLoginResponseDto
+
 }

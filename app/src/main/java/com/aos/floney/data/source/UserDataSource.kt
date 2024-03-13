@@ -14,4 +14,6 @@ class UserDataSource @Inject constructor(
         userService.postRegisterUser(requestPostRegisterUserDto)
     suspend fun postLoginUser(postLoginRequestDto: PostLoginRequestDto) =
         userService.postLoginUser(postLoginRequestDto)
+    suspend fun getLogoutUser(accessToken: String) =
+        userService.getLogoutUser(accessToken)
 }

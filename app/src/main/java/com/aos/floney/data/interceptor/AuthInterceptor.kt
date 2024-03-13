@@ -28,7 +28,8 @@ class AuthInterceptor @Inject constructor(
         runBlocking { Timber.e("액세스토큰 : ${getAccessToken()}, 리프레시토큰 : ${getRefreshToken()}") }
         val originalRequest = chain.request()
 
-        if (originalRequest.url.encodedPath.equals("/users/login",true)){
+        if (originalRequest.url.encodedPath.equals("/users/login",true)||
+            originalRequest.url.encodedPath.equals("/users/logout",true)){
             val headerRequest = originalRequest.newAuthBuilder()
                 .build()
             val response = chain.proceed(headerRequest)
@@ -128,7 +129,7 @@ class AuthInterceptor @Inject constructor(
 
     companion object {
         private const val HEADER_TOKEN = "accessToken"
-        private const val CODE_TOKEN_EXPIRED = 1000
+        private const val CODE_TOKEN_EXPIRED = 401
         private const val CODE_INVALID_USER = 1000
         private const val REFRESH_TOKEN = "refreshToken"
     }

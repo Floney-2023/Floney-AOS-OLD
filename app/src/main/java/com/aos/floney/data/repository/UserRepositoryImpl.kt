@@ -26,4 +26,8 @@ class UserRepositoryImpl @Inject constructor(
                 refreshToken = response.refreshToken
             )
         }
+    override suspend fun getLogoutUser(accessToken : String): Result<Unit> =
+        runCatching {
+            userDataSource.getLogoutUser(accessToken)
+        }
 }
