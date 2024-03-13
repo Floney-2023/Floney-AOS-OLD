@@ -2,7 +2,12 @@ package com.aos.floney.data.repository
 
 import com.aos.floney.data.dto.request.PostLoginRequestDto
 import com.aos.floney.data.dto.request.RequestPostRegisterUserDto
+import com.aos.floney.data.dto.response.PostUserResponseDto
+import com.aos.floney.data.dto.response.users.PostUserLoginResponseDto
 import com.aos.floney.data.source.UserDataSource
+import com.aos.floney.domain.entity.GetbooksMonthData
+import com.aos.floney.domain.entity.books.GetbooksUsersCheckData
+import com.aos.floney.domain.entity.login.PostusersLoginData
 import com.aos.floney.domain.repository.UserRepository
 import javax.inject.Inject
 
@@ -13,8 +18,12 @@ class UserRepositoryImpl @Inject constructor(
         runCatching {
             userDataSource.postRegisterUser(requestPostRegisterUserDto)
         }
-    override suspend fun postLoginUser(postLoginRequestDto: PostLoginRequestDto): Result<Unit> =
+    override suspend fun postLoginUser(postLoginRequestDto: PostLoginRequestDto): Result<PostusersLoginData> =
         runCatching {
-            userDataSource.postLoginUser(postLoginRequestDto)
+            val response = userDataSource.postLoginUser(postLoginRequestDto)
+            PostusersLoginData(
+                accessToken = response.accessToken,
+                refreshToken = response.refreshToken
+            )
         }
 }

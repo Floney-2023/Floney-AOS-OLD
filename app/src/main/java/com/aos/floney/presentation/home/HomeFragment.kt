@@ -54,6 +54,7 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
                         viewModel.updateBookKey(state.data.bookKey)
                         viewModel.updateCalendarItems()
                         viewModel.updateDailyItems(viewModel.calendar.value.time)
+                        viewModel.updatebooksInfoItems()
                         settingCalendarText()
                         settingCalendarType()
                         settingCalendarDialog()

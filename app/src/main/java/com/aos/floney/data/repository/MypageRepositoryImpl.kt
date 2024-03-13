@@ -11,9 +11,9 @@ import javax.inject.Inject
 class MypageRepositoryImpl @Inject constructor(
     private val mypageDataSource: MypageDataSource
 ) : MyPageRepository {
-    override suspend fun getusersMypageData(authorization: String): Result<UserMypageData> =
+    override suspend fun getusersMypageData(): Result<UserMypageData> =
         runCatching {
-            val response = mypageDataSource.getusersMypageData(authorization)
+            val response = mypageDataSource.getusersMypageData()
             UserMypageData(
                 nickname = response.nickname,
                 email = response.email,
@@ -23,42 +23,38 @@ class MypageRepositoryImpl @Inject constructor(
                 myBooks = response.convertToBookDto()
             )
         }
-    override suspend fun getusersReceiveMarketingData(authorization: String): Result<ReceiveMarketing> =
+    override suspend fun getusersReceiveMarketingData(): Result<ReceiveMarketing> =
         runCatching {
-            val response = mypageDataSource.getusersReceiveMarketingData(authorization)
+            val response = mypageDataSource.getusersReceiveMarketingData()
             ReceiveMarketing(
                 receiveMarketing = response.receiveMarketing
             )
         }
     override suspend fun putusersReceiveMarketingData(
-        authorization: String,
         agree : Boolean
     ): Result<Unit> =
         runCatching {
-            mypageDataSource.putusersReceiveMarketingData(authorization, agree)
+            mypageDataSource.putusersReceiveMarketingData(agree)
         }
     override suspend fun putusersPasswordData(
-        authorization: String,
         requestPutUsersPasswordDto: RequestPutUsersPasswordDto
     ): Result<Unit> =
         runCatching {
-            mypageDataSource.putusersPasswordData(authorization, requestPutUsersPasswordDto)
+            mypageDataSource.putusersPasswordData(requestPutUsersPasswordDto)
         }
 
     override suspend fun getusersNicknameUpdate(
-        authorization: String,
         nickname: String
     ): Result<Unit> =
         runCatching {
-        mypageDataSource.getusersNicknameUpdate(authorization,nickname)
+        mypageDataSource.getusersNicknameUpdate(nickname)
     }
 
     override suspend fun getusersBookKey(
-        authorization: String,
         requestPostUsersBookKeyDto: RequestPostUsersBookKeyDto
     ): Result<Unit> =
         runCatching {
-            mypageDataSource.getusersBookKey(authorization,requestPostUsersBookKeyDto)
+            mypageDataSource.getusersBookKey(requestPostUsersBookKeyDto)
         }
 
 }

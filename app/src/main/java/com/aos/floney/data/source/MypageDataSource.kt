@@ -11,31 +11,25 @@ class MypageDataSource @Inject constructor(
 ){
 
     suspend fun getusersMypageData(
-        authorization : String
-    ) = mypageService.getusersMypageData(authorization)
+    ) = mypageService.getusersMypageData()
 
     suspend fun getusersReceiveMarketingData(
-        authorization : String
-    ) = mypageService.getusersReceiveMarketingData(authorization)
+    ) = mypageService.getusersReceiveMarketingData()
 
     suspend fun putusersReceiveMarketingData(
-        authorization : String,
         agree : Boolean
-    ) = mypageService.putusersReceiveMarketingData(authorization, agree)
+    ) = mypageService.putusersReceiveMarketingData(agree)
 
     suspend fun putusersPasswordData(
-        authorization : String,
         requestPutUsersPasswordDto: RequestPutUsersPasswordDto
-    ) = mypageService.putusersPasswordData(authorization, requestPutUsersPasswordDto)
+    ) = mypageService.putusersPasswordData(requestPutUsersPasswordDto)
 
     suspend fun getusersNicknameUpdate(
-        authorization : String,
         nickname : String
-    ) = mypageService.getusersNicknameUpdate(authorization, nickname)
+    ) = mypageService.getusersNicknameUpdate(nickname)
 
     suspend fun getusersBookKey(
-        authorization : String,
         requestPostUsersBookKeyDto: RequestPostUsersBookKeyDto
-    ) = mypageService.getusersBookKey(authorization, requestPostUsersBookKeyDto)
+    ) = mypageService.getusersBookKey(requestPostUsersBookKeyDto)
 
 }

@@ -24,8 +24,6 @@ class MypageViewModel @Inject constructor(
     private val myPageRepository: MyPageRepository
 ): ViewModel() {
 
-
-
     private val _getusersMypageState =
         MutableStateFlow<UiState<UserMypageData>>(UiState.Loading)
     val getusersMypageState: StateFlow<UiState<UserMypageData>> =
@@ -43,7 +41,7 @@ class MypageViewModel @Inject constructor(
     fun updatemypageItems()
     {
         viewModelScope.launch {
-            myPageRepository.getusersMypageData(Authorization)
+            myPageRepository.getusersMypageData()
                 .onSuccess { response ->
                     _getusersMypageState.value =
                         UiState.Success(response)
@@ -57,7 +55,7 @@ class MypageViewModel @Inject constructor(
     fun updateusersReceiveMarketing()
     {
         viewModelScope.launch {
-            myPageRepository.getusersReceiveMarketingData(Authorization)
+            myPageRepository.getusersReceiveMarketingData()
                 .onSuccess { response ->
                     _getusersReceiveMarketingState.value =
                         UiState.Success(response)
@@ -77,7 +75,6 @@ class MypageViewModel @Inject constructor(
         viewModelScope.launch {
             _putusersReceiveMarketingState.value = UiState.Loading
             myPageRepository.putusersReceiveMarketingData(
-                authorization = Authorization,
                 agree = agree
             )
                 .onSuccess { response ->
@@ -103,7 +100,6 @@ class MypageViewModel @Inject constructor(
         viewModelScope.launch {
             _putusersPasswordState.value = UiState.Loading
             myPageRepository.putusersPasswordData(
-                authorization = Authorization,
                 RequestPutUsersPasswordDto(
                     newPassword, oldPassword
                 )
@@ -133,7 +129,6 @@ class MypageViewModel @Inject constructor(
         viewModelScope.launch {
             _getusersNicknameUpdateState.value = UiState.Loading
             myPageRepository.getusersNicknameUpdate(
-                authorization = Authorization,
                 nickname = nickname
             )
                 .onSuccess { response ->
@@ -162,7 +157,6 @@ class MypageViewModel @Inject constructor(
         viewModelScope.launch {
             _getusersBookKeyState.value = UiState.Loading
             myPageRepository.getusersBookKey(
-                authorization = Authorization,
                 requestPostUsersBookKeyDto = RequestPostUsersBookKeyDto(bookKey)
             )
                 .onSuccess { response ->
