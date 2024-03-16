@@ -1,45 +1,57 @@
 package com.aos.floney.presentation.signup
+
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentSignupThirdBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
 
 @AndroidEntryPoint
-class SignUpThirdFragment : Fragment(R.layout.fragment_signup_third) {
+class SignUpThirdFragment : BindingFragment<FragmentSignupThirdBinding>(R.layout.fragment_signup_third) {
 
-    private lateinit var binding: FragmentSignupThirdBinding
     private lateinit var countDownTimer: CountDownTimer
+    private var timerExpired = false // 타이머 만료 여부를 저장하는 변수
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentSignupThirdBinding.bind(view)
 
-        // 타이머 텍스트 초기화
-        binding.timerTextView.text = "05:00"
+        backButtonSettings()
+        nextButtonSettings()
 
+        setupEditTextListeners()
+        // 5분 타이머 시작
+        startTimer()
+
+    }
+
+    private fun backButtonSettings() {
         binding.back.setOnClickListener {
             findNavController().popBackStack()
         }
+    }
 
+    private fun nextButtonSettings() {
         binding.nextButton.setOnClickListener {
-            findNavController().navigate(R.id.action_thirdFragment_to_FourthFragment)
+            if (timerExpired) {
+                // 타이머가 만료된 경우
+                showToast("유효 시간이 초과되었습니다. 다시 시도해 주세요.")
+            } else {
+                // 타이머가 만료되지 않은 경우
+                findNavController().navigate(R.id.action_thirdFragment_to_FourthFragment)
+            }
         }
-
-        setupEditTextListeners()
-
-        // 5분 타이머 시작
-        startTimer()
     }
 
     private fun startTimer() {
+        // 타이머 텍스트 초기화
+        binding.timerTextView.text = "05:00"
+
         countDownTimer = object : CountDownTimer(300000, 1000) { // 5분(300000밀리초) 타이머
             override fun onTick(millisUntilFinished: Long) {
                 val minutes = (millisUntilFinished / 1000) / 60
@@ -50,6 +62,7 @@ class SignUpThirdFragment : Fragment(R.layout.fragment_signup_third) {
 
             override fun onFinish() {
                 // 타이머가 종료되면 필요한 작업을 수행하세요.
+                timerExpired = true // 타이머 만료 상태로 변경
             }
         }
         countDownTimer.start()
@@ -80,11 +93,7 @@ class SignUpThirdFragment : Fragment(R.layout.fragment_signup_third) {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        // Fragment가 종료될 때 타이머를 중지하여 메모리 누수를 방지합니다.
-        if (::countDownTimer.isInitialized) {
-            countDownTimer.cancel()
-        }
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 }

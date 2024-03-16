@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.aos.floney.R
 import com.aos.floney.databinding.FragmentSignupFirstBinding
 import com.aos.floney.presentation.login.LoginActivity
+import com.aos.floney.util.view.ErrorToast
 import com.aos.floney.util.view.SampleToast
 import dagger.hilt.android.AndroidEntryPoint
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
@@ -41,7 +42,7 @@ class SignUpFirstFragment : BindingFragment<FragmentSignupFirstBinding>(R.layout
                 binding.checkAge?.isChecked == true)
                 findNavController().navigate(R.id.action_fistFragment_to_secondFragment)
             else {
-                SampleToast.createToast(requireContext(), "필수 약관에 모두 동의해주세요.")?.show()
+                ErrorToast.createToast(requireContext(), "필수 약관에 모두 동의해주세요.")?.show()
             }
         }
     }
