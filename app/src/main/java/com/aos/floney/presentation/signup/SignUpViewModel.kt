@@ -5,12 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aos.floney.data.dto.request.PostLoginRequestDto
 import com.aos.floney.data.dto.request.PostUserEmailMailRequestDto
+import com.aos.floney.data.dto.request.PostUserSignupRequestDto
 import com.aos.floney.data.dto.request.RequestPostRegisterUserDto
 import com.aos.floney.domain.entity.GetbooksDaysData
 import com.aos.floney.domain.entity.GetbooksInfoData
 import com.aos.floney.domain.entity.GetbooksMonthData
 import com.aos.floney.domain.entity.books.GetbooksUsersCheckData
 import com.aos.floney.domain.entity.login.PostusersLoginData
+import com.aos.floney.domain.entity.signup.PostusersSignupData
 import com.aos.floney.domain.repository.CalendarRepository
 import com.aos.floney.domain.repository.DataStoreRepository
 import com.aos.floney.domain.repository.UserRepository
@@ -43,6 +45,9 @@ class SignUpViewModel @Inject constructor(
 
     private val _postUserEmailMailState = MutableStateFlow<UiState<Unit>>(UiState.Loading)
     val postUserEmailMailState: StateFlow<UiState<Unit>> = _postUserEmailMailState.asStateFlow()
+
+    private val _postUserSignupState = MutableStateFlow<UiState<PostusersSignupData>>(UiState.Loading)
+    val postUserSignupState: StateFlow<UiState<PostusersSignupData>> = _postUserSignupState.asStateFlow()
 
     suspend fun getDeviceToken(): String? {
         return dataStoreRepository.getDeviceToken()?.first()
@@ -89,6 +94,30 @@ class SignUpViewModel @Inject constructor(
                         val code = json.getString("code")
                         Timber.e("액세스 ${t.message}")
                         _postUserEmailMailState.value = UiState.Failure("${code}")
+                    }
+                }
+        }
+
+    }
+    fun postSignupUser(signupData : PostUserSignupRequestDto){
+        viewModelScope.launch {
+            userRepository.postSignupUser(signupData)
+                .onSuccess { response ->
+                    if (response == null){
+                    } else {
+                        Timber.d("회원가입 성공")
+                        saveAccessToken(response.accessToken, response.refreshToken)
+                        _postUserSignupState.value = UiState.Success(response)
+                    }
+                }
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        Timber.e("HTTP 실패 ${t.code()}, ${t.message()}")
+                        val errorResponse = t.response()?.errorBody()?.string()
+                        val json = JSONObject(errorResponse)
+                        val code = json.getString("code")
+                        Timber.e("액세스 ${t.message}")
+                        _postUserSignupState.value = UiState.Failure("${code}")
                     }
                 }
         }

@@ -155,8 +155,8 @@ class SignUpThirdFragment : Fragment(R.layout.fragment_signup_third) {
     }
     private fun handlePasswordError(errorCode: String) {
         val errorMessage = when (errorCode) {
-            "U018" -> "코드가 올바르지 않습니다."
-            "U013" -> "유효 시간이 초과되었습니다. 다시 시도해 주세요."
+            "U013" -> "코드가 올바르지 않습니다."
+            "U018" -> "유효 시간이 초과되었습니다. 다시 시도해 주세요."
             else -> "알 수 없는 오류가 발생했습니다. 다시 시도해 주세요."
         }
 

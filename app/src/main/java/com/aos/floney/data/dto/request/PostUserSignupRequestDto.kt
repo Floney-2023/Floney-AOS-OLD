@@ -12,5 +12,5 @@ data class PostUserSignupRequestDto(
     @SerialName("password")
     val password: String,
     @SerialName("receiveMarketing")
-    val receiveMarketing: String
+    val receiveMarketing: Boolean
 )

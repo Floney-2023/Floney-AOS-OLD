@@ -84,7 +84,7 @@ class SplashActivity : AppCompatActivity() {
             val storedToken = viewModel.getDeviceToken()
             Timber.d("Stored Token: $storedToken")
             if ((storedToken != currentToken) || storedToken.isEmpty()) {
-                viewModel.postRegisterUser(currentToken)
+
             } else {
                 navigateToMain()
             }

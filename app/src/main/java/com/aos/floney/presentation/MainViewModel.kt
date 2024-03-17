@@ -31,27 +31,11 @@ class MainViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    val Authorization = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ3bnNnbWw1MTdAZ21haWwuY29tIiwiaWF0IjoxNzEwMjIzNjI3LCJleHAiOjE3MTAyMjcyMjd9.4sZFeE6njLnOVq-E8_BwEBAm5bpTCmqd1_ze--ZDLsMVkkR6R_AaZcDVvKnYcRrP"
-
     private val _postRegisterUserState = MutableStateFlow<UiState<Unit>>(UiState.Loading)
     val postRegisterUserState: StateFlow<UiState<Unit>> = _postRegisterUserState.asStateFlow()
 
     suspend fun getDeviceToken(): String? {
         return dataStoreRepository.getDeviceToken()?.first()
-    }
-
-    fun postRegisterUser(deviceToken: String) {
-        viewModelScope.launch {
-            userRepository.postRegisterUser(
-                RequestPostRegisterUserDto(
-                    deviceToken = deviceToken
-                )
-            ).onSuccess { response ->
-                _postRegisterUserState.value = UiState.Success(response)
-            }.onFailure { t ->
-                _postRegisterUserState.value = UiState.Failure("${t.message}")
-            }
-        }
     }
     companion object {
         private const val FIRST_DAY = 1

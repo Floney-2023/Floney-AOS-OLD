@@ -75,19 +75,6 @@ class LoginViewModel @Inject constructor(
         }
 
     }
-    fun postRegisterUser(deviceToken: String) {
-        viewModelScope.launch {
-            userRepository.postRegisterUser(
-                RequestPostRegisterUserDto(
-                    deviceToken = deviceToken
-                )
-            ).onSuccess { response ->
-                _postRegisterUserState.value = UiState.Success(response)
-            }.onFailure { t ->
-                _postRegisterUserState.value = UiState.Failure("${t.message}")
-            }
-        }
-    }
     private fun saveAccessToken(accessToken: String, refreshToken: String) =
         viewModelScope.launch(Dispatchers.IO) {
             dataStoreRepository.saveAccessToken(accessToken, refreshToken)
