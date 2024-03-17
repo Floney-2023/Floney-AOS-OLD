@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PostUserEmailMailRequestDto(
-    @SerialName("accessToken")
-    val accessToken: String,
-    @SerialName("refreshToken")
-    val refreshToken: String
+    @SerialName("email")
+    val email: String,
+    @SerialName("code")
+    val code: String
 )
