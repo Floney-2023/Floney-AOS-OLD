@@ -1,6 +1,7 @@
 package com.aos.floney.data.repository
 
 import com.aos.floney.data.dto.request.PostLoginRequestDto
+import com.aos.floney.data.dto.request.PostUserEmailMailRequestDto
 import com.aos.floney.data.dto.request.RequestPostRegisterUserDto
 import com.aos.floney.data.dto.response.PostUserResponseDto
 import com.aos.floney.data.dto.response.users.PostUserLoginResponseDto
@@ -33,5 +34,9 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getEmailMailUser(email : String): Result<Unit> =
         runCatching {
             userDataSource.getEmailMailUser(email)
+        }
+    override suspend fun postEmailMailUser(postUserEmailMailRequestDto : PostUserEmailMailRequestDto): Result<Unit> =
+        runCatching {
+            userDataSource.postEmailMailUser(postUserEmailMailRequestDto)
         }
 }

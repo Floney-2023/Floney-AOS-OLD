@@ -1,6 +1,7 @@
 package com.aos.floney.data.source
 
 import com.aos.floney.data.dto.request.PostLoginRequestDto
+import com.aos.floney.data.dto.request.PostUserEmailMailRequestDto
 import com.aos.floney.data.dto.request.RequestPostRegisterUserDto
 import com.aos.floney.data.dto.response.users.PostUserLoginResponseDto
 import com.aos.floney.data.service.UserService
@@ -18,4 +19,6 @@ class UserDataSource @Inject constructor(
         userService.getLogoutUser(accessToken)
     suspend fun getEmailMailUser(email: String) =
         userService.getEmailMailUser(email)
+    suspend fun postEmailMailUser(postUserEmailMailRequestDto: PostUserEmailMailRequestDto) =
+        userService.postEmailMailUser(postUserEmailMailRequestDto)
 }

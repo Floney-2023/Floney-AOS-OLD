@@ -1,6 +1,7 @@
 package com.aos.floney.data.service
 
 import com.aos.floney.data.dto.request.PostLoginRequestDto
+import com.aos.floney.data.dto.request.PostUserEmailMailRequestDto
 import com.aos.floney.data.dto.request.RequestPostRegisterUserDto
 import com.aos.floney.data.dto.response.users.PostUserLoginResponseDto
 import com.aos.floney.domain.entity.login.PostusersLoginData
@@ -29,6 +30,11 @@ interface UserService {
     @GET("/users/email/mail")
     suspend fun getEmailMailUser(
         @Query("email") email: String
+    )
+
+    @POST("/users/email/mail")
+    suspend fun postEmailMailUser(
+        @Body postUserEmailMailRequestDto: PostUserEmailMailRequestDto
     )
 
 }
