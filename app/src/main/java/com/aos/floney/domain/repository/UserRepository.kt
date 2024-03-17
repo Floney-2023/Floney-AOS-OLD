@@ -10,4 +10,7 @@ interface UserRepository {
     suspend fun postLoginUser(postLoginRequestDto: PostLoginRequestDto): Result<PostusersLoginData>
 
     suspend fun getLogoutUser(accessToken: String): Result<Unit>
+
+    suspend fun getEmailMailUser(email: String): Result<Unit>
+
 }

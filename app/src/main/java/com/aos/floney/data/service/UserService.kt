@@ -26,4 +26,9 @@ interface UserService {
         @Query("accessToken") accessToken: String
     ) : PostUserLoginResponseDto
 
+    @GET("/users/email/mail")
+    suspend fun getEmailMailUser(
+        @Query("email") email: String
+    )
+
 }

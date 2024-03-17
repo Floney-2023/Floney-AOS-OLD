@@ -39,8 +39,11 @@ class SignUpFirstFragment : BindingFragment<FragmentSignupFirstBinding>(R.layout
         binding.nextButton.setOnClickListener {
             if ( binding.checkService?.isChecked == true &&
                 binding.checkPrivacy?.isChecked == true &&
-                binding.checkAge?.isChecked == true)
-                findNavController().navigate(R.id.action_fistFragment_to_secondFragment)
+                binding.checkAge?.isChecked == true){
+                val bundle = Bundle().apply {
+                    putBoolean("marketing", binding.checkMarketing?.isChecked ?: false)
+                }
+            findNavController().navigate(R.id.action_fistFragment_to_secondFragment, bundle)}
             else {
                 ErrorToast.createToast(requireContext(), "필수 약관에 모두 동의해주세요.")?.show()
             }

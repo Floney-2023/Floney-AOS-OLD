@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -25,11 +23,13 @@ class SignUpThirdFragment : Fragment(R.layout.fragment_signup_third) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSignupThirdBinding.bind(view)
 
+        val email = requireArguments().getString("email", "")
+        val marketing = requireArguments().getBoolean("marketing", false)
+
         backButtonSettings()
-        nextButtonSettings()
+        nextButtonSettings(email, marketing)
 
         setupEditTextListeners()
-        // 5분 타이머 시작
         startTimer()
 
     }
@@ -40,14 +40,18 @@ class SignUpThirdFragment : Fragment(R.layout.fragment_signup_third) {
         }
     }
 
-    private fun nextButtonSettings() {
+    private fun nextButtonSettings(email: String, marketing: Boolean) {
         binding.nextButton.setOnClickListener {
             if (timerExpired) {
                 // 타이머가 만료된 경우
                 ErrorToast.createToast(requireContext(),"유효 시간이 초과되었습니다. 다시 시도해 주세요.")?.show()
             } else {
+                val bundle = Bundle().apply {
+                    putString("email", email) // 이메일 값을 번들에 넣음
+                    putBoolean("marketing", marketing)
+                }
                 // 타이머가 만료되지 않은 경우
-                findNavController().navigate(R.id.action_thirdFragment_to_FourthFragment)
+                findNavController().navigate(R.id.action_thirdFragment_to_FourthFragment,bundle)
             }
         }
     }

@@ -16,4 +16,6 @@ class UserDataSource @Inject constructor(
         userService.postLoginUser(postLoginRequestDto)
     suspend fun getLogoutUser(accessToken: String) =
         userService.getLogoutUser(accessToken)
+    suspend fun getEmailMailUser(email: String) =
+        userService.getEmailMailUser(email)
 }

@@ -30,4 +30,8 @@ class UserRepositoryImpl @Inject constructor(
         runCatching {
             userDataSource.getLogoutUser(accessToken)
         }
+    override suspend fun getEmailMailUser(email : String): Result<Unit> =
+        runCatching {
+            userDataSource.getEmailMailUser(email)
+        }
 }

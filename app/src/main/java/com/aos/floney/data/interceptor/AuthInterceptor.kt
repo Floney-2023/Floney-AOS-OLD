@@ -29,7 +29,9 @@ class AuthInterceptor @Inject constructor(
         val originalRequest = chain.request()
 
         if (originalRequest.url.encodedPath.equals("/users/login",true)||
-            originalRequest.url.encodedPath.equals("/users/logout",true)){
+            originalRequest.url.encodedPath.equals("/users/logout",true)||
+            originalRequest.url.encodedPath.equals("/users/email/mail",true)
+            ){
             val headerRequest = originalRequest.newAuthBuilder()
                 .build()
             val response = chain.proceed(headerRequest)
