@@ -2,22 +2,25 @@ package com.aos.floney.data.repository
 
 import com.aos.floney.data.dto.request.PostLoginRequestDto
 import com.aos.floney.data.dto.request.PostUserEmailMailRequestDto
+import com.aos.floney.data.dto.request.PostUserSignupRequestDto
+import com.aos.floney.data.dto.response.users.PostUserSignupResponseDto
 import com.aos.floney.data.dto.request.RequestPostRegisterUserDto
-import com.aos.floney.data.dto.response.PostUserResponseDto
-import com.aos.floney.data.dto.response.users.PostUserLoginResponseDto
 import com.aos.floney.data.source.UserDataSource
-import com.aos.floney.domain.entity.GetbooksMonthData
-import com.aos.floney.domain.entity.books.GetbooksUsersCheckData
 import com.aos.floney.domain.entity.login.PostusersLoginData
+import com.aos.floney.domain.entity.signup.PostusersSignupData
 import com.aos.floney.domain.repository.UserRepository
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
     private val userDataSource: UserDataSource
 ) : UserRepository {
-    override suspend fun postRegisterUser(requestPostRegisterUserDto: RequestPostRegisterUserDto): Result<Unit> =
+    override suspend fun postSignupUser(postUserSignupRequestDto: PostUserSignupRequestDto): Result<PostusersSignupData> =
         runCatching {
-            userDataSource.postRegisterUser(requestPostRegisterUserDto)
+            val response = userDataSource.postSignupUser(postUserSignupRequestDto)
+            PostusersSignupData(
+                accessToken = response.accessToken,
+                refreshToken = response.refreshToken
+            )
         }
     override suspend fun postLoginUser(postLoginRequestDto: PostLoginRequestDto): Result<PostusersLoginData> =
         runCatching {
@@ -39,4 +42,5 @@ class UserRepositoryImpl @Inject constructor(
         runCatching {
             userDataSource.postEmailMailUser(postUserEmailMailRequestDto)
         }
+
 }

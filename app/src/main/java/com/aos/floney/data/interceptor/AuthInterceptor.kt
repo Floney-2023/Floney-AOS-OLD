@@ -30,7 +30,8 @@ class AuthInterceptor @Inject constructor(
 
         if (originalRequest.url.encodedPath.equals("/users/login",true)||
             originalRequest.url.encodedPath.equals("/users/logout",true)||
-            originalRequest.url.encodedPath.equals("/users/email/mail",true)
+            originalRequest.url.encodedPath.equals("/users/email/mail",true)||
+            originalRequest.url.encodedPath.equals("/users",true)
             ){
             val headerRequest = originalRequest.newAuthBuilder()
                 .build()
