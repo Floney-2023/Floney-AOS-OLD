@@ -97,12 +97,16 @@ class SignUpThirdFragment : Fragment(R.layout.fragment_signup_third) {
             binding.editText6
         )
 
-        for (i in 0 until editTexts.size - 1) {
+        for (i in editTexts.indices) {
             editTexts[i].addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    if (s?.length == 1) {
+                    if (s.isNullOrBlank() && start == 0 && i > 0) {
+                        // 현재 EditText가 비어 있고, 사용자가 이전으로 지우기를 시도하는 경우
+                        editTexts[i - 1].requestFocus()
+                    } else if (s?.length == 1 && i < editTexts.lastIndex) {
+                        // 현재 EditText에 값이 입력되고, 마지막 EditText가 아닌 경우 다음 칸으로 이동
                         editTexts[i + 1].requestFocus()
                     }
                 }
