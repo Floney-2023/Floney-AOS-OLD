@@ -28,14 +28,32 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository,
-    private val userRepository: UserRepository
+    private val calendarRepository: CalendarRepository
 ) : ViewModel() {
 
     private val _postRegisterUserState = MutableStateFlow<UiState<Unit>>(UiState.Loading)
     val postRegisterUserState: StateFlow<UiState<Unit>> = _postRegisterUserState.asStateFlow()
 
+    private val _getUsersCheckState =
+        MutableStateFlow<UiState<GetbooksUsersCheckData>>(UiState.Loading)
+    val getUsersCheckState: StateFlow<UiState<GetbooksUsersCheckData>> =
+        _getUsersCheckState.asStateFlow()
+
     suspend fun getDeviceToken(): String? {
         return dataStoreRepository.getDeviceToken()?.first()
+    }
+    fun updateBookKeyItems(){
+        viewModelScope.launch {
+            calendarRepository.getbooksUsersCheckData()
+                .onSuccess { response ->
+                    _getUsersCheckState.value =
+                        UiState.Success(response)
+                    Log.d("bookKey", "onsuccess: $response")
+                }.onFailure { t ->
+                    Log.d("bookKey", "onfailure: ${t}")
+                    _getUsersCheckState.value = UiState.Failure("${t.message}")
+                }
+        }
     }
     companion object {
         private const val FIRST_DAY = 1

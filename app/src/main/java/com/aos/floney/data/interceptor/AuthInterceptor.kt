@@ -46,6 +46,8 @@ class AuthInterceptor @Inject constructor(
             val response = chain.proceed(headerRequest)
 
             Timber.e("액세스 토큰이 이거다. ${response}${runBlocking(Dispatchers.IO) { getAccessToken() }}")
+            runBlocking { Timber.e("액세스토큰 : ${getAccessToken()}, 리프레시토큰 : ${getRefreshToken()}") }
+
             when (response.code) {
                 CODE_TOKEN_EXPIRED -> {
                     try {
@@ -90,17 +92,18 @@ class AuthInterceptor @Inject constructor(
     ): Response {
         val refreshTokenRequest = originalRequest.newBuilder()
             .post(createTokenReissueRequestBody())
-            .url("$BASE_URL/users/reissue")
+            .url("${BASE_URL}users/reissue")
             .build()
         val refreshTokenResponse = chain.proceed(refreshTokenRequest)
-        Timber.e("리프레시 토큰 : $refreshTokenResponse")
+        Timber.e("리프레시 토큰?? : $refreshTokenResponse")
 
         if (refreshTokenResponse.isSuccessful) {
             val responseToken = json.decodeFromString(
                 refreshTokenResponse.body?.string().toString()
             ) as BaseResponse<ResponseReIssueTokenDto>
+            Timber.e("리프레시 토큰! : ${responseToken.data}")
             if (responseToken.data != null) {
-                Timber.e("리프레시 토큰 : ${responseToken.data.refreshToken}")
+
                 saveAccessToken(
                     responseToken.data.accessToken,
                     responseToken.data.refreshToken
@@ -111,7 +114,7 @@ class AuthInterceptor @Inject constructor(
             return chain.proceed(newRequest)
         } else {
             refreshTokenResponse.close()
-            Timber.e("리프레시 토큰 : ${refreshTokenResponse.code}")
+            Timber.e("리프레시 토큰?_? : ${refreshTokenResponse.code}")
             saveAccessToken("", "")
             return chain.proceed(headerRequest)
         }
@@ -131,7 +134,7 @@ class AuthInterceptor @Inject constructor(
     }
 
     companion object {
-        private const val HEADER_TOKEN = "accessToken"
+        private const val HEADER_TOKEN = "Authorization"
         private const val CODE_TOKEN_EXPIRED = 401
         private const val CODE_INVALID_USER = 1000
         private const val REFRESH_TOKEN = "refreshToken"

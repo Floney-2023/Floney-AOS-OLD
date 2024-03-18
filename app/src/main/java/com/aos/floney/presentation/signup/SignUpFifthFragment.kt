@@ -23,6 +23,8 @@ class SignUpFifthFragment : BindingFragment<FragmentSignupFifthBinding>(R.layout
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val nickname = requireArguments().getString("nickname", "")
+        
         binding.startFloney.setOnClickListener {
             navigateTo<LoginActivity>()
         }
