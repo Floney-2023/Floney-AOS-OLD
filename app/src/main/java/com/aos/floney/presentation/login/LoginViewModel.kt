@@ -1,5 +1,6 @@
 package com.aos.floney.presentation.login
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -79,6 +80,12 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             dataStoreRepository.saveAccessToken(accessToken, refreshToken)
         }
+
+
+    fun kakaoLogin(context: Context) {
+
+    }
+
     companion object {
         private const val FIRST_DAY = 1
     }

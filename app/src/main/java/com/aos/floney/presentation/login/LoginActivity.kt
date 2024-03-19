@@ -37,6 +37,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
             navigateActivityTo<SignUpActivity>()
         }
         settingLoginButton()
+        settingKakaoLoginButton()
         initLoginObserver()
     }
     private fun settingLoginButton(){
@@ -49,6 +50,12 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
 
 
             viewModel.postuserLogin(binding.idText.text.toString(),binding.pwText.text.toString())
+        }
+
+    }
+    private fun settingKakaoLoginButton(){
+        binding.kakaoBtn.setOnClickListener {
+            viewModel.kakaoLogin(this)
         }
     }
     private fun initLoginObserver() {

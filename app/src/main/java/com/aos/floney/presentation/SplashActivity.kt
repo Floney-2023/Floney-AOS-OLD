@@ -1,11 +1,13 @@
 package com.aos.floney.presentation
 
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +35,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import com.aos.floney.BuildConfig.KAKAO_NATIVE_KEY
+import com.kakao.sdk.common.KakaoSdk
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
@@ -44,6 +48,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        KakaoSdk.init(this,KAKAO_NATIVE_KEY)
 
         settingBookKey()
         Handler(Looper.getMainLooper()).postDelayed({

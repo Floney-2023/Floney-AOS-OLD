@@ -27,6 +27,14 @@ android {
             "BASE_URL",
             getApiKey("base.url")
         )
+        buildConfigField(
+            "String",
+            "KAKAO_NATIVE_KEY",
+            gradleLocalProperties(rootDir).getProperty("kakao.native.key")
+        )
+
+        manifestPlaceholders["KAKAO_NATIVE_KEY"] = gradleLocalProperties(rootDir).getProperty("kakao.native.key")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -105,6 +113,8 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.lottie)
     implementation(libs.dots.indicator)
+    implementation(libs.kakao)
+
 
     // Firebase
     implementation(platform(libs.firebase.bom))
