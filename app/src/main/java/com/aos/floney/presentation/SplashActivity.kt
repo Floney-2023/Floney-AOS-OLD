@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -48,9 +49,11 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        KakaoSdk.init(this,KAKAO_NATIVE_KEY)
+
 
         settingBookKey()
+        settingKaKaoSdk()
+        preventDarkMode()
         Handler(Looper.getMainLooper()).postDelayed({
 
             if (isOnBoardingFinished()) {
@@ -173,6 +176,12 @@ class SplashActivity : AppCompatActivity() {
     private fun isOnBoardingFinished(): Boolean {
         val prefs = this.getSharedPreferences("onBoarding", Context.MODE_PRIVATE)
         return prefs.getBoolean("finished", false)
+    }
+    private fun settingKaKaoSdk(){
+        KakaoSdk.init(this,KAKAO_NATIVE_KEY)
+    }
+    private fun preventDarkMode() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
     companion object {
         private const val DELAY_TIME = 1500L

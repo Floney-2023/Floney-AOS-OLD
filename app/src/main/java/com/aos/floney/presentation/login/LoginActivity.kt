@@ -8,8 +8,10 @@ import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.aos.floney.R
 import com.aos.floney.databinding.ActivityLoginBinding
 import com.aos.floney.presentation.HomeActivity
@@ -19,6 +21,8 @@ import com.aos.floney.presentation.home.YearMonthPickerFragment
 import com.aos.floney.presentation.signup.SignUpActivity
 import com.aos.floney.util.binding.BindingActivity
 import com.aos.floney.util.view.ErrorToast
+import com.aos.floney.util.view.SampleToast
+import com.aos.floney.util.view.SocialLoginUiState
 import com.aos.floney.util.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn

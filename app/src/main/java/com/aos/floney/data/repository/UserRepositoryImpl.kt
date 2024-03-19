@@ -5,6 +5,7 @@ import com.aos.floney.data.dto.request.PostUserEmailMailRequestDto
 import com.aos.floney.data.dto.request.PostUserSignupRequestDto
 import com.aos.floney.data.dto.response.users.PostUserSignupResponseDto
 import com.aos.floney.data.dto.request.RequestPostRegisterUserDto
+import com.aos.floney.data.dto.response.users.PostUserSocialResponseDto
 import com.aos.floney.data.source.UserDataSource
 import com.aos.floney.domain.entity.login.PostusersLoginData
 import com.aos.floney.domain.entity.signup.PostusersSignupData
@@ -41,6 +42,15 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun postEmailMailUser(postUserEmailMailRequestDto : PostUserEmailMailRequestDto): Result<Unit> =
         runCatching {
             userDataSource.postEmailMailUser(postUserEmailMailRequestDto)
+        }
+
+    override suspend fun postSocialLogin(provider : String, socialAccessToken: String): Result<Unit> =
+        runCatching {
+            userDataSource.postSocialLogin(provider,socialAccessToken)
+        }
+    override suspend fun postSocialSignup(provider : String, socialAccessToken: String): Result<PostUserSocialResponseDto> =
+        runCatching {
+            userDataSource.postSocialSignup(provider,socialAccessToken)
         }
 
 }

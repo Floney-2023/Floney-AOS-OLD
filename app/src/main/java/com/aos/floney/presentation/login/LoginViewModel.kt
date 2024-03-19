@@ -13,8 +13,10 @@ import com.aos.floney.domain.entity.books.GetbooksUsersCheckData
 import com.aos.floney.domain.entity.login.PostusersLoginData
 import com.aos.floney.domain.repository.CalendarRepository
 import com.aos.floney.domain.repository.DataStoreRepository
+import com.aos.floney.domain.repository.KakaoLoginRepository
 import com.aos.floney.domain.repository.UserRepository
 import com.aos.floney.util.view.UiState
+import com.kakao.sdk.auth.model.OAuthToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,7 +37,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val kakaoLoginRepository: KakaoLoginRepository
 ) : ViewModel() {
 
     private val _postRegisterUserState = MutableStateFlow<UiState<Unit>>(UiState.Loading)
@@ -44,9 +47,57 @@ class LoginViewModel @Inject constructor(
     private val _loginState = MutableStateFlow<UiState<PostusersLoginData?>>(UiState.Empty)
     val loginState: StateFlow<UiState<PostusersLoginData?>> = _loginState.asStateFlow()
 
+    private val _socialloginState = MutableStateFlow<UiState<Unit?>>(UiState.Empty)
+    val socialloginState: StateFlow<UiState<Unit?>> = _socialloginState.asStateFlow()
+
     suspend fun getDeviceToken(): String? {
         return dataStoreRepository.getDeviceToken()?.first()
     }
+
+    private val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+        KakaoLoginCallback {
+            Timber.d("kakao 액세스토큰 ${token?.accessToken}")
+            Timber.d("kakao 리프레시토큰 ${token?.refreshToken}")
+            if (token != null) {
+                saveSocialToken(token.accessToken, token.refreshToken)
+                postLogin(token.accessToken, KAKAO)
+            } else {
+                Timber.e("token is null")
+            }
+        }.handleResult(token, error)
+    }
+    private fun postLogin(socialToken: String, socialType: String) {
+        viewModelScope.launch {
+            _socialloginState.value = UiState.Loading
+
+            userRepository.postSocialLogin(socialType, socialToken)
+                .onSuccess { response ->
+                    if (response != null) {
+                        Timber.d("로그인 성공")
+                        //Timber.d("액세스 : ${response.accessToken} \n 리프레시 : ${response.refreshToken}")
+
+                        //saveAccessToken(response.accessToken, response.refreshToken)
+                        //saveUserId(response.userId)
+
+                        _socialloginState.value = UiState.Success(response)
+                    } else {
+                        Timber.e("response is null")
+                    }
+                }
+                .onFailure { t ->
+                    if (t is HttpException) {
+                        Timber.e("HTTP 실패 ${t.code()}, ${t.message()}")
+                    }
+                    Timber.e("${t.message}")
+                    _loginState.value = UiState.Failure("${t.message}")
+                }
+        }
+    }
+
+    private fun saveSocialToken(socialAccessToken: String, socialRefreshToken: String) =
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStoreRepository.saveSocialToken(socialAccessToken, socialRefreshToken)
+        }
 
     fun postuserLogin(email:String, password : String){
         viewModelScope.launch {
@@ -83,10 +134,10 @@ class LoginViewModel @Inject constructor(
 
 
     fun kakaoLogin(context: Context) {
-
+        kakaoLoginRepository.loginKakao(kakaoLoginCallback, context)
     }
 
     companion object {
-        private const val FIRST_DAY = 1
+        private const val KAKAO = "KAKAO"
     }
 }

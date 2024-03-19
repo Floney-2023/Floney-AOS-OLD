@@ -2,10 +2,12 @@ package com.aos.floney.di
 
 import com.aos.floney.data.repository.CalendarRepositoryImpl
 import com.aos.floney.data.repository.DataStoreRepositoryImpl
+import com.aos.floney.data.repository.KakaoLoginRepositoryImpl
 import com.aos.floney.data.repository.MypageRepositoryImpl
 import com.aos.floney.data.repository.UserRepositoryImpl
 import com.aos.floney.domain.repository.CalendarRepository
 import com.aos.floney.domain.repository.DataStoreRepository
+import com.aos.floney.domain.repository.KakaoLoginRepository
 import com.aos.floney.domain.repository.MyPageRepository
 import com.aos.floney.domain.repository.UserRepository
 import dagger.Binds
@@ -40,4 +42,10 @@ abstract class RepositoryModule {
     abstract fun bindsMypageRepository(
         mypageRepositoryImpl: MypageRepositoryImpl
     ): MyPageRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindsKakaoLoginRepository(
+        kakaoLoginRepository: KakaoLoginRepositoryImpl
+    ): KakaoLoginRepository
 }

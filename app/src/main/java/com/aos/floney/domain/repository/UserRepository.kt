@@ -5,10 +5,22 @@ import com.aos.floney.data.dto.request.PostUserEmailMailRequestDto
 import com.aos.floney.data.dto.request.PostUserSignupRequestDto
 import com.aos.floney.data.dto.request.RequestPostRegisterUserDto
 import com.aos.floney.data.dto.response.users.PostUserLoginResponseDto
+import com.aos.floney.data.dto.response.users.PostUserSocialResponseDto
 import com.aos.floney.domain.entity.login.PostusersLoginData
 import com.aos.floney.domain.entity.signup.PostusersSignupData
 
 interface UserRepository {
+
+    suspend fun postSocialLogin(
+        provider : String,
+        socialAccessToken: String
+    ): Result<Unit>
+
+    suspend fun postSocialSignup(
+        provider : String,
+        socialAccessToken: String
+    ): Result<PostUserSocialResponseDto?>
+
     suspend fun postSignupUser(postUserSignupRequestDto: PostUserSignupRequestDto): Result<PostusersSignupData>
     suspend fun postLoginUser(postLoginRequestDto: PostLoginRequestDto): Result<PostusersLoginData>
 

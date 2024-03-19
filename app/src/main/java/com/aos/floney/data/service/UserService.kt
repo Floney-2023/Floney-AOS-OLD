@@ -6,6 +6,7 @@ import com.aos.floney.data.dto.request.PostUserSignupRequestDto
 import com.aos.floney.data.dto.request.RequestPostRegisterUserDto
 import com.aos.floney.data.dto.response.users.PostUserLoginResponseDto
 import com.aos.floney.data.dto.response.users.PostUserSignupResponseDto
+import com.aos.floney.data.dto.response.users.PostUserSocialResponseDto
 import com.aos.floney.domain.entity.login.PostusersLoginData
 import com.google.android.gms.common.internal.safeparcel.SafeParcelable
 import retrofit2.http.Body
@@ -38,5 +39,18 @@ interface UserService {
     suspend fun postEmailMailUser(
         @Body postUserEmailMailRequestDto: PostUserEmailMailRequestDto
     )
+
+    @POST("/auth/{provider}/login")
+    suspend fun postSocialLogin(
+        @Path("provider") provider: String,
+        @Query("token") token: String
+    )
+
+    @POST("/auth/{provider}/signup")
+    suspend fun postSocialSignup(
+        @Path("provider") provider: String,
+        @Query("token") token: String
+    ) : PostUserSocialResponseDto
+
 
 }
