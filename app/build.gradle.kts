@@ -114,6 +114,7 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.dots.indicator)
     implementation(libs.kakao)
+    implementation(libs.google)
 
 
     // Firebase
