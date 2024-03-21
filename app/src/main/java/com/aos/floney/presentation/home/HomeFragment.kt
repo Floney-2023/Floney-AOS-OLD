@@ -51,7 +51,7 @@ class HomeFragment  : BindingFragment<FragmentHomeBinding>(R.layout.fragment_hom
                         // 값이 없을 경우 로직 구현
                     } else {
                         Timber.e("BookKey : ${state.data}")
-                        viewModel.updateBookKey(state.data.bookKey)
+                        viewModel.updateBookKey(state.data.bookKey!!)
                         viewModel.updateCalendarItems()
                         viewModel.updateDailyItems(viewModel.calendar.value.time)
                         viewModel.updatebooksInfoItems()

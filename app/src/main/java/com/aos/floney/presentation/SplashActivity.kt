@@ -129,11 +129,11 @@ class SplashActivity : AppCompatActivity() {
         viewModel.getUsersCheckState.flowWithLifecycle(lifecycle).onEach { state ->
             when (state) {
                 is UiState.Success -> {
-                    if (state.data.bookKey?.isEmpty() == true) {
+                    if (state.data.bookKey == null) {
                         navigateToWelcome()
                         // 회원가입한 이력이 있으나(accessToken 존재), 가계부가 존재하지 않는 경우
                     } else {
-                        //
+                        // 회원가입한 이력 O, 가계부 존재 O
                         navigateToMain()
                     }
                 }

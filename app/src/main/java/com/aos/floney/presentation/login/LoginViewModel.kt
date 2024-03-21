@@ -60,13 +60,13 @@ class LoginViewModel @Inject constructor(
             Timber.d("kakao 리프레시토큰 ${token?.refreshToken}")
             if (token != null) {
                 saveSocialToken(token.accessToken, token.refreshToken)
-                postLogin(token.accessToken, KAKAO)
+                postSocialLogin(token.accessToken, KAKAO)
             } else {
                 Timber.e("token is null")
             }
         }.handleResult(token, error)
     }
-    private fun postLogin(socialToken: String, socialType: String) {
+    private fun postSocialLogin(socialToken: String, socialType: String) {
         viewModelScope.launch {
             _socialloginState.value = UiState.Loading
 
@@ -133,7 +133,7 @@ class LoginViewModel @Inject constructor(
         }
 
 
-    fun kakaoLogin(context: Context) {
+    fun kakaoLogin(context: Context) = viewModelScope.launch {
         kakaoLoginRepository.loginKakao(kakaoLoginCallback, context)
     }
 

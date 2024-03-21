@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "918730717655-0d30ruqu92n4sufj4ui6ukcee8ktn5su.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aos.floney",
+            "certificate_hash": "d01462657fff3e92f1d740faa0436803b935d3fb"
+          }
+        },
+        {
           "client_id": "918730717655-na8j2blf20ud312335ob5a8u0ml45l4a.apps.googleusercontent.com",
           "client_type": 3
         }

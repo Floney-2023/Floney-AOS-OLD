@@ -32,6 +32,11 @@ android {
             "KAKAO_NATIVE_KEY",
             gradleLocalProperties(rootDir).getProperty("kakao.native.key")
         )
+        buildConfigField(
+            "String",
+            "GOOGLE_OAUTH_KEY",
+            getApiKey("google.oauth.key")
+        )
 
         manifestPlaceholders["KAKAO_NATIVE_KEY"] = gradleLocalProperties(rootDir).getProperty("kakao.native.key")
 
