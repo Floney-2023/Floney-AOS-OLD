@@ -12,9 +12,11 @@ import com.aos.floney.domain.entity.GetbooksInfoData
 import com.aos.floney.domain.entity.GetbooksMonthData
 import com.aos.floney.domain.entity.books.GetbooksUsersCheckData
 import com.aos.floney.domain.entity.login.PostusersLoginData
+import com.aos.floney.domain.entity.mypage.UserMypageData
 import com.aos.floney.domain.entity.signup.PostusersSignupData
 import com.aos.floney.domain.repository.CalendarRepository
 import com.aos.floney.domain.repository.DataStoreRepository
+import com.aos.floney.domain.repository.MyPageRepository
 import com.aos.floney.domain.repository.UserRepository
 import com.aos.floney.util.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,6 +39,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository,
+    private val myPageRepository: MyPageRepository,
     private val userRepository: UserRepository
 ) : ViewModel() {
 
@@ -48,6 +51,11 @@ class SignUpViewModel @Inject constructor(
 
     private val _postUserSignupState = MutableStateFlow<UiState<PostusersSignupData>>(UiState.Loading)
     val postUserSignupState: StateFlow<UiState<PostusersSignupData>> = _postUserSignupState.asStateFlow()
+
+    private val _getusersMypageState =
+        MutableStateFlow<UiState<UserMypageData>>(UiState.Loading)
+    val getusersMypageState: StateFlow<UiState<UserMypageData>> =
+        _getusersMypageState.asStateFlow()
 
     suspend fun getDeviceToken(): String? {
         return dataStoreRepository.getDeviceToken()?.first()
@@ -123,6 +131,22 @@ class SignUpViewModel @Inject constructor(
         }
 
     }
+    /*사용자 닉네임 가져오기*/
+    fun updatemypageItems()
+    {
+        viewModelScope.launch {
+            myPageRepository.getusersMypageData()
+                .onSuccess { response ->
+                    _getusersMypageState.value =
+                        UiState.Success(response)
+                    Log.d("myPage", "onsuccess: $response")
+                }.onFailure { t ->
+                    Log.d("myPage", "onfailure: ${t}")
+                    _getusersMypageState.value = UiState.Failure("${t.message}")
+                }
+        }
+    }
+
     private fun saveAccessToken(accessToken: String, refreshToken: String) =
         viewModelScope.launch(Dispatchers.IO) {
             dataStoreRepository.saveAccessToken(accessToken, refreshToken)
