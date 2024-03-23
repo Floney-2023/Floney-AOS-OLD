@@ -90,12 +90,13 @@ class AuthInterceptor @Inject constructor(
         originalRequest: Request,
         headerRequest: Request
     ): Response {
+
+        Timber.e("리프레시 토큰?? ")
         val refreshTokenRequest = originalRequest.newBuilder()
             .post(createTokenReissueRequestBody())
             .url("${BASE_URL}users/reissue")
             .build()
         val refreshTokenResponse = chain.proceed(refreshTokenRequest)
-        Timber.e("리프레시 토큰?? : $refreshTokenResponse")
 
         if (refreshTokenResponse.isSuccessful) {
             val responseToken = json.decodeFromString(
