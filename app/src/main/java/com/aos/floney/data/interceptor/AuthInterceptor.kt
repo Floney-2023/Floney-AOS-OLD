@@ -12,6 +12,7 @@ import kotlinx.serialization.json.Json
 import com.aos.floney.domain.repository.DataStoreRepository
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -93,31 +94,22 @@ class AuthInterceptor @Inject constructor(
 
         Timber.e("리프레시 토큰?? ")
         val refreshTokenRequest = originalRequest.newBuilder()
-            .post(createTokenReissueRequestBody())
             .url("${BASE_URL}users/reissue")
+            .post(createTokenReissueRequestBody())
             .build()
-        val refreshTokenResponse = chain.proceed(refreshTokenRequest)
-
-        if (refreshTokenResponse.isSuccessful) {
-            val responseToken = json.decodeFromString(
-                refreshTokenResponse.body?.string().toString()
-            ) as BaseResponse<ResponseReIssueTokenDto>
-            Timber.e("리프레시 토큰! : ${responseToken.data}")
-            if (responseToken.data != null) {
-
-                saveAccessToken(
-                    responseToken.data.accessToken,
-                    responseToken.data.refreshToken
-                )
+        OkHttpClient().newCall(refreshTokenRequest).execute().use { refreshTokenResponse ->
+            if (refreshTokenResponse.code == 201) {
+                val responseBody = refreshTokenResponse.body?.string()
+                responseBody?.let { body ->
+                    val responseToken = json.decodeFromString<ResponseReIssueTokenDto>(body)
+                    saveAccessToken(responseToken.accessToken, responseToken.refreshToken)
+                }
+                val newRequest = originalRequest.newAuthBuilder().build()
+                return chain.proceed(newRequest)
+            } else {
+                saveAccessToken("", "")
+                return chain.proceed(headerRequest)
             }
-            refreshTokenResponse.close()
-            val newRequest = originalRequest.newAuthBuilder().build()
-            return chain.proceed(newRequest)
-        } else {
-            refreshTokenResponse.close()
-            Timber.e("리프레시 토큰?_? : ${refreshTokenResponse.code}")
-            saveAccessToken("", "")
-            return chain.proceed(headerRequest)
         }
     }
     private fun createTokenReissueRequestBody(): RequestBody {
