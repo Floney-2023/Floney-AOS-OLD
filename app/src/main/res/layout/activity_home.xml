@@ -26,6 +26,12 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/main_nav" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grayscale10"
+            app:layout_constraintBottom_toBottomOf="@+id/nav_host_fragment" />
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
