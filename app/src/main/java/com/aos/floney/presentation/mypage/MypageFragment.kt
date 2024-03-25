@@ -2,8 +2,13 @@ package com.aos.floney.presentation.mypage
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -31,6 +36,7 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
     private val mypageViewModel by viewModels<MypageViewModel>(ownerProducer = {  requireActivity() })
     private val homeviewModel: HomeViewModel by viewModels(ownerProducer = {  requireActivity() })
     private lateinit var adapter : MypageAdapter
+    private lateinit var progressDialog: AppCompatDialog
 
     override fun onStart() {
         super.onStart()
@@ -63,6 +69,7 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
                         // 값이 없을 경우 로직 구현
                     } else {
                         updateMypageSetting(state)
+
                     }
                 }
 
@@ -118,7 +125,6 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
             binding.walletView.addView(walletDetailView, layoutParams)
 
         }*/
-
     }
     fun updateWalletView(booksList : List<UserMypageData.Book>){
 
@@ -129,6 +135,7 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
         adapter = MypageAdapter(
             clickBookKey = nowBookKey,
             onBookClick = { bookKey ->
+                progressON()
                 mypageViewModel.getusersBookKey(bookKey)
                 homeviewModel.updateBookKey(bookKey)
             }
@@ -150,6 +157,8 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
             when (state) {
                 is UiState.Success -> {
                     Timber.d("Success : observer ${homeviewModel.bookKey.value}")
+                    // 프로그레스바 Off
+                    progressOFF()
                     updateMyPageItem()
                 }
 
@@ -160,6 +169,26 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
                 }
             }
         }.launchIn(viewLifeCycleScope)
+    }
+    fun progressON(){
+        progressDialog = AppCompatDialog(requireContext())
+        progressDialog.setCancelable(false)
+        progressDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        progressDialog.setContentView(R.layout.item_progress_loading)
+        progressDialog.show()
+        var img_loading_framge = progressDialog.findViewById<ImageView>(R.id.iv_frame_loading)
+        var frameAnimation = img_loading_framge?.getBackground() as AnimationDrawable
+        img_loading_framge?.post(object : Runnable{
+            override fun run() {
+                frameAnimation.start()
+            }
+
+        })
+    }
+    fun progressOFF(){
+        if(progressDialog != null && progressDialog.isShowing()){
+            progressDialog.dismiss()
+        }
     }
     private inline fun <reified T : Fragment> navigateTo() {
         childFragmentManager.commit {
