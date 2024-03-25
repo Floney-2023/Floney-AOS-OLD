@@ -110,7 +110,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
 //            alreadySignFragment.show(supportFragmentManager, "YearMonthPicker")
 
 
-            viewModel.postuserLogin(binding.idText.text.toString(),binding.pwText.text.toString())
+            viewModel.postuserLogin(binding.loginEditText.text.toString(),binding.pwText.text.toString())
         }
 
     }

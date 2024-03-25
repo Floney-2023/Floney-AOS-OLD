@@ -74,6 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="92"
                     android:theme="@style/login_edit_text"
+                    app:hintEnabled="false"
                     app:passwordToggleEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -117,6 +118,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/login_edit_text"
+                    app:hintEnabled="false"
                     app:passwordToggleEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -165,6 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="92"
                     android:theme="@style/login_edit_text"
+                    app:hintEnabled="false"
                     app:passwordToggleEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText

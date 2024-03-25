@@ -54,7 +54,7 @@ class MypageActivityInformEmail  : BindingActivity<ActivityMypageInformEmaillogi
     }
     private fun nicknameHintSetting(){
         val nickname = intent.getStringExtra("nickname")
-        binding.nicknameText.hint = nickname
+        binding.nicknameEditText.hint = nickname
     }
     private fun backButtonClick(){
         binding.backButton.setOnClickListener {
@@ -63,10 +63,10 @@ class MypageActivityInformEmail  : BindingActivity<ActivityMypageInformEmaillogi
     }
     private fun nicknameChangeClick(){
         binding.nicknameChangeButton.setOnClickListener {
-            if (binding.nicknameText.text.toString().isEmpty())
+            if (binding.nicknameEditText.text.toString().isEmpty())
                 SampleToast.createToast(this,"닉네임을 입력해주세요.")?.show()
             else {
-                viewModel.getusersNicknameUpdate(binding.nicknameText.text.toString())
+                viewModel.getusersNicknameUpdate(binding.nicknameEditText.text.toString())
                 // 키보드 숨기기
                 hideKeyboard()
 

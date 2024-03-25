@@ -40,7 +40,7 @@ class SignUpFourthFragment : BindingFragment<FragmentSignupFourthBinding>(R.layo
         binding.nextButton.setOnClickListener {
             val password = binding.pwText.text.toString()
             val confirmPassword = binding.pwTextCheck.text.toString()
-            val nickname = binding.nicknameText.text.toString()
+            val nickname = binding.nicknameEditText.text.toString()
 
             // 비밀번호가 비어있는 경우
             if (password.isBlank()) {
@@ -83,7 +83,7 @@ class SignUpFourthFragment : BindingFragment<FragmentSignupFourthBinding>(R.layo
                 is UiState.Loading -> Unit
 
                 is UiState.Success -> {
-                    val nickname = binding.nicknameText.text.toString()
+                    val nickname = binding.nicknameEditText.text.toString()
 
                     val bundle = Bundle().apply {
                         putString("nickname", nickname) // 이메일 값을 번들에 넣음
