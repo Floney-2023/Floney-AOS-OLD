@@ -129,6 +129,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.remoteConfig)
     implementation(libs.firebase.database)
+    implementation(libs.firebase.storage)
 
     // Other AndroidX libraries
     implementation(libs.androidx.lifecycle.runtime.ktx)
