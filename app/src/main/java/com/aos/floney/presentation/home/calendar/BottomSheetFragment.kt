@@ -57,14 +57,6 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         observeCalendarAndItems()
         getCalendarInformationStateObserver()
     }
-
-    override fun onResume() {
-        super.onResume()
-        // Observer 등록
-
-
-    }
-
     fun initsetting(){
         viewModel.updateDailyItems(viewModel.calendar.value!!.time)
         //viewModel = ViewModelProvider(this).get(CalendarViewModel::class.java)
@@ -142,13 +134,7 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         viewLifeCycleScope.launch {
             viewModel.calendar.collect {
 
-                //val selectDay = viewModel.calendar.value.time
-
-                adapter = DailyAdapter(viewModel)
                 binding.dailyCalendar.layoutManager = LinearLayoutManager(context)
-
-
-
                 adapter = DailyAdapter(
                     viewModel = viewModel
                 )

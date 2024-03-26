@@ -99,6 +99,7 @@ class CalendarFragment  : BindingFragment<FragmentCalendarBinding>(R.layout.frag
                     currMonth = viewModel.calendar.value.get(
                         Calendar.MONTH),
                 ) { date ->
+                    Timber.e("BottomSheet!!!! : ")
                     viewModel.clickSelectDate(date)
                     val bottomSheetPostFragment = BottomSheetFragment()
                     bottomSheetPostFragment.show(
