@@ -1,6 +1,7 @@
 package com.aos.floney.presentation.home.daily
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -28,6 +29,7 @@ class DailyAdapter(
         val dailyContent: TextView = binding.dailyContent
         val dailyCategory: TextView = binding.dailyCategory
         val dailyMoney: TextView = binding.dailyMoney
+        val dailyRepeatDuration : TextView = binding.dailyRepeatDuration
         fun onBind(dailyItem: GetbooksDaysData.DailyItem) {
 
             /*if (dailyItem.img != "user_default")
@@ -39,12 +41,32 @@ class DailyAdapter(
             if (dailyItem.writerEmail.isEmpty()) {
                 dailyCategory.text = String.format("-")
                 dailyMoney.text=dailyItem.money.toInt().toString()
+                dailyRepeatDuration.visibility = View.GONE
             }
             else
             {
                 dailyCategory.text = String.format(dailyItem.lineSubCategory+" ‧ "+dailyItem.assetSubCategory)
                 dailyMoney.text=getFormattedMoneyText(dailyItem.money, dailyItem.lineCategory == DailyItemType.INCOME)
+
+                val repeatText = when (dailyItem.repeatDuration) {
+                    "EVERYDAY" -> "매일"
+                    "WEEK" -> "매주"
+                    "MONTH" -> "매달"
+                    "WEEKDAY" -> "주중"
+                    "WEEKEND" -> "주말"
+                    else -> dailyItem.repeatDuration // 그 외의 경우는 그대로 사용
+                }
+                dailyRepeatDuration.text = repeatText
+
+                // "NONE"인 경우에만 가시성을 GONE으로 설정
+                if (dailyItem.repeatDuration == "NONE") {
+                    dailyRepeatDuration.visibility = View.GONE
+                } else {
+                    dailyRepeatDuration.visibility = View.VISIBLE
+                }
+
                 binding.root.setOnClickListener {
+                    // 일별 내역 자세하게 보여지기
                 }
             }
         }
