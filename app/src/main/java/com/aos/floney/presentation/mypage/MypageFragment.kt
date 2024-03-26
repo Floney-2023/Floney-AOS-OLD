@@ -1,14 +1,21 @@
 package com.aos.floney.presentation.mypage
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -158,7 +165,7 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
                 is UiState.Success -> {
                     Timber.d("Success : observer ${homeviewModel.bookKey.value}")
                     // 프로그레스바 Off
-                    progressOFF()
+                    //progressOFF()
                     updateMyPageItem()
                 }
 
@@ -171,19 +178,60 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
         }.launchIn(viewLifeCycleScope)
     }
     fun progressON(){
-        progressDialog = AppCompatDialog(requireContext())
-        progressDialog.setCancelable(false)
-        progressDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        progressDialog.setContentView(R.layout.item_progress_loading)
-        progressDialog.show()
-        var img_loading_framge = progressDialog.findViewById<ImageView>(R.id.iv_frame_loading)
-        var frameAnimation = img_loading_framge?.getBackground() as AnimationDrawable
-        img_loading_framge?.post(object : Runnable{
-            override fun run() {
-                frameAnimation.start()
-            }
+        progressDialog = AppCompatDialog(requireContext()).apply {
+            setContentView(R.layout.item_progress_loading) // 로딩 애니메이션을 위한 레이아웃 파일
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // 배경 투명
+            setCancelable(false) // 백 버튼으로 닫을 수 없도록 설정
+        }
 
+        val circle1 = progressDialog.findViewById<View>(R.id.circle1)
+        val circle2 = progressDialog.findViewById<View>(R.id.circle2)
+        val circle3 = progressDialog.findViewById<View>(R.id.circle3)
+
+        val animationDelay = 200L // 애니메이션 시작 지연 시간 (0.2초)
+        val animationDuration = 600L // 애니메이션 지속 시간 (0.6초)
+
+        val animator1 = ObjectAnimator.ofFloat(circle1, "translationY", 0f, -30f, 0f).apply {
+            duration = animationDuration
+            interpolator = AccelerateDecelerateInterpolator()
+            repeatMode = ValueAnimator.REVERSE
+            repeatCount = 0 // 한 번만 실행
+            startDelay = animationDelay * 0
+        }
+
+        val animator2 = ObjectAnimator.ofFloat(circle2, "translationY", 0f, -30f, 0f).apply {
+            duration = animationDuration
+            interpolator = AccelerateDecelerateInterpolator()
+            repeatMode = ValueAnimator.REVERSE
+            repeatCount = 0 // 한 번만 실행
+            startDelay = animationDelay * 1
+        }
+
+        val animator3 = ObjectAnimator.ofFloat(circle3, "translationY", 0f, -30f, 0f).apply {
+            duration = animationDuration
+            interpolator = AccelerateDecelerateInterpolator()
+            repeatMode = ValueAnimator.REVERSE
+            repeatCount = 0 // 한 번만 실행
+            startDelay = animationDelay * 2
+        }
+
+        // 마지막 애니메이션인 animator3에 대한 리스너 설정
+        animator3.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                super.onAnimationEnd(animation)
+                animator1.cancel()
+                animator2.cancel()
+                animator3.cancel()
+                progressOFF()
+            }
         })
+
+        // 애니메이션들을 함께 실행
+        animator1.start()
+        animator2.start()
+        animator3.start()
+
+        progressDialog.show()
     }
     fun progressOFF(){
         if(progressDialog != null && progressDialog.isShowing()){
