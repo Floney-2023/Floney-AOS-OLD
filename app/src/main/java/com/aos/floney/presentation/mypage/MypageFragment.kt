@@ -31,6 +31,9 @@ import com.aos.floney.presentation.mypage.settings.MypageFragmentSetting
 import com.aos.floney.util.fragment.viewLifeCycle
 import com.aos.floney.util.fragment.viewLifeCycleScope
 import com.aos.floney.util.view.UiState
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -89,7 +92,18 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
         }.launchIn(viewLifeCycleScope)
     }
     fun updateMypageSetting(state: UiState.Success<UserMypageData>) {
-        //binding.profileImg.setImageResource(state.data.profileImg)
+
+        if (state.data.profileImg != "user_default"){
+
+            Glide.with(requireContext())
+                .load(state.data.profileImg)
+                .apply(
+                    RequestOptions()
+                    .placeholder(R.drawable.icon_profile_) // 이미지 로딩 중에 보여줄 placeholder 이미지 설정
+                    .error(R.drawable.icon_profile_) // 이미지 로딩 실패 시 보여줄 이미지 설정
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)) // 디스크 캐시 설정
+                .into(binding.profileImg) // ImageView에 이미지 설정
+        }
 
         val loginType = state.data.provider
         binding.userInformView.setOnClickListener {
