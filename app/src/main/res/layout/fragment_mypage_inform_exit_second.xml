@@ -46,7 +46,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/back_button" />
 
 
-            <com.google.android.material.textfield.TextInputLayout
+            <EditText
                 android:id="@+id/reason_edit_text"
                 style="@style/login_edit_text"
                 android:layout_width="match_parent"
@@ -58,17 +58,11 @@
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/reason_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_grayscale12"
-                    android:hint="@string/mypage_main_inform_exit_2_text1"
-                    android:padding="16dp"
-                    android:textAppearance="@style/login_edit_text" />
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toBottomOf="@+id/textView2"
+                android:background="@drawable/bg_grayscale12"
+                android:hint="@string/mypage_main_inform_exit_2_text1"
+                android:padding="16dp"
+                android:textAppearance="@style/login_edit_text" />
 
 
             <androidx.appcompat.widget.AppCompatButton

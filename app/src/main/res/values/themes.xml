@@ -65,6 +65,13 @@
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
+    <style name="daily_repeatduration_text_view">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/primary2</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+    </style>
+
     <style name="deposit_text_view">
         <item name="android:textSize">10sp</item>
         <item name="android:textColor">#0060E6</item>

@@ -14,8 +14,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/back"
@@ -83,17 +82,18 @@
                 android:id="@+id/id_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
                 android:background="@drawable/bg_edit_text"
                 android:hint="이메일"
                 android:padding="16dp"
                 android:textAppearance="@style/login_edit_text"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="20dp"
                 android:theme="@style/login_edit_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
@@ -113,7 +113,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
-                app:hintAnimationEnabled="false"
+                app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView6"
@@ -149,7 +149,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
-                app:hintAnimationEnabled="false"
+                app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView7"
@@ -189,7 +189,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <EditText
                 android:id="@+id/nickname_edit_text"
                 style="@style/login_edit_text"
                 android:layout_width="match_parent"
@@ -197,20 +197,14 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="닉네임을 입력하세요"
+                android:padding="16dp"
+                android:textAppearance="@style/login_edit_text"
                 android:theme="@style/login_edit_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/nickname_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_edit_text"
-                    android:hint="닉네임을 입력하세요"
-                    android:padding="16dp"
-                    android:textAppearance="@style/login_edit_text" />
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
             <TextView
                 android:layout_width="wrap_content"

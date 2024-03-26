@@ -34,8 +34,8 @@ class CalendarAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         var currMonth: Int = 0
         private val dayText: TextView = binding.dateTextView
-        private val incomeText: TextView = binding.withdrawalTextView
-        private val outcomeText: TextView = binding.depositTextView
+        private val incomeText: TextView = binding.depositTextView
+        private val outcomeText: TextView = binding.withdrawalTextView
 
         fun onBind(
             item : CalendarData

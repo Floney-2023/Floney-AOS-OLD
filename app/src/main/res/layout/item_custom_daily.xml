@@ -39,13 +39,33 @@
                 android:text="멜론"
                 android:textAppearance="@style/daily_content_text_view" />
 
-            <TextView
-                android:id="@+id/daily_category"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal|bottom"
-                android:text="자산 ‧ 분류"
-                android:textAppearance="@style/daily_category_text_view" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/daily_repeatDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_repeatduration_view"
+                    android:gravity="center_horizontal|bottom"
+                    android:paddingLeft="6dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="6dp"
+                    android:paddingBottom="4dp"
+                    android:text="반복"
+                    android:textAppearance="@style/daily_repeatduration_text_view" />
+                <TextView
+                    android:id="@+id/daily_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal|bottom"
+                    android:text="자산 ‧ 분류"
+                    android:textAppearance="@style/daily_category_text_view" />
+            </LinearLayout>
+
         </LinearLayout>
         <View
             android:layout_width="0dp"
