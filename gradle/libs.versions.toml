@@ -53,6 +53,7 @@ activity-compose = "1.7.0"
 compose-bom = "2023.08.00"
 kakaoLoginVersion = "2.17.0"
 googleLoginVersion = "21.0.0"
+glide = "4.14.2"
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
@@ -125,6 +126,8 @@ coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
 kakao = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakaoLoginVersion" }
 google = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "googleLoginVersion" }
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+glide-complier = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
 
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }

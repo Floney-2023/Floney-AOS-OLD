@@ -120,7 +120,8 @@ dependencies {
     implementation(libs.dots.indicator)
     implementation(libs.kakao)
     implementation(libs.google)
-
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.complier)
 
     // Firebase
     implementation(platform(libs.firebase.bom))
