@@ -8,6 +8,8 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
@@ -25,6 +27,19 @@ android {
             "BASE_URL",
             getApiKey("base.url")
         )
+        buildConfigField(
+            "String",
+            "KAKAO_NATIVE_KEY",
+            gradleLocalProperties(rootDir).getProperty("kakao.native.key")
+        )
+        buildConfigField(
+            "String",
+            "GOOGLE_OAUTH_KEY",
+            getApiKey("google.oauth.key")
+        )
+
+        manifestPlaceholders["KAKAO_NATIVE_KEY"] = gradleLocalProperties(rootDir).getProperty("kakao.native.key")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -103,6 +118,9 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.lottie)
     implementation(libs.dots.indicator)
+    implementation(libs.kakao)
+    implementation(libs.google)
+
 
     // Firebase
     implementation(platform(libs.firebase.bom))

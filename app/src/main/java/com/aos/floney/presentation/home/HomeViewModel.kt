@@ -26,7 +26,6 @@ class HomeViewModel @Inject constructor(
     private val calendarRepository: CalendarRepository
 ) : ViewModel() {
 
-    
     val _bookKey = MutableStateFlow<String>("")
     val bookKey: MutableStateFlow<String> get() = _bookKey
 
@@ -61,9 +60,9 @@ class HomeViewModel @Inject constructor(
 
     init {
         _calendar.value = Calendar.getInstance()
-        updateBookKeyItems()
+        //updateBookKeyItems()
         //updateCalendarItems()
-        updatebooksInfoItems()
+        //updatebooksInfoItems()
         //updateDailyItems(_calendar.value?.time)
     }
 
@@ -136,11 +135,10 @@ class HomeViewModel @Inject constructor(
 
         // 날짜에 따른 deposit, withdrawalAmount 받아오기(bookKey 예시)
         viewModelScope.launch {
-            calendarRepository.getbooksMonthData(Authorization, bookKey.value, firstDayFormat.format(firstDayOfMonth.time))
+            calendarRepository.getbooksMonthData(bookKey.value, firstDayFormat.format(firstDayOfMonth.time))
                 .onSuccess { response ->
-                    _getCalendarInformationState.value =
-                            UiState.Success(response)
-                        Log.d("selectDay", "onsuccess: $response")
+                    _getCalendarInformationState.value = UiState.Success(response)
+                    Log.d("selectDay", "onsuccess: $response")
                 }.onFailure { t ->
                     Log.d("selectDay", "onfailure: ${t}")
                     _getCalendarInformationState.value = UiState.Failure("${t.message}")
@@ -157,7 +155,7 @@ class HomeViewModel @Inject constructor(
 
     fun updateBookKeyItems(){
         viewModelScope.launch {
-            calendarRepository.getbooksUsersCheckData(Authorization)
+            calendarRepository.getbooksUsersCheckData()
                 .onSuccess { response ->
                     _getUsersCheckState.value =
                         UiState.Success(response)
@@ -192,7 +190,7 @@ class HomeViewModel @Inject constructor(
 
         // 날짜에 따른 deposit, withdrawalAmount 받아오기(bookKey 예시)
         viewModelScope.launch {
-            calendarRepository.getbooksDaysData(Authorization, bookKey.value, dateFormat.format(date))
+            calendarRepository.getbooksDaysData(bookKey.value, dateFormat.format(date))
                 .onSuccess { response ->
                     if (response != null) {
                         _getDailyInformationState.value = UiState.Success(response)
@@ -206,9 +204,8 @@ class HomeViewModel @Inject constructor(
     }
     fun updatebooksInfoItems() {
         Log.d("selectDay", "updatebooksInfo")
-
         viewModelScope.launch {
-            calendarRepository.getbooksInfoData(Authorization, bookKey.value)
+            calendarRepository.getbooksInfoData(bookKey.value)
                 .onSuccess { response ->
                     if (response != null) {
                         _getbooksInformationState.value = UiState.Success(response)

@@ -140,7 +140,7 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
 
         binding.walletView.addView(binding.walletItemView)
 
-        if (booksList.size == 2){
+        if (booksList.size == 1){
             val walletEmptyView = layoutInflater.inflate(R.layout.item_wallet_empty_view, null)
             binding.walletView.addView(walletEmptyView)
         }

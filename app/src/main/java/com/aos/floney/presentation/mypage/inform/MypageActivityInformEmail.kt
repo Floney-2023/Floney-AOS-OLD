@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
@@ -15,12 +16,14 @@ import androidx.lifecycle.lifecycleScope
 import com.aos.floney.R
 import com.aos.floney.databinding.ActivityMypageInformEmailloginBinding
 import com.aos.floney.databinding.ActivityMypageInformSimpleloginBinding
+import com.aos.floney.presentation.login.LoginActivity
 import com.aos.floney.presentation.mypage.MypageFragment
 import com.aos.floney.presentation.mypage.MypageViewModel
 import com.aos.floney.presentation.mypage.inform.exit.MypageFragmentInformExitFirst
 import com.aos.floney.presentation.mypage.inform.profileImg.MypageFragmentInformProfileImg
 import com.aos.floney.presentation.mypage.inform.pwChange.MypageFragmentInformpwChange
 import com.aos.floney.util.binding.BindingActivity
+import com.aos.floney.util.view.ErrorToast
 import com.aos.floney.util.view.SampleToast
 import com.aos.floney.util.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,6 +50,7 @@ class MypageActivityInformEmail  : BindingActivity<ActivityMypageInformEmaillogi
         logoutClick()
         exitClick()
         getusersNicknameUpdateObserver()
+        getusersLogoutObserver()
     }
     private fun nicknameHintSetting(){
         val nickname = intent.getStringExtra("nickname")
@@ -61,8 +65,12 @@ class MypageActivityInformEmail  : BindingActivity<ActivityMypageInformEmaillogi
         binding.nicknameChangeButton.setOnClickListener {
             if (binding.nicknameText.text.toString().isEmpty())
                 SampleToast.createToast(this,"닉네임을 입력해주세요.")?.show()
-            else
+            else {
                 viewModel.getusersNicknameUpdate(binding.nicknameText.text.toString())
+                // 키보드 숨기기
+                hideKeyboard()
+
+            }
         }
     }
     private fun profileChangeClick(){
@@ -77,7 +85,7 @@ class MypageActivityInformEmail  : BindingActivity<ActivityMypageInformEmaillogi
     }
     private fun logoutClick(){
         binding.logout.setOnClickListener {
-
+            viewModel.getusersLogout()
         }
     }
     private fun exitClick(){
@@ -104,6 +112,28 @@ class MypageActivityInformEmail  : BindingActivity<ActivityMypageInformEmaillogi
             }
         }.launchIn(lifecycleScope)
     }
+    private fun getusersLogoutObserver() {
+        viewModel.getusersLogoutState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+
+                is UiState.Loading -> Unit
+
+                is UiState.Success -> {
+
+                }
+
+                is UiState.Failure -> {
+                    //handlePasswordError(state.msg)
+                    when(state.msg){
+                        "" -> navigateToLogin()
+                        "U007" -> ErrorToast.createToast(this,"올바르지 않은 토큰입니다.")?.show()
+                    }
+                }
+
+                is UiState.Empty -> Unit
+            }
+        }.launchIn(lifecycleScope)
+    }
 
     private fun handlePasswordError(errorCode: String) {
         val errorMessage = when (errorCode) {
@@ -114,6 +144,20 @@ class MypageActivityInformEmail  : BindingActivity<ActivityMypageInformEmaillogi
         SampleToast.createToast(this, errorMessage)?.show()
     }
 
+    private fun hideKeyboard() {
+        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+    }
+
+    private fun navigateToLogin() {
+        navigateActivityTo<LoginActivity>()
+    }
+    private inline fun <reified T : Activity> navigateActivityTo() {
+        Intent(this, T::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(this)
+        }
+    }
     private inline fun <reified T : Fragment> navigateTo() {
         window.decorView.findViewById<View>(android.R.id.content).isClickable = false
 

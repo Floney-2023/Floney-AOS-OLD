@@ -12,12 +12,11 @@ class CalendarRepositoryImpl @Inject constructor(
     private val calendarDataSource: CalendarDataSource
 ) : CalendarRepository{
     override suspend fun getbooksMonthData(
-        authorization: String,
         bookKey: String,
         date: String
     ): Result<GetbooksMonthData> =
         runCatching {
-            val response = calendarDataSource.getbooksMonthData(authorization, bookKey, date)
+            val response = calendarDataSource.getbooksMonthData(bookKey, date)
             GetbooksMonthData(
                 calendarItems = response.converToBooksMonth(),
                 carryOverInfo = response.convertToCarryOverInfo(),
@@ -27,12 +26,11 @@ class CalendarRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getbooksDaysData(
-        authorization : String,
         bookKey: String,
         date: String
     ): Result<GetbooksDaysData> =
         runCatching {
-            val response = calendarDataSource.getbooksDaysData(authorization, bookKey, date)
+            val response = calendarDataSource.getbooksDaysData(bookKey, date)
             GetbooksDaysData(
                 dayLinesResponse = response.convertToDailyItems(),
                 totalExpense = response.convertToTotalExpense(),
@@ -41,11 +39,10 @@ class CalendarRepositoryImpl @Inject constructor(
             )
         }
     override suspend fun getbooksInfoData(
-        authorization : String,
         bookKey: String
     ): Result<GetbooksInfoData> =
         runCatching {
-            val response = calendarDataSource.getbooksInfoData(authorization, bookKey)
+            val response = calendarDataSource.getbooksInfoData(bookKey)
             GetbooksInfoData(
                 bookImg = response.bookImg,
                 bookName = response.bookName,
@@ -56,10 +53,9 @@ class CalendarRepositoryImpl @Inject constructor(
             )
         }
     override suspend fun getbooksUsersCheckData(
-        authorization : String
     ): Result<GetbooksUsersCheckData> =
         runCatching {
-            val response = calendarDataSource.getbooksUsersCheck(authorization)
+            val response = calendarDataSource.getbooksUsersCheck()
             GetbooksUsersCheckData(
                 bookKey = response.bookKey
             )

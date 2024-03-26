@@ -1,30 +1,65 @@
 package com.aos.floney.presentation
 
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import com.aos.floney.BuildConfig
 import com.aos.floney.R
+import com.aos.floney.domain.repository.DataStoreRepository
 import com.aos.floney.presentation.login.LoginActivity
+import com.aos.floney.presentation.mypage.inform.MypageActivityInformEmail
 import com.aos.floney.presentation.onboard.OnBoardActivity
+import com.aos.floney.presentation.signup.SignUpFifthFragment
+import com.aos.floney.util.fragment.viewLifeCycle
+import com.aos.floney.util.fragment.viewLifeCycleScope
+import com.aos.floney.util.view.UiState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
+import com.aos.floney.BuildConfig.KAKAO_NATIVE_KEY
+import com.kakao.sdk.common.KakaoSdk
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
+    @Inject
+    lateinit var dataStoreRepository: DataStoreRepository
+    private val viewModel by viewModels<MainViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        // 일정 시간 지연 이후 실행하기 위한 코드
+
+
+        settingBookKey()
+        settingKaKaoSdk()
+        preventDarkMode()
         Handler(Looper.getMainLooper()).postDelayed({
 
             if (isOnBoardingFinished()) {
-                navigateToLogin()
-            //navigateToMain()
+                getDeviceToken()
+                //navigateToLogin()
+                //navigateToMain()
             } else {
                 navigateToOnboard()
             }
@@ -33,6 +68,86 @@ class SplashActivity : AppCompatActivity() {
         }, 1000) // 시간 1초 이후 실행
 
 
+    }
+    private fun getDeviceToken(){
+        lifecycleScope.launch {
+
+            if (BuildConfig.DEBUG) {
+                checkAutoLogin()
+            } else {
+                //checkAppUpdateInfo()
+            }
+        }
+        /*lifecycleScope.launch {
+            val currentToken = ""
+            currentToken?.let {
+                checkAndUpdateDeviceToken(it)
+            }
+        }*/
+    }
+    private fun checkAutoLogin() {
+        lifecycleScope.launch {
+            val accessToken = dataStoreRepository.getAccessToken()?.firstOrNull()
+            Timber.d("accessToken: $accessToken")
+            if (accessToken.isNullOrBlank()) {
+                navigateToLogin()
+            } else {
+                viewModel.updateBookKeyItems()
+            }
+        }
+    }
+    private fun checkAndUpdateDeviceToken(currentToken: String) {
+        lifecycleScope.launch {
+            val storedToken = viewModel.getDeviceToken()
+            Timber.d("Stored Token: $storedToken")
+            if ((storedToken != currentToken) || storedToken.isEmpty()) {
+
+            } else {
+                navigateToMain()
+            }
+        }
+    }
+    private fun setPostRegisterUserStateObserver() {
+        viewModel.postRegisterUserState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Loading -> Unit
+
+                is UiState.Success -> {
+                    Timber.d("Success : Register ")
+                    navigateToMain()
+                }
+
+                is UiState.Failure -> {
+                    Timber.d("Failure : ${state.msg}")
+                }
+
+                is UiState.Empty -> Unit
+            }
+        }.launchIn(lifecycleScope)
+    }
+    private fun settingBookKey(){
+        viewModel.getUsersCheckState.flowWithLifecycle(lifecycle).onEach { state ->
+            when (state) {
+                is UiState.Success -> {
+                    if (state.data.bookKey == null) {
+                        navigateToWelcome()
+                        // 회원가입한 이력이 있으나(accessToken 존재), 가계부가 존재하지 않는 경우
+                    } else {
+                        // 회원가입한 이력 O, 가계부 존재 O
+                        navigateToMain()
+                    }
+                }
+
+                is UiState.Failure -> Timber.e("Failure : ${state.msg}")
+                is UiState.Empty -> Unit
+                is UiState.Loading -> {
+                    //activateLoadingProgressBar()
+                }
+            }
+        }.launchIn(lifecycleScope)
+    }
+    private fun navigateToWelcome() {
+        navigateFragmentTo<SignUpFifthFragment>()
     }
     private fun navigateToLogin() {
         navigateTo<LoginActivity>()
@@ -50,10 +165,26 @@ class SplashActivity : AppCompatActivity() {
             startActivity(this)
         }
     }
+    private inline fun <reified T : Fragment> navigateFragmentTo() {
+        window.decorView.findViewById<View>(android.R.id.content).isClickable = false
+
+        supportFragmentManager.commit {
+            replace<T>(R.id.mypageInformEmail, T::class.simpleName)
+        }
+    }
     //2
     private fun isOnBoardingFinished(): Boolean {
         val prefs = this.getSharedPreferences("onBoarding", Context.MODE_PRIVATE)
         return prefs.getBoolean("finished", false)
+    }
+    private fun settingKaKaoSdk(){
+        KakaoSdk.init(this,KAKAO_NATIVE_KEY)
+    }
+    private fun preventDarkMode() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+    }
+    companion object {
+        private const val DELAY_TIME = 1500L
     }
 
 }

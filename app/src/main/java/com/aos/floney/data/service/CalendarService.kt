@@ -11,27 +11,23 @@ import retrofit2.http.Query
 interface CalendarService {
     @GET("/books/month")
     suspend fun getbooksMonthData(
-        @Header("Authorization") authorization : String,
         @Query("bookKey") bookKey : String,
         @Query("date") date : String,
     ): GetbooksMonthResponseDto
 
     @GET("/books/days")
     suspend fun getbooksDaysData(
-        @Header("Authorization") authorization : String,
         @Query("bookKey") bookKey : String,
         @Query("date") date : String,
     ): GetbooksDaysResponseDto
 
     @GET("/books/info")
     suspend fun getbooksInfoData(
-        @Header("Authorization") authorization : String,
         @Query("bookKey") bookKey : String
     ): GetbooksInfoResponseDto
 
 
     @GET("/books/users/check")
     suspend fun getBooksUsersCheck(
-        @Header("Authorization") authorization : String
     ) : GetbooksUsersCheckResponseDto
 }

@@ -2,17 +2,21 @@ package com.aos.floney.presentation.mypage
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.aos.floney.data.dto.request.RequestPostUsersBookKeyDto
 import com.aos.floney.data.dto.request.RequestPutUsersPasswordDto
 import com.aos.floney.domain.entity.mypage.UserMypageData
 import com.aos.floney.domain.entity.mypage.ReceiveMarketing
+import com.aos.floney.domain.repository.DataStoreRepository
 import com.aos.floney.domain.repository.MyPageRepository
+import com.aos.floney.domain.repository.UserRepository
 import com.aos.floney.util.view.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.HttpException
@@ -21,10 +25,11 @@ import java.util.Calendar
 import javax.inject.Inject
 @HiltViewModel
 class MypageViewModel @Inject constructor(
-    private val myPageRepository: MyPageRepository
+    private val dataStoreRepository: DataStoreRepository,
+    private val myPageRepository: MyPageRepository,
+    private val userRepository: UserRepository
+
 ): ViewModel() {
-
-
 
     private val _getusersMypageState =
         MutableStateFlow<UiState<UserMypageData>>(UiState.Loading)
@@ -35,6 +40,11 @@ class MypageViewModel @Inject constructor(
         MutableStateFlow<UiState<ReceiveMarketing>>(UiState.Loading)
     val getusersReceiveMarketingState: StateFlow<UiState<ReceiveMarketing>> =
         _getusersReceiveMarketingState.asStateFlow()
+
+    private val _getusersLogoutState =
+        MutableStateFlow<UiState<Unit>>(UiState.Loading)
+    val getusersLogoutState: StateFlow<UiState<Unit>> =
+        _getusersLogoutState.asStateFlow()
     init {
         updatemypageItems()
         updateusersReceiveMarketing()
@@ -43,7 +53,7 @@ class MypageViewModel @Inject constructor(
     fun updatemypageItems()
     {
         viewModelScope.launch {
-            myPageRepository.getusersMypageData(Authorization)
+            myPageRepository.getusersMypageData()
                 .onSuccess { response ->
                     _getusersMypageState.value =
                         UiState.Success(response)
@@ -57,7 +67,7 @@ class MypageViewModel @Inject constructor(
     fun updateusersReceiveMarketing()
     {
         viewModelScope.launch {
-            myPageRepository.getusersReceiveMarketingData(Authorization)
+            myPageRepository.getusersReceiveMarketingData()
                 .onSuccess { response ->
                     _getusersReceiveMarketingState.value =
                         UiState.Success(response)
@@ -77,7 +87,6 @@ class MypageViewModel @Inject constructor(
         viewModelScope.launch {
             _putusersReceiveMarketingState.value = UiState.Loading
             myPageRepository.putusersReceiveMarketingData(
-                authorization = Authorization,
                 agree = agree
             )
                 .onSuccess { response ->
@@ -103,7 +112,6 @@ class MypageViewModel @Inject constructor(
         viewModelScope.launch {
             _putusersPasswordState.value = UiState.Loading
             myPageRepository.putusersPasswordData(
-                authorization = Authorization,
                 RequestPutUsersPasswordDto(
                     newPassword, oldPassword
                 )
@@ -133,7 +141,6 @@ class MypageViewModel @Inject constructor(
         viewModelScope.launch {
             _getusersNicknameUpdateState.value = UiState.Loading
             myPageRepository.getusersNicknameUpdate(
-                authorization = Authorization,
                 nickname = nickname
             )
                 .onSuccess { response ->
@@ -162,7 +169,6 @@ class MypageViewModel @Inject constructor(
         viewModelScope.launch {
             _getusersBookKeyState.value = UiState.Loading
             myPageRepository.getusersBookKey(
-                authorization = Authorization,
                 requestPostUsersBookKeyDto = RequestPostUsersBookKeyDto(bookKey)
             )
                 .onSuccess { response ->
@@ -178,6 +184,33 @@ class MypageViewModel @Inject constructor(
                     }
 
                 }
+        }
+    }
+    /*로그아웃 할 시*/
+    fun getusersLogout(){
+        viewModelScope.launch {
+            val accessToken = dataStoreRepository.getAccessToken()?.firstOrNull()
+            Timber.d("logout Token: $accessToken")
+            if (accessToken.isNullOrBlank()) {
+
+            } else {
+                userRepository.getLogoutUser(accessToken)
+                    .onSuccess { response ->
+                        _getusersLogoutState.value = UiState.Success(response)
+                        Timber.e("logOut 성공 ${UiState.Success(response)}")
+                        dataStoreRepository.saveAccessToken("")
+                    }.onFailure { t ->
+                        _getusersLogoutState.value = UiState.Failure("")
+                        if (t is HttpException) {
+                            val errorResponse = t.response()?.errorBody()?.string()
+                            val json = JSONObject(errorResponse)
+                            val code = json.getString("code")
+                            Timber.e("logOut 실패: $errorResponse")
+                            _getusersLogoutState.value = UiState.Failure("${code}")
+                        }
+                        dataStoreRepository.saveAccessToken("")
+                    }
+            }
         }
     }
 }
