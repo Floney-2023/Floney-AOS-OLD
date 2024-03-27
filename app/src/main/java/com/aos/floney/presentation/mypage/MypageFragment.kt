@@ -108,8 +108,8 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
         val loginType = state.data.provider
         binding.userInformView.setOnClickListener {
             when (loginType) {
-                "EMAIL" -> navigateActivityTo<MypageActivityInformEmail>(state.data.nickname)
-                "KAKAO" -> navigateActivityTo<MypageActivityInformSimple>(state.data.nickname)
+                "EMAIL" -> navigateActivityTo<MypageActivityInformEmail>(state.data.nickname, state.data.email)
+                "KAKAO" -> navigateActivityTo<MypageActivityInformSimple>(state.data.nickname,state.data.email)
             }
         }
 
@@ -121,31 +121,6 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
         updateWalletView(state.data.myBooks)
 
         Timber.d("Success : update ${homeviewModel.bookKey.value}")
-        // Iterate through each item in myBooks
-        /*for (book in state.data.myBooks) {
-
-            val walletDetailView = layoutInflater.inflate(R.layout.item_wallet_detail_view, null)
-
-            walletDetailView.findViewById<TextView>(R.id.name).text = book.name
-            walletDetailView.findViewById<TextView>(R.id.member_count).text = book.memberCount.toString() + "명"
-
-            // Set layout parameters with margins
-            val layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            layoutParams.setMargins(0, 0, 0, 20) // Adjust the margins as needed
-
-            // 클릭 시 가계부 bookKey 변경
-            walletDetailView.setOnClickListener {
-                //homeviewModel.updateBookKey(book.bookKey)
-                mypageViewModel.getusersBookKey(book.bookKey)
-            }
-
-            // Add wallet_detail_view to wallet_view with layout parameters
-            binding.walletView.addView(walletDetailView, layoutParams)
-
-        }*/
     }
     fun updateWalletView(booksList : List<UserMypageData.Book>){
 
@@ -258,9 +233,10 @@ class MypageFragment  : BindingFragment<FragmentMypageBinding>(R.layout.fragment
             addToBackStack(ROOT_FRAGMENT_HOME)
         }
     }
-    private inline fun <reified T : Activity> navigateActivityTo(nickname:String) {
+    private inline fun <reified T : Activity> navigateActivityTo(nickname:String, email: String) {
         val intent = Intent(getActivity(), T::class.java)
         intent.putExtra("nickname", nickname)
+        intent.putExtra("email", email)
         startActivity(intent)
     }
     companion object {

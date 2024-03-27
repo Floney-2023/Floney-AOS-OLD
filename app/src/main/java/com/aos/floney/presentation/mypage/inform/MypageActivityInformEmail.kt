@@ -3,6 +3,7 @@ package com.aos.floney.presentation.mypage.inform
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
@@ -74,6 +75,7 @@ class MypageActivityInformEmail  : BindingActivity<ActivityMypageInformEmaillogi
         }
     }
     private fun profileChangeClick(){
+
         binding.profileImageChange.setOnClickListener {
             navigateTo<MypageFragmentInformProfileImg>()
         }
@@ -159,10 +161,16 @@ class MypageActivityInformEmail  : BindingActivity<ActivityMypageInformEmaillogi
         }
     }
     private inline fun <reified T : Fragment> navigateTo() {
-        window.decorView.findViewById<View>(android.R.id.content).isClickable = false
+        val email = intent.getStringExtra("email")
 
+        window.decorView.findViewById<View>(android.R.id.content).isClickable = false
         supportFragmentManager.commit {
-            replace<T>(R.id.mypageInformEmail, T::class.simpleName)
+            val fragment = T::class.java.newInstance()
+            val bundle = Bundle().apply {
+                this.putString("email", email)
+            }
+            fragment.arguments = bundle
+            replace<T>(R.id.mypageInformEmail, T::class.simpleName, bundle)
             addToBackStack(ROOT_FRAGMENT_HOME_SETTING)
         }
     }
