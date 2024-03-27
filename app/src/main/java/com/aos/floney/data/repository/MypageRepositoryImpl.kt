@@ -57,4 +57,9 @@ class MypageRepositoryImpl @Inject constructor(
             mypageDataSource.getusersBookKey(requestPostUsersBookKeyDto)
         }
 
+    override suspend fun getProfileimgUpdate(profileimg : String) : Result<Unit> =
+        runCatching {
+            mypageDataSource.getProfileimgUpdate(profileimg)
+        }
+
 }

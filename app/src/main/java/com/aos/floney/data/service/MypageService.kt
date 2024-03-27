@@ -38,4 +38,9 @@ interface MypageService {
     suspend fun getusersBookKey(
         @Body requestPostUsersBookKeyDto : RequestPostUsersBookKeyDto
     )
+
+    @GET("/users/profileimg/update")
+    suspend fun getProfileimgUpdate(
+        @Query("profileImg") profileImg: String
+    )
 }

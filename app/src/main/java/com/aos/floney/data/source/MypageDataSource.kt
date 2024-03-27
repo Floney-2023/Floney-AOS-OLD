@@ -4,6 +4,7 @@ import com.aos.floney.data.dto.request.RequestPostUsersBookKeyDto
 import com.aos.floney.data.dto.request.RequestPutUsersPasswordDto
 import com.aos.floney.data.service.CalendarService
 import com.aos.floney.data.service.MypageService
+import com.aos.floney.presentation.mypage.inform.profileImg.MypageFragmentInformProfileImg
 import javax.inject.Inject
 
 class MypageDataSource @Inject constructor(
@@ -32,4 +33,7 @@ class MypageDataSource @Inject constructor(
         requestPostUsersBookKeyDto: RequestPostUsersBookKeyDto
     ) = mypageService.getusersBookKey(requestPostUsersBookKeyDto)
 
+    suspend fun getProfileimgUpdate(
+        profileImg: String
+    ) = mypageService.getProfileimgUpdate(profileImg)
 }
