@@ -20,10 +20,12 @@ import com.aos.floney.R
 import com.aos.floney.databinding.FragmentMypageInformProfilechangeBinding
 import com.aos.floney.presentation.mypage.MypageViewModel
 import com.aos.floney.util.view.SampleToast
+import com.aos.floney.util.view.image.ImageToUri
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
 import dagger.hilt.android.AndroidEntryPoint
 import kr.ac.konkuk.gdsc.plantory.util.binding.BindingFragment
+import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -44,6 +46,8 @@ class MypageFragmentInformProfileImg : BindingFragment<FragmentMypageInformProfi
     }
 
     private fun initSetting() {
+
+        val email = arguments?.getString("email")
         binding.backButton.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
@@ -57,95 +61,27 @@ class MypageFragmentInformProfileImg : BindingFragment<FragmentMypageInformProfi
         }
         binding.changeButton.setOnClickListener {
             // 이미지 변경 요청
-            val imageFile = saveProfileImageToFile(requireContext()) // 프로필 이미지를 파일로 저장
+            val imageFile = ImageToUri.saveProfileImageToFile(requireContext(), binding.profileImg) // 프로필 이미지를 파일로 저장
             if (imageFile != null) {
-                uploadImageToFirebaseStorage(imageFile) // Firebase Storage에 이미지 업로드
+                ImageUploader.uploadProfileImage(requireContext(), email, imageFile, object : ImageUploader.UploadListener {
+                    override fun onUploadSuccess(downloadUrl: String) {
+                        // 업로드 성공 시 처리
+                        SampleToast.createToast(requireContext(), "Image uploaded successfully. Download URL: $downloadUrl")?.show()
+                        Timber.d("Image uploaded successfully. Download URL: $downloadUrl")
+
+                    }
+
+                    override fun onUploadFailure(errorMessage: String) {
+                        // 업로드 실패 시 처리
+                        SampleToast.createToast(requireContext(), errorMessage)?.show()
+                    }
+                })
             } else {
                 // 이미지 파일이 null인 경우 처리
                 Toast.makeText(requireContext(), "Image file is null", Toast.LENGTH_SHORT).show()
             }
             parentFragmentManager.popBackStack()
         }
-    }
-    private fun uploadImageToFirebaseStorage(imageFile: Uri) {
-
-        // arguments에서 email 값을 가져옴
-        val email = arguments?.getString("email")
-        Log.d("MypageFragment", "Received email: $email")
-
-        if (!email.isNullOrEmpty()) {
-            val storage = Firebase.storage
-            val storageRef = storage.reference
-            val imagesRef = storageRef.child("dev/users/${email}")
-
-            // 이미지가 없는 경우 그냥 업로드
-            imagesRef.listAll().addOnSuccessListener { result ->
-                if (result.items.isEmpty()) {
-                    imagesRef.child(imageFile.lastPathSegment!!).putFile(imageFile).addOnSuccessListener { taskSnapshot ->
-                        taskSnapshot.storage.downloadUrl.addOnSuccessListener { uri ->
-                            val downloadUrl = uri.toString()
-                            SampleToast.createToast(requireContext(), "Image uploaded successfully. Download URL: $downloadUrl")?.show()
-                        }
-                    }.addOnFailureListener { exception ->
-                        SampleToast.createToast(requireContext(), "Image upload failed: ${exception.message} exception")?.show()
-                    }
-                } else {
-                    // 이미지가 있는 경우 기존 이미지 삭제 후 업로드
-                    result.items[0].delete().addOnSuccessListener {
-                        imagesRef.child(imageFile.lastPathSegment!!).putFile(imageFile).addOnSuccessListener { taskSnapshot ->
-                            taskSnapshot.storage.downloadUrl.addOnSuccessListener { uri ->
-                                val downloadUrl = uri.toString()
-                                SampleToast.createToast(requireContext(), "Image uploaded successfully. Download URL: $downloadUrl")?.show()
-                            }
-                        }.addOnFailureListener { exception ->
-                            SampleToast.createToast(requireContext(), "Image upload failed: ${exception.message} exception")?.show()
-                        }
-                    }
-                }
-            }.addOnFailureListener { exception ->
-                SampleToast.createToast(requireContext(), "Failed to check existing images: ${exception.message} exception")?.show()
-            }
-        }
-
-
-    }
-    private fun saveProfileImageToFile(context: Context): Uri? {
-        val imageView = binding.profileImg
-
-        // ImageView에서 Bitmap 가져오기
-        imageView.isDrawingCacheEnabled = true
-        val bitmap = Bitmap.createBitmap(imageView.drawingCache)
-        imageView.isDrawingCacheEnabled = false
-
-        // Bitmap을 정사각형으로 자르기
-        val squaredBitmap = cropBitmapToSquare(bitmap)
-
-        // 정사각형 이미지를 파일로 저장하고 Uri 얻기
-        return saveImageToFile(context, squaredBitmap)
-    }
-
-    private fun cropBitmapToSquare(bitmap: Bitmap): Bitmap {
-        // 가장 짧은 쪽에 맞춰 정사각형으로 자르기
-        val size = Math.min(bitmap.width, bitmap.height)
-        val x = (bitmap.width - size) / 2
-        val y = (bitmap.height - size) / 2
-
-        return Bitmap.createBitmap(bitmap, x, y, size, size)
-    }
-
-    private fun saveImageToFile(context: Context, bitmap: Bitmap): Uri? {
-        val file = File(context.cacheDir, "profile_image.png")
-        try {
-            val outputStream = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.PNG, 90, outputStream)
-            outputStream.flush()
-            outputStream.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return null
-        }
-
-        return Uri.fromFile(file)
     }
     private fun showImagePickerOptions() {
         val items = arrayOf(getString(R.string.camera), getString(R.string.gallery),getString(R.string.random_image))
@@ -203,57 +139,4 @@ class MypageFragmentInformProfileImg : BindingFragment<FragmentMypageInformProfi
             }
         }
     }
-    /*private fun showImagePickerOptions() {
-
-        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-
-        val randomImageIntent = Intent("com.example.ACTION_PICK_RANDOM_IMAGE")
-
-        val chooser = Intent.createChooser(Intent(), "Select Image")
-        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(galleryIntent, cameraIntent, randomImageIntent))
-
-        //startActivity(chooser)
-        val component = chooser.resolveActivity(requireActivity().packageManager)
-        if (component != null) {
-            Log.d("profilechange", "component: $component")
-
-            // Check if the selected option is the camera or gallery
-            if (component?.packageName == cameraIntent.resolveActivity(requireActivity().packageManager)?.packageName) {
-                // The user chose the camera option
-                startActivityForResult(chooser, GET_CAMERA_IMAGE)
-            } else {
-                // The user chose the gallery option
-                startActivityForResult(chooser, GET_GALLERY_IMAGE)
-            }
-        } else {
-            // Handle the case where there is no app available to handle the intent
-            Toast.makeText(requireContext(), "No app available to handle the intent", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun createImageFile(): File? {
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val storageDir: File? = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-
-        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                GET_GALLERY_IMAGE -> {
-                    val selectedImageUri = data?.data
-                    binding.profileImg.setImageURI(selectedImageUri)
-                }
-                GET_CAMERA_IMAGE -> {
-                    // Use capturedImageUri to load the image into ImageView
-                    binding.profileImg.setImageURI(capturedImageUri)
-                }
-            }
-        }
-    }*/
 }
