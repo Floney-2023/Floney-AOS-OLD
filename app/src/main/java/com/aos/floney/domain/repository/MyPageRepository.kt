@@ -27,4 +27,8 @@ interface MyPageRepository {
     suspend fun getusersBookKey(
         requestPostUsersBookKeyDto: RequestPostUsersBookKeyDto
     ) : Result<Unit>
+
+    suspend fun getProfileimgUpdate(
+        profileImg : String
+    ) : Result<Unit>
 }
