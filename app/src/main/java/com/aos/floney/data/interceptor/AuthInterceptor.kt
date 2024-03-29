@@ -33,7 +33,7 @@ class AuthInterceptor @Inject constructor(
             originalRequest.url.encodedPath.equals("/users/logout",true)||
             originalRequest.url.encodedPath.equals("/users/email/mail",true)||
             originalRequest.url.encodedPath.equals("/users",true)
-            ){
+        ){
             val headerRequest = originalRequest.newAuthBuilder()
                 .build()
             val response = chain.proceed(headerRequest)
@@ -62,6 +62,7 @@ class AuthInterceptor @Inject constructor(
                 }
 
                 CODE_INVALID_USER -> {
+                    Timber.e("유효하지 않은 사용자")
                     saveAccessToken("", "")
                 }
             }
@@ -102,13 +103,15 @@ class AuthInterceptor @Inject constructor(
                 val responseBody = refreshTokenResponse.body?.string()
                 responseBody?.let { body ->
                     val responseToken = json.decodeFromString<ResponseReIssueTokenDto>(body)
-
                     Timber.e("리프레시 토큰?! ${responseToken}")
                     saveAccessToken(responseToken.accessToken, responseToken.refreshToken)
                 }
+                refreshTokenResponse.close()
                 val newRequest = originalRequest.newAuthBuilder().build()
                 return chain.proceed(newRequest)
             } else {
+                refreshTokenResponse.close()
+                Timber.e("리프레시 토큰 실패 : ${refreshTokenResponse.code}")
                 saveAccessToken("", "")
                 return chain.proceed(headerRequest)
             }
